@@ -64,15 +64,10 @@ class ReachyGazeboEnv(gym.Env):
         # omega  rotation
         #
         self.action_space = spaces.Box(
-            low=np.array(
-                [-0.30, -0.30, -0.60],
-                dtype=np.float32,
-            ),
-            high=np.array(
-                [0.30, 0.30, 0.60],
-                dtype=np.float32,
-            ),
-            dtype=np.float32,
+          low=-1.0,
+          high=1.0,
+          shape=(3,),
+          dtype=np.float32,
         )
 
         # ---------------------------------
@@ -272,10 +267,16 @@ class ReachyGazeboEnv(gym.Env):
             self.action_space.high,
         )
 
-        vx = float(action[0])
-        vy = float(action[1])
-        omega = float(action[2])
+        # Convert normalized RL actions [-1, 1]
+# into Reachy's physical velocity limits.
 
+        vx = 0.30 * float(action[0])
+        vy = 0.30 * float(action[1])
+        omega = 0.60 * float(action[2])
+        physical_action = np.array(
+        [vx, vy, omega],
+        dtype=np.float32,
+        )
         # ---------------------------------
         # APPLY ACTION
         # ---------------------------------
@@ -314,7 +315,7 @@ class ReachyGazeboEnv(gym.Env):
         # ---------------------------------
 
         action_change = (
-            action
+            physical_action
             - self.previous_action
         )
 
@@ -329,7 +330,7 @@ class ReachyGazeboEnv(gym.Env):
 
         reward -= smoothness_penalty
 
-        self.previous_action = action.copy()
+        self.previous_action = physical_action.copy()
 
         # ---------------------------------
         # WAYPOINT / GOAL CHECK
@@ -396,7 +397,7 @@ class ReachyGazeboEnv(gym.Env):
         observation = self._get_observation()
 
         info: Dict = {
-            "episode": self.episode_number,
+            "episode_number": self.episode_number,
             "step": self.step_number,
             "waypoint": self.current_waypoint_index,
             "waypoint_reached": waypoint_reached,

@@ -46,6 +46,15 @@ setup(
 
 	   'test_rl_environment = '
            'reachy_rl_control.test_rl_environment:main',
+          
+           'check_rl_environment = '
+           'reachy_rl_control.check_rl_environment:main',
+
+           'train_ppo = '
+           'reachy_rl_control.train_ppo:main',
+
+           'evaluate_ppo = '
+           'reachy_rl_control.evaluate_ppo:main',
         ],
     },
 )

@@ -11,3 +11,4 @@ log/
 venv/
 
 reachy_control_backup/
+reachy_rl_control/models/
