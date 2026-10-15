@@ -57,6 +57,8 @@ setup(
            'reachy_rl_control.evaluate_ppo:main',
 
            'evaluate_ppo_multi = ''reachy_rl_control.evaluate_ppo_multi:main',
+           'train_sac = reachy_rl_control.train_sac:main',
+           'evaluate_sac_multi = reachy_rl_control.evaluate_sac_multi:main',
         ],
     },
 )
