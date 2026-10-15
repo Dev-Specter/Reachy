@@ -35,7 +35,7 @@ MAX_STEPS = 250
 MODEL_PATH = (
     "/opt/reachy_ws/src/"
     "reachy_rl_control/models/"
-    "ppo_reachy_10k.zip"
+    "ppo_reachy_safety_10k.zip"
 )
 
 
@@ -44,7 +44,7 @@ MODEL_PATH = (
 RESULTS_PATH = (
     "/opt/reachy_ws/src/"
     "reachy_rl_control/results/"
-    "ppo_10k_20episodes_safety.csv"
+    "ppo_safety_10k_20episodes_safety.csv"
 )
 
 
