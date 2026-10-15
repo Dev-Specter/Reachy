@@ -57,7 +57,7 @@ def main(args=None):
         model_path = (
             "/opt/reachy_ws/src/"
             "reachy_rl_control/models/"
-            "ppo_reachy_normalized_smoke.zip"
+            "ppo_reachy_10k.zip"
         )
 
         if not os.path.exists(model_path):
