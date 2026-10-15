@@ -2,7 +2,6 @@
 
 import argparse
 import math
-import threading
 import time
 from dataclasses import dataclass
 from typing import Optional
@@ -10,19 +9,16 @@ from typing import Optional
 import rclpy
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 from std_srvs.srv import Empty
 
 
-# ============================================================
-# Robot state
-# ============================================================
+# ---------------------------------------------------------
+# ROBOT STATE
+# ---------------------------------------------------------
 
-@dataclass(frozen=True)
+@dataclass
 class BaseState:
-    """State of the Reachy mobile base obtained from /odom."""
-
     x: float
     y: float
     yaw: float
@@ -31,10 +27,14 @@ class BaseState:
     vy: float
     wz: float
 
+    # Added for fall detection.
+    roll: float = 0.0
+    pitch: float = 0.0
 
-# ============================================================
-# Helper functions
-# ============================================================
+
+# ---------------------------------------------------------
+# QUATERNION HELPERS
+# ---------------------------------------------------------
 
 def quaternion_to_yaw(
     x: float,
@@ -42,145 +42,247 @@ def quaternion_to_yaw(
     z: float,
     w: float,
 ) -> float:
-    """Convert quaternion orientation to yaw angle in radians."""
+    """
+    Convert quaternion orientation to yaw angle.
+    """
 
-    siny_cosp = 2.0 * (w * z + x * y)
-    cosy_cosp = 1.0 - 2.0 * (y * y + z * z)
+    siny_cosp = 2.0 * (
+        w * z
+        + x * y
+    )
 
-    return math.atan2(
+    cosy_cosp = 1.0 - 2.0 * (
+        y * y
+        + z * z
+    )
+
+    yaw = math.atan2(
         siny_cosp,
         cosy_cosp,
     )
 
+    return yaw
 
-def angle_difference(
-    a: float,
-    b: float,
-) -> float:
+
+def quaternion_to_roll_pitch(
+    x: float,
+    y: float,
+    z: float,
+    w: float,
+):
     """
-    Return wrapped angular difference a - b
-    in the range [-pi, pi].
+    Convert quaternion orientation to roll and pitch.
+
+    Returned values are in radians.
     """
 
-    return math.atan2(
-        math.sin(a - b),
-        math.cos(a - b),
+    # -------------------------
+    # Roll
+    # -------------------------
+
+    sinr_cosp = 2.0 * (
+        w * x
+        + y * z
     )
 
+    cosr_cosp = 1.0 - 2.0 * (
+        x * x
+        + y * y
+    )
 
-# ============================================================
-# Reachy Gazebo interface
-# ============================================================
+    roll = math.atan2(
+        sinr_cosp,
+        cosr_cosp,
+    )
+
+    # -------------------------
+    # Pitch
+    # -------------------------
+
+    sinp = 2.0 * (
+        w * y
+        - z * x
+    )
+
+    # Protect asin against tiny numerical errors.
+    sinp = max(
+        -1.0,
+        min(
+            1.0,
+            sinp,
+        ),
+    )
+
+    pitch = math.asin(
+        sinp
+    )
+
+    return roll, pitch
+
+
+def angle_difference(
+    target: float,
+    current: float,
+) -> float:
+    """
+    Return the shortest signed angular difference between
+    target and current angles.
+    """
+
+    difference = (
+        target
+        - current
+        + math.pi
+    ) % (
+        2.0
+        * math.pi
+    ) - math.pi
+
+    return difference
+
+
+# ---------------------------------------------------------
+# REACHY GAZEBO INTERFACE
+# ---------------------------------------------------------
 
 class ReachyGazeboInterface(Node):
-    """
-    ROS 2 interface for Reachy's Gazebo mobile base.
-
-    Publishes:
-        /cmd_vel
-            geometry_msgs/msg/Twist
-
-    Subscribes:
-        /odom
-            nav_msgs/msg/Odometry
-
-    Gazebo service:
-        /reset_world
-            std_srvs/srv/Empty
-    """
 
     def __init__(
         self,
-        max_vxy: float = 0.30,
-        max_wz: float = 0.60,
+        cmd_vel_topic: str = "/cmd_vel",
+        odom_topic: str = "/odom",
         reset_service: str = "/reset_world",
+        max_vx: float = 0.30,
+        max_vy: float = 0.30,
+        max_wz: float = 0.60,
     ):
         super().__init__(
             "reachy_gazebo_interface"
         )
 
-        # ----------------------------------------------------
-        # Software velocity limits
-        # ----------------------------------------------------
-
-        self.max_vxy = max_vxy
-        self.max_wz = max_wz
-
-        # ----------------------------------------------------
-        # /cmd_vel publisher
-        # ----------------------------------------------------
-
-        self.cmd_vel_pub = self.create_publisher(
-            Twist,
-            "/cmd_vel",
-            10,
+        self.cmd_vel_topic = (
+            cmd_vel_topic
         )
 
-        # ----------------------------------------------------
-        # /odom subscriber
-        # ----------------------------------------------------
-
-        self.odom_sub = self.create_subscription(
-            Odometry,
-            "/odom",
-            self._odom_callback,
-            10,
+        self.odom_topic = (
+            odom_topic
         )
 
-        # ----------------------------------------------------
-        # Gazebo reset service
-        # ----------------------------------------------------
-
-        self.reset_service_name = reset_service
-
-        self.reset_client = self.create_client(
-            Empty,
-            self.reset_service_name,
+        self.reset_service_name = (
+            reset_service
         )
 
-        # ----------------------------------------------------
-        # State storage
-        # ----------------------------------------------------
+        # Safe command limits.
+        self.max_vx = abs(
+            float(max_vx)
+        )
 
-        self._state_lock = threading.Lock()
+        self.max_vy = abs(
+            float(max_vy)
+        )
 
-        self._latest_state: Optional[BaseState] = None
+        self.max_wz = abs(
+            float(max_wz)
+        )
 
-        self._odom_sequence = 0
+        # -------------------------------------------------
+        # STATE STORAGE
+        # -------------------------------------------------
 
-        # ----------------------------------------------------
-        # Logging
-        # ----------------------------------------------------
+        self._latest_state: Optional[
+            BaseState
+        ] = None
+
+        self._last_odom_time: Optional[
+            float
+        ] = None
+
+        # -------------------------------------------------
+        # ROS PUBLISHER
+        # -------------------------------------------------
+
+        self.cmd_vel_publisher = (
+            self.create_publisher(
+                Twist,
+                self.cmd_vel_topic,
+                10,
+            )
+        )
+
+        # -------------------------------------------------
+        # ROS SUBSCRIBER
+        # -------------------------------------------------
+
+        self.odom_subscription = (
+            self.create_subscription(
+                Odometry,
+                self.odom_topic,
+                self._odom_callback,
+                10,
+            )
+        )
+
+        # -------------------------------------------------
+        # RESET SERVICE CLIENT
+        # -------------------------------------------------
+
+        self.reset_client = (
+            self.create_client(
+                Empty,
+                self.reset_service_name,
+            )
+        )
+
+        # -------------------------------------------------
+        # STARTUP LOGGING
+        # -------------------------------------------------
 
         self.get_logger().info(
             "Reachy Gazebo interface started."
         )
 
         self.get_logger().info(
-            "Publishing velocity commands to /cmd_vel"
+            f"Publishing velocity commands to "
+            f"{self.cmd_vel_topic}"
         )
 
         self.get_logger().info(
-            "Reading odometry from /odom"
+            f"Reading odometry from "
+            f"{self.odom_topic}"
         )
 
         self.get_logger().info(
-            f"Reset service: {self.reset_service_name}"
+            f"Reset service: "
+            f"{self.reset_service_name}"
         )
 
-    # ========================================================
-    # Odometry
-    # ========================================================
+    # -----------------------------------------------------
+    # ODOMETRY CALLBACK
+    # -----------------------------------------------------
 
     def _odom_callback(
         self,
         msg: Odometry,
-    ) -> None:
-        """Store the latest odometry state."""
+    ):
+        """
+        Store the latest Reachy base state from /odom.
+        """
 
-        position = msg.pose.pose.position
-        orientation = msg.pose.pose.orientation
-        velocity = msg.twist.twist
+        position = (
+            msg.pose.pose.position
+        )
+
+        orientation = (
+            msg.pose.pose.orientation
+        )
+
+        linear_velocity = (
+            msg.twist.twist.linear
+        )
+
+        angular_velocity = (
+            msg.twist.twist.angular
+        )
 
         yaw = quaternion_to_yaw(
             orientation.x,
@@ -189,174 +291,265 @@ class ReachyGazeboInterface(Node):
             orientation.w,
         )
 
-        state = BaseState(
-            x=position.x,
-            y=position.y,
-            yaw=yaw,
-
-            vx=velocity.linear.x,
-            vy=velocity.linear.y,
-            wz=velocity.angular.z,
+        roll, pitch = (
+            quaternion_to_roll_pitch(
+                orientation.x,
+                orientation.y,
+                orientation.z,
+                orientation.w,
+            )
         )
 
-        with self._state_lock:
+        self._latest_state = (
+            BaseState(
+                x=float(
+                    position.x
+                ),
 
-            self._latest_state = state
+                y=float(
+                    position.y
+                ),
 
-            self._odom_sequence += 1
+                yaw=float(
+                    yaw
+                ),
+
+                vx=float(
+                    linear_velocity.x
+                ),
+
+                vy=float(
+                    linear_velocity.y
+                ),
+
+                wz=float(
+                    angular_velocity.z
+                ),
+
+                roll=float(
+                    roll
+                ),
+
+                pitch=float(
+                    pitch
+                ),
+            )
+        )
+
+        self._last_odom_time = (
+            time.monotonic()
+        )
+
+    # -----------------------------------------------------
+    # STATE ACCESS
+    # -----------------------------------------------------
 
     def get_state(
         self,
-    ) -> Optional[BaseState]:
-        """Return the most recent odometry state."""
+    ) -> BaseState:
+        """
+        Return the latest received Reachy base state.
+        """
 
-        with self._state_lock:
+        if self._latest_state is None:
 
-            return self._latest_state
+            raise RuntimeError(
+                "No odometry has been received yet."
+            )
 
-    def get_odom_sequence(
-        self,
-    ) -> int:
-        """Return number of received odometry messages."""
+        # Return a copy so external code cannot modify
+        # the internally stored state by accident.
+        state = self._latest_state
 
-        with self._state_lock:
+        return BaseState(
+            x=state.x,
+            y=state.y,
+            yaw=state.yaw,
+            vx=state.vx,
+            vy=state.vy,
+            wz=state.wz,
+            roll=state.roll,
+            pitch=state.pitch,
+        )
 
-            return self._odom_sequence
+    # -----------------------------------------------------
+    # WAIT FOR ODOMETRY
+    # -----------------------------------------------------
 
     def wait_for_odometry(
         self,
         timeout: float = 5.0,
     ) -> bool:
         """
-        Wait until at least one /odom message is received.
+        Wait until at least one /odom message has arrived.
+
+        This assumes the node is being spun by an executor
+        in another thread.
         """
 
-        start_time = time.monotonic()
+        start_time = (
+            time.monotonic()
+        )
 
         while (
-            time.monotonic() - start_time
+            time.monotonic()
+            - start_time
             < timeout
         ):
 
-            if self.get_state() is not None:
-
+            if (
+                self._latest_state
+                is not None
+            ):
                 return True
 
-            time.sleep(0.05)
+            time.sleep(
+                0.05
+            )
 
         return False
 
-    # ========================================================
-    # Velocity commands
-    # ========================================================
+    # -----------------------------------------------------
+    # VELOCITY LIMITING
+    # -----------------------------------------------------
+
+    @staticmethod
+    def _clamp(
+        value: float,
+        minimum: float,
+        maximum: float,
+    ) -> float:
+        return max(
+            minimum,
+            min(
+                maximum,
+                value,
+            ),
+        )
+
+    # -----------------------------------------------------
+    # SEND VELOCITY
+    # -----------------------------------------------------
 
     def send_velocity(
         self,
         vx: float,
         vy: float,
         omega: float,
-    ) -> None:
+    ):
         """
-        Publish one mobile-base velocity command.
-
-        vx:
-            Forward/backward velocity in m/s.
-
-        vy:
-            Sideways velocity in m/s.
-
-        omega:
-            Yaw angular velocity in rad/s.
+        Publish a velocity command to Reachy's mobile base.
         """
 
-        # Clamp commands to safe development limits.
-
-        vx = max(
-            -self.max_vxy,
-            min(
-                self.max_vxy,
-                vx,
-            ),
+        vx = self._clamp(
+            float(vx),
+            -self.max_vx,
+            self.max_vx,
         )
 
-        vy = max(
-            -self.max_vxy,
-            min(
-                self.max_vxy,
-                vy,
-            ),
+        vy = self._clamp(
+            float(vy),
+            -self.max_vy,
+            self.max_vy,
         )
 
-        omega = max(
+        omega = self._clamp(
+            float(omega),
             -self.max_wz,
-            min(
-                self.max_wz,
-                omega,
-            ),
+            self.max_wz,
         )
 
         msg = Twist()
 
-        msg.linear.x = float(vx)
-        msg.linear.y = float(vy)
-        msg.linear.z = 0.0
-
-        msg.angular.x = 0.0
-        msg.angular.y = 0.0
-        msg.angular.z = float(omega)
-
-        self.cmd_vel_pub.publish(msg)
-
-    def stop(
-        self,
-    ) -> None:
-        """
-        Publish one zero-velocity command.
-        """
-
-        self.send_velocity(
-            vx=0.0,
-            vy=0.0,
-            omega=0.0,
+        msg.linear.x = (
+            vx
         )
+
+        msg.linear.y = (
+            vy
+        )
+
+        msg.linear.z = (
+            0.0
+        )
+
+        msg.angular.x = (
+            0.0
+        )
+
+        msg.angular.y = (
+            0.0
+        )
+
+        msg.angular.z = (
+            omega
+        )
+
+        self.cmd_vel_publisher.publish(
+            msg
+        )
+
+    # -----------------------------------------------------
+    # STOP
+    # -----------------------------------------------------
 
     def stop_for(
         self,
         duration: float = 1.0,
         frequency: float = 20.0,
-    ) -> None:
+    ):
         """
-        Repeatedly publish zero velocity.
+        Repeatedly publish zero velocity commands.
 
-        Reachy's Gazebo controller keeps the previous
-        velocity command, so sending zero repeatedly
-        provides reliable stopping.
+        Repeating the stop command makes stopping more
+        reliable than sending only one zero Twist.
         """
 
-        if frequency <= 0.0:
+        duration = max(
+            0.0,
+            float(duration),
+        )
 
-            raise ValueError(
-                "frequency must be greater than zero"
-            )
+        frequency = max(
+            1.0,
+            float(frequency),
+        )
 
-        if duration < 0.0:
+        period = (
+            1.0
+            / frequency
+        )
 
-            raise ValueError(
-                "duration cannot be negative"
-            )
-
-        period = 1.0 / frequency
-
-        start_time = time.monotonic()
+        end_time = (
+            time.monotonic()
+            + duration
+        )
 
         while (
-            time.monotonic() - start_time
-            < duration
+            time.monotonic()
+            < end_time
         ):
 
-            self.stop()
+            self.send_velocity(
+                0.0,
+                0.0,
+                0.0,
+            )
 
-            time.sleep(period)
+            time.sleep(
+                period
+            )
+
+        # Final zero command.
+        self.send_velocity(
+            0.0,
+            0.0,
+            0.0,
+        )
+
+    # -----------------------------------------------------
+    # COMMAND FOR FIXED DURATION
+    # -----------------------------------------------------
 
     def command_for(
         self,
@@ -365,133 +558,136 @@ class ReachyGazeboInterface(Node):
         omega: float,
         duration: float,
         frequency: float = 20.0,
-    ) -> None:
+    ):
         """
-        Publish a velocity command for a fixed duration.
-
-        When movement finishes, zero velocity is
-        published repeatedly for one second.
+        Send a velocity command repeatedly for a specified
+        time and then stop Reachy safely.
         """
 
-        if frequency <= 0.0:
+        duration = max(
+            0.0,
+            float(duration),
+        )
 
-            raise ValueError(
-                "frequency must be greater than zero"
-            )
+        frequency = max(
+            1.0,
+            float(frequency),
+        )
 
-        if duration < 0.0:
+        period = (
+            1.0
+            / frequency
+        )
 
-            raise ValueError(
-                "duration cannot be negative"
-            )
-
-        period = 1.0 / frequency
-
-        start_time = time.monotonic()
+        end_time = (
+            time.monotonic()
+            + duration
+        )
 
         try:
 
             while (
-                time.monotonic() - start_time
-                < duration
+                time.monotonic()
+                < end_time
             ):
 
                 self.send_velocity(
-                    vx=vx,
-                    vy=vy,
-                    omega=omega,
+                    vx,
+                    vy,
+                    omega,
                 )
 
-                time.sleep(period)
+                time.sleep(
+                    period
+                )
 
         finally:
 
-            # Important:
-            # Reachy's controller retains its last velocity.
-            # Therefore explicitly command zero for 1 second.
-
             self.stop_for(
-                duration=1.0,
+                duration=0.5,
                 frequency=20.0,
             )
 
-    # ========================================================
-    # Gazebo reset
-    # ========================================================
+    # -----------------------------------------------------
+    # RESET GAZEBO
+    # -----------------------------------------------------
 
     def reset_gazebo(
         self,
-        timeout: float = 5.0,
-        settle_time: float = 0.5,
-    ) -> BaseState:
+        service_timeout: float = 5.0,
+        odom_timeout: float = 5.0,
+        settle_time: float = 1.0,
+    ) -> bool:
         """
-        Reset Gazebo and return fresh odometry.
+        Safely stop Reachy, call /reset_world, and wait for
+        fresh odometry after the reset.
+        """
 
-        The ROS executor must be spinning in another
-        thread while this method is executing.
-        """
+        # Stop before resetting.
+        self.stop_for(
+            duration=0.5,
+            frequency=20.0,
+        )
 
         self.get_logger().info(
             f"Resetting Gazebo using "
             f"{self.reset_service_name}"
         )
 
-        # ----------------------------------------------------
-        # Stop robot before resetting
-        # ----------------------------------------------------
-
-        self.stop_for(
-            duration=0.5,
-            frequency=20.0,
-        )
-
-        # ----------------------------------------------------
-        # Wait for reset service
-        # ----------------------------------------------------
+        # -------------------------------------------------
+        # WAIT FOR RESET SERVICE
+        # -------------------------------------------------
 
         if not self.reset_client.wait_for_service(
-            timeout_sec=timeout
+            timeout_sec=service_timeout
         ):
 
             raise RuntimeError(
-                f"Gazebo reset service "
+                f"Reset service "
                 f"{self.reset_service_name} "
-                f"is unavailable."
+                f"is not available."
             )
 
-        # ----------------------------------------------------
-        # Send reset request
-        # ----------------------------------------------------
+        # Remember current odometry timestamp so we can
+        # wait for a fresh message after reset.
+        old_odom_time = (
+            self._last_odom_time
+        )
 
         request = Empty.Request()
 
-        future = self.reset_client.call_async(
-            request
+        future = (
+            self.reset_client.call_async(
+                request
+            )
         )
 
-        deadline = (
+        # Because this node normally has a background
+        # executor spinning it, simply wait for the future.
+        start_time = (
             time.monotonic()
-            + timeout
         )
-
-        # Background executor processes the response.
 
         while not future.done():
 
-            if time.monotonic() >= deadline:
+            if (
+                time.monotonic()
+                - start_time
+                > service_timeout
+            ):
 
-                raise TimeoutError(
+                raise RuntimeError(
                     "Timed out waiting for "
                     "Gazebo reset service."
                 )
 
-            time.sleep(0.01)
+            time.sleep(
+                0.01
+            )
 
-        # ----------------------------------------------------
-        # Check reset result
-        # ----------------------------------------------------
-
-        exception = future.exception()
+        exception = (
+            future.exception()
+        )
 
         if exception is not None:
 
@@ -504,86 +700,80 @@ class ReachyGazeboInterface(Node):
             "Gazebo reset service completed."
         )
 
-        # Controller may remember an earlier velocity,
-        # therefore send zero again after reset.
+        # -------------------------------------------------
+        # WAIT FOR FRESH ODOMETRY
+        # -------------------------------------------------
 
-        self.stop_for(
-            duration=0.5,
-            frequency=20.0,
-        )
-
-        # ----------------------------------------------------
-        # Wait for fresh odometry after reset
-        # ----------------------------------------------------
-
-        sequence_after_reset = (
-            self.get_odom_sequence()
-        )
-
-        deadline = (
+        odom_start = (
             time.monotonic()
-            + timeout
         )
 
         while (
             time.monotonic()
-            < deadline
+            - odom_start
+            < odom_timeout
         ):
 
             if (
-                self.get_odom_sequence()
-                > sequence_after_reset
+                self._latest_state
+                is not None
             ):
 
-                break
+                if old_odom_time is None:
 
-            time.sleep(0.01)
+                    break
+
+                if (
+                    self._last_odom_time
+                    is not None
+                    and
+                    self._last_odom_time
+                    > old_odom_time
+                ):
+
+                    break
+
+            time.sleep(
+                0.02
+            )
 
         else:
 
-            raise TimeoutError(
-                "No fresh /odom message "
-                "received after reset."
+            raise RuntimeError(
+                "Timed out waiting for fresh "
+                "odometry after Gazebo reset."
             )
 
-        # ----------------------------------------------------
-        # Allow Gazebo physics to settle
-        # ----------------------------------------------------
-
+        # Allow physics to settle.
         if settle_time > 0.0:
 
             time.sleep(
                 settle_time
             )
 
-        state = self.get_state()
-
-        if state is None:
-
-            raise RuntimeError(
-                "No valid odometry state "
-                "after reset."
-            )
+        # Ensure the base remains stopped.
+        self.stop_for(
+            duration=0.2,
+            frequency=20.0,
+        )
 
         self.get_logger().info(
             "Gazebo reset completed successfully."
         )
 
-        return state
+        return True
 
 
-# ============================================================
-# Manual interface test
-# ============================================================
+# ---------------------------------------------------------
+# COMMAND-LINE TEST
+# ---------------------------------------------------------
 
-def main(
-    args=None,
-):
+def main(args=None):
 
     parser = argparse.ArgumentParser(
         description=(
-            "Test Reachy's Gazebo "
-            "mobile-base interface."
+            "Send a velocity command to Reachy's "
+            "Gazebo mobile base."
         )
     )
 
@@ -591,60 +781,49 @@ def main(
         "--vx",
         type=float,
         default=0.0,
-        help="Forward velocity in m/s",
+        help=(
+            "Forward/backward velocity in m/s."
+        ),
     )
 
     parser.add_argument(
         "--vy",
         type=float,
         default=0.0,
-        help="Sideways velocity in m/s",
+        help=(
+            "Sideways velocity in m/s."
+        ),
     )
 
     parser.add_argument(
         "--omega",
         type=float,
         default=0.0,
-        help="Yaw velocity in rad/s",
+        help=(
+            "Angular velocity in rad/s."
+        ),
     )
 
     parser.add_argument(
         "--duration",
         type=float,
         default=2.0,
-        help="Movement duration in seconds",
+        help=(
+            "Command duration in seconds."
+        ),
     )
 
-    parsed_args = parser.parse_args(
-        args=args
+    parsed_args, ros_args = (
+        parser.parse_known_args(
+            args=args
+        )
     )
 
-    # --------------------------------------------------------
-    # Start ROS
-    # --------------------------------------------------------
-
-    rclpy.init()
-
-    robot = ReachyGazeboInterface(
-        reset_service="/reset_world"
+    rclpy.init(
+        args=ros_args
     )
 
-    # --------------------------------------------------------
-    # Start executor in background thread
-    # --------------------------------------------------------
-
-    executor = SingleThreadedExecutor()
-
-    executor.add_node(
-        robot
-    )
-
-    spin_thread = threading.Thread(
-        target=executor.spin,
-        daemon=True,
-    )
-
-    spin_thread.start()
+    node = ReachyGazeboInterface()
 
     try:
 
@@ -652,164 +831,89 @@ def main(
             "\nWaiting for /odom..."
         )
 
-        if not robot.wait_for_odometry(
-            timeout=5.0
+        # Since there is no background executor in this
+        # standalone command-line test, spin manually.
+        start_time = (
+            time.monotonic()
+        )
+
+        while (
+            node._latest_state is None
+            and
+            time.monotonic()
+            - start_time
+            < 5.0
+        ):
+
+            rclpy.spin_once(
+                node,
+                timeout_sec=0.1,
+            )
+
+        if (
+            node._latest_state
+            is None
         ):
 
             raise RuntimeError(
-                "No /odom data received. "
-                "Is Reachy Gazebo running?"
+                "No /odom received. "
+                "Is Gazebo running?"
             )
 
-        # ----------------------------------------------------
-        # Initial state
-        # ----------------------------------------------------
-
-        initial_state = robot.get_state()
+        state = node.get_state()
 
         print(
-            "\nInitial state:"
+            "Odometry received."
         )
 
         print(
-            initial_state
+            f"Initial state: "
+            f"x={state.x:.3f}, "
+            f"y={state.y:.3f}, "
+            f"yaw={state.yaw:.3f}, "
+            f"roll={math.degrees(state.roll):.2f} deg, "
+            f"pitch={math.degrees(state.pitch):.2f} deg"
         )
-
-        # ----------------------------------------------------
-        # Movement
-        # ----------------------------------------------------
 
         print(
-            "\nCommanding:"
-            f" vx={parsed_args.vx:.3f},"
-            f" vy={parsed_args.vy:.3f},"
-            f" omega={parsed_args.omega:.3f},"
-            f" duration="
-            f"{parsed_args.duration:.1f}s"
+            "\nSending command:"
         )
 
-        robot.command_for(
+        print(
+            f"vx={parsed_args.vx:.3f}, "
+            f"vy={parsed_args.vy:.3f}, "
+            f"omega={parsed_args.omega:.3f}, "
+            f"duration={parsed_args.duration:.2f}s"
+        )
+
+        node.command_for(
             vx=parsed_args.vx,
             vy=parsed_args.vy,
             omega=parsed_args.omega,
             duration=parsed_args.duration,
         )
 
-        # Give odometry time to update.
-
-        time.sleep(
-            0.2
-        )
-
-        # ----------------------------------------------------
-        # Final state
-        # ----------------------------------------------------
-
-        final_state = robot.get_state()
-
         print(
-            "\nFinal state:"
+            "\nCommand finished. Reachy stopped."
         )
-
-        print(
-            final_state
-        )
-
-        # ----------------------------------------------------
-        # Calculate movement
-        # ----------------------------------------------------
-
-        if (
-            initial_state is not None
-            and
-            final_state is not None
-        ):
-
-            dx = (
-                final_state.x
-                - initial_state.x
-            )
-
-            dy = (
-                final_state.y
-                - initial_state.y
-            )
-
-            dyaw = angle_difference(
-                final_state.yaw,
-                initial_state.yaw,
-            )
-
-            distance = math.hypot(
-                dx,
-                dy,
-            )
-
-            print(
-                "\nMeasured change:"
-            )
-
-            print(
-                f"  dx       = "
-                f"{dx:.4f} m"
-            )
-
-            print(
-                f"  dy       = "
-                f"{dy:.4f} m"
-            )
-
-            print(
-                f"  distance = "
-                f"{distance:.4f} m"
-            )
-
-            print(
-                f"  d_yaw    = "
-                f"{dyaw:.4f} rad"
-            )
-
-            print(
-                f"  d_yaw    = "
-                f"{math.degrees(dyaw):.2f}°"
-            )
 
     except KeyboardInterrupt:
 
         print(
-            "\nKeyboard interrupt received."
+            "\nInterrupted."
         )
 
     finally:
 
-        # ----------------------------------------------------
-        # Always stop robot before shutting down
-        # ----------------------------------------------------
-
-        print(
-            "\nStopping Reachy..."
-        )
-
-        robot.stop_for(
+        node.stop_for(
             duration=1.0,
             frequency=20.0,
         )
 
-        executor.shutdown()
-
-        robot.destroy_node()
+        node.destroy_node()
 
         if rclpy.ok():
-
             rclpy.shutdown()
-
-        spin_thread.join(
-            timeout=1.0
-        )
-
-        print(
-            "Interface closed safely."
-        )
 
 
 if __name__ == "__main__":

@@ -69,7 +69,7 @@ def main(args=None):
 
         model_path = os.path.join(
             model_directory,
-            "ppo_raechy_10k",
+            "ppo_raechy_safety_10k",
         )
 
         # ----------------------------------------------------

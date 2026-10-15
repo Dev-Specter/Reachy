@@ -55,6 +55,8 @@ setup(
 
            'evaluate_ppo = '
            'reachy_rl_control.evaluate_ppo:main',
+
+           'evaluate_ppo_multi = ''reachy_rl_control.evaluate_ppo_multi:main',
         ],
     },
 )

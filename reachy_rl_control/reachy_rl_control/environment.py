@@ -2,19 +2,40 @@
 
 import math
 import time
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 
-from reachy_rl_control.reachy_gazebo_interface import ReachyGazeboInterface
-from reachy_rl_control.trajectory import STRAIGHT_PATH, WAYPOINT_TOLERANCE
+from reachy_rl_control.reachy_gazebo_interface import (
+    ReachyGazeboInterface,
+)
+from reachy_rl_control.trajectory import (
+    STRAIGHT_PATH,
+    WAYPOINT_TOLERANCE,
+)
+
+
+# ---------------------------------------------------------
+# SAFETY PARAMETERS
+# ---------------------------------------------------------
+
+# Reachy is considered to have fallen if either roll
+# or pitch exceeds 30 degrees.
+FALL_ANGLE_DEGREES = 30.0
+FALL_ANGLE_RAD = math.radians(
+    FALL_ANGLE_DEGREES
+)
+
+# Large negative reward for falling.
+FALL_PENALTY = 30.0
 
 
 class ReachyGazeboEnv(gym.Env):
     """
-    Gymnasium reinforcement-learning environment for Reachy's mobile base.
+    Gymnasium reinforcement-learning environment for
+    Reachy's mobile base in Gazebo.
 
     Observation:
         [
@@ -30,14 +51,22 @@ class ReachyGazeboEnv(gym.Env):
 
     Action:
         [
-            vx,
-            vy,
-            omega,
+            normalized_vx,
+            normalized_vy,
+            normalized_omega,
         ]
+
+    Each action is in the range [-1, 1].
+
+    The normalized values are converted internally to:
+
+        vx     -> [-0.30, 0.30] m/s
+        vy     -> [-0.30, 0.30] m/s
+        omega  -> [-0.60, 0.60] rad/s
     """
 
     metadata = {
-        "render_modes": []
+        "render_modes": [],
     }
 
     def __init__(
@@ -50,29 +79,28 @@ class ReachyGazeboEnv(gym.Env):
 
         self.robot = robot
 
-        self.control_duration = control_duration
-        self.max_steps = max_steps
-
-        # ---------------------------------
-        # ACTION SPACE
-        # ---------------------------------
-
-        # Reachy mobile base velocity commands:
-        #
-        # vx     forward/backward
-        # vy     sideways
-        # omega  rotation
-        #
-        self.action_space = spaces.Box(
-          low=-1.0,
-          high=1.0,
-          shape=(3,),
-          dtype=np.float32,
+        self.control_duration = float(
+            control_duration
         )
 
-        # ---------------------------------
+        self.max_steps = int(
+            max_steps
+        )
+
+        # -------------------------------------------------
         # OBSERVATION SPACE
-        # ---------------------------------
+        # -------------------------------------------------
+
+        # Observation:
+        #
+        # x
+        # y
+        # yaw
+        # vx
+        # vy
+        # wz
+        # relative goal x
+        # relative goal y
 
         self.observation_space = spaces.Box(
             low=-np.inf,
@@ -81,16 +109,48 @@ class ReachyGazeboEnv(gym.Env):
             dtype=np.float32,
         )
 
-        # Episode information
+        # -------------------------------------------------
+        # ACTION SPACE
+        # -------------------------------------------------
+
+        # Stable-Baselines3 recommends normalized actions.
+        #
+        # PPO/SAC output:
+        #
+        # [-1, 1]
+        #
+        # These are later converted into physical Reachy
+        # velocity commands.
+
+        self.action_space = spaces.Box(
+            low=-1.0,
+            high=1.0,
+            shape=(3,),
+            dtype=np.float32,
+        )
+
+        # -------------------------------------------------
+        # EPISODE STATE
+        # -------------------------------------------------
+
         self.episode_number = 0
         self.step_number = 0
 
-        # Trajectory information
-        self.waypoints = []
+        self.world_waypoints: List[
+            Tuple[float, float]
+        ] = []
+
+        # Index 0 is the starting position.
+        # The first target is waypoint 1.
         self.current_waypoint_index = 1
 
-        # Reward information
-        self.previous_distance = None
+        self.previous_distance = 0.0
+
+        # This stores PHYSICAL velocity commands:
+        #
+        # [vx, vy, omega]
+        #
+        # not normalized PPO actions.
         self.previous_action = np.zeros(
             3,
             dtype=np.float32,
@@ -100,65 +160,124 @@ class ReachyGazeboEnv(gym.Env):
         self.start_y = 0.0
         self.start_yaw = 0.0
 
-    # ============================================================
-    # TRAJECTORY
-    # ============================================================
+    # -----------------------------------------------------
+    # TRAJECTORY CONVERSION
+    # -----------------------------------------------------
 
-    def _create_world_trajectory(self) -> None:
+    def _create_world_trajectory(
+        self,
+        start_x: float,
+        start_y: float,
+        start_yaw: float,
+    ) -> List[Tuple[float, float]]:
         """
-        Convert the predefined trajectory into Gazebo world coordinates.
+        Convert the predefined local trajectory into
+        Gazebo world coordinates.
 
-        The trajectory begins at Reachy's reset position and follows
-        Reachy's initial heading.
+        STRAIGHT_PATH is defined relative to the robot's
+        starting pose.
         """
 
-        self.waypoints = []
+        world_waypoints = []
 
-        for path_x, path_y in STRAIGHT_PATH:
+        cos_yaw = math.cos(
+            start_yaw
+        )
+
+        sin_yaw = math.sin(
+            start_yaw
+        )
+
+        for local_x, local_y in STRAIGHT_PATH:
 
             world_x = (
-                self.start_x
-                + math.cos(self.start_yaw) * path_x
-                - math.sin(self.start_yaw) * path_y
+                start_x
+                + cos_yaw * local_x
+                - sin_yaw * local_y
             )
 
             world_y = (
-                self.start_y
-                + math.sin(self.start_yaw) * path_x
-                + math.cos(self.start_yaw) * path_y
+                start_y
+                + sin_yaw * local_x
+                + cos_yaw * local_y
             )
 
-            self.waypoints.append(
-                (world_x, world_y)
+            world_waypoints.append(
+                (
+                    world_x,
+                    world_y,
+                )
             )
 
-    # ============================================================
-    # GOAL
-    # ============================================================
+        return world_waypoints
 
-    def _get_current_goal(self) -> Tuple[float, float]:
+    # -----------------------------------------------------
+    # DISTANCE TO CURRENT WAYPOINT
+    # -----------------------------------------------------
 
-        return self.waypoints[
-            self.current_waypoint_index
-        ]
-
-    # ============================================================
-    # OBSERVATION
-    # ============================================================
-
-    def _get_observation(self) -> np.ndarray:
-
-        state = self.robot.get_state()
+    def _distance_to_current_waypoint(
+        self,
+        state=None,
+    ) -> float:
+        """
+        Return Euclidean distance between Reachy and the
+        current target waypoint.
+        """
 
         if state is None:
-            raise RuntimeError(
-                "No odometry available."
-            )
+            state = self.robot.get_state()
 
-        goal_x, goal_y = self._get_current_goal()
+        goal_x, goal_y = (
+            self.world_waypoints[
+                self.current_waypoint_index
+            ]
+        )
 
-        goal_dx = goal_x - state.x
-        goal_dy = goal_y - state.y
+        dx = (
+            goal_x
+            - state.x
+        )
+
+        dy = (
+            goal_y
+            - state.y
+        )
+
+        return math.hypot(
+            dx,
+            dy,
+        )
+
+    # -----------------------------------------------------
+    # OBSERVATION
+    # -----------------------------------------------------
+
+    def _get_observation(
+        self,
+        state=None,
+    ) -> np.ndarray:
+        """
+        Build the eight-dimensional RL observation.
+        """
+
+        if state is None:
+            state = self.robot.get_state()
+
+        goal_x, goal_y = (
+            self.world_waypoints[
+                self.current_waypoint_index
+            ]
+        )
+
+        goal_dx = (
+            goal_x
+            - state.x
+        )
+
+        goal_dy = (
+            goal_y
+            - state.y
+        )
 
         observation = np.array(
             [
@@ -176,37 +295,18 @@ class ReachyGazeboEnv(gym.Env):
 
         return observation
 
-    # ============================================================
-    # DISTANCE TO GOAL
-    # ============================================================
-
-    def _distance_to_current_goal(self) -> float:
-
-        state = self.robot.get_state()
-
-        if state is None:
-            raise RuntimeError(
-                "No odometry available."
-            )
-
-        goal_x, goal_y = self._get_current_goal()
-
-        return math.hypot(
-            goal_x - state.x,
-            goal_y - state.y,
-        )
-
-    # ============================================================
+    # -----------------------------------------------------
     # RESET
-    # ============================================================
+    # -----------------------------------------------------
 
     def reset(
         self,
         seed=None,
         options=None,
     ):
-
-        super().reset(seed=seed)
+        super().reset(
+            seed=seed
+        )
 
         self.episode_number += 1
         self.step_number = 0
@@ -223,39 +323,97 @@ class ReachyGazeboEnv(gym.Env):
             f"{self.episode_number}"
         )
 
-        state = self.robot.reset_gazebo(
-            timeout=5.0,
-            settle_time=0.5,
+        # Reset Gazebo and wait for fresh odometry.
+        self.robot.reset_gazebo()
+
+        state = self.robot.get_state()
+
+        # Store the initial pose.
+        self.start_x = float(
+            state.x
         )
 
-        self.start_x = state.x
-        self.start_y = state.y
-        self.start_yaw = state.yaw
+        self.start_y = float(
+            state.y
+        )
 
-        self._create_world_trajectory()
+        self.start_yaw = float(
+            state.yaw
+        )
+
+        # Convert predefined local trajectory into world
+        # coordinates using this reset pose.
+        self.world_waypoints = (
+            self._create_world_trajectory(
+                self.start_x,
+                self.start_y,
+                self.start_yaw,
+            )
+        )
 
         self.previous_distance = (
-            self._distance_to_current_goal()
+            self._distance_to_current_waypoint(
+                state
+            )
         )
 
-        observation = self._get_observation()
+        observation = (
+            self._get_observation(
+                state
+            )
+        )
 
-        info = {
-            "waypoint": self.current_waypoint_index,
-            "distance_to_goal": self.previous_distance,
+        info: Dict = {
+            "episode_number":
+                self.episode_number,
+
+            "step":
+                self.step_number,
+
+            "waypoint":
+                self.current_waypoint_index,
+
+            "waypoint_reached":
+                False,
+
+            "distance_to_goal":
+                self.previous_distance,
+
+            "progress":
+                0.0,
+
+            "smoothness_penalty":
+                0.0,
+
+            "fell_over":
+                False,
+
+            "roll":
+                float(state.roll),
+
+            "pitch":
+                float(state.pitch),
+
+            "termination_reason":
+                "reset",
         }
 
         return observation, info
 
-    # ============================================================
+    # -----------------------------------------------------
     # STEP
-    # ============================================================
+    # -----------------------------------------------------
 
-    def step(self, action):
-
+    def step(
+        self,
+        action,
+    ):
         self.step_number += 1
 
-        # Make sure action respects velocity limits
+        # -------------------------------------------------
+        # NORMALIZE / CLIP ACTION
+        # -------------------------------------------------
+
         action = np.asarray(
             action,
             dtype=np.float32,
@@ -267,36 +425,60 @@ class ReachyGazeboEnv(gym.Env):
             self.action_space.high,
         )
 
-        # Convert normalized RL actions [-1, 1]
-# into Reachy's physical velocity limits.
+        # -------------------------------------------------
+        # CONVERT NORMALIZED ACTION INTO PHYSICAL COMMANDS
+        # -------------------------------------------------
 
-        vx = 0.30 * float(action[0])
-        vy = 0.30 * float(action[1])
-        omega = 0.60 * float(action[2])
-        physical_action = np.array(
-        [vx, vy, omega],
-        dtype=np.float32,
+        vx = (
+            0.30
+            * float(action[0])
         )
-        # ---------------------------------
-        # APPLY ACTION
-        # ---------------------------------
+
+        vy = (
+            0.30
+            * float(action[1])
+        )
+
+        omega = (
+            0.60
+            * float(action[2])
+        )
+
+        physical_action = np.array(
+            [
+                vx,
+                vy,
+                omega,
+            ],
+            dtype=np.float32,
+        )
+
+        # -------------------------------------------------
+        # SEND COMMAND TO REACHY
+        # -------------------------------------------------
 
         self.robot.send_velocity(
-            vx=vx,
-            vy=vy,
-            omega=omega,
+            vx,
+            vy,
+            omega,
         )
 
         time.sleep(
             self.control_duration
         )
 
-        # ---------------------------------
+        state_after_action = (
+            self.robot.get_state()
+        )
+
+        # -------------------------------------------------
         # DISTANCE / PROGRESS
-        # ---------------------------------
+        # -------------------------------------------------
 
         current_distance = (
-            self._distance_to_current_goal()
+            self._distance_to_current_waypoint(
+                state_after_action
+            )
         )
 
         progress = (
@@ -304,15 +486,26 @@ class ReachyGazeboEnv(gym.Env):
             - current_distance
         )
 
-        # Reward movement toward the waypoint
-        reward = 10.0 * progress
+        # -------------------------------------------------
+        # BASE REWARD
+        # -------------------------------------------------
 
-        # Small penalty for taking another step
+        # Positive reward for moving closer to waypoint.
+        reward = (
+            10.0
+            * progress
+        )
+
+        # Small time penalty encourages faster completion.
         reward -= 0.01
 
-        # ---------------------------------
+        # -------------------------------------------------
         # SMOOTHNESS PENALTY
-        # ---------------------------------
+        # -------------------------------------------------
+
+        # Smoothness is calculated using PHYSICAL
+        # velocity commands rather than normalized
+        # RL actions.
 
         action_change = (
             physical_action
@@ -323,37 +516,109 @@ class ReachyGazeboEnv(gym.Env):
             0.05
             * float(
                 np.sum(
-                    np.square(action_change)
+                    np.square(
+                        action_change
+                    )
                 )
             )
         )
 
-        reward -= smoothness_penalty
+        reward -= (
+            smoothness_penalty
+        )
 
-        self.previous_action = physical_action.copy()
+        # -------------------------------------------------
+        # FALL DETECTION
+        # -------------------------------------------------
 
-        # ---------------------------------
-        # WAYPOINT / GOAL CHECK
-        # ---------------------------------
+        roll = float(
+            state_after_action.roll
+        )
+
+        pitch = float(
+            state_after_action.pitch
+        )
+
+        fell_over = bool(
+            abs(roll)
+            >= FALL_ANGLE_RAD
+            or
+            abs(pitch)
+            >= FALL_ANGLE_RAD
+        )
+
+        # -------------------------------------------------
+        # TERMINATION FLAGS
+        # -------------------------------------------------
 
         terminated = False
+        truncated = False
+
         waypoint_reached = False
 
-        if current_distance <= WAYPOINT_TOLERANCE:
+        termination_reason = (
+            "running"
+        )
+
+        # -------------------------------------------------
+        # FALL FAILURE
+        # -------------------------------------------------
+
+        if fell_over:
+
+            reward -= (
+                FALL_PENALTY
+            )
+
+            terminated = True
+
+            termination_reason = (
+                "fall"
+            )
+
+            print(
+                "\nFALL DETECTED | "
+                f"Roll: "
+                f"{math.degrees(roll):.1f} deg | "
+                f"Pitch: "
+                f"{math.degrees(pitch):.1f} deg"
+            )
+
+            self.robot.stop_for(
+                duration=0.5,
+                frequency=20.0,
+            )
+
+        # -------------------------------------------------
+        # WAYPOINT / GOAL CHECK
+        # -------------------------------------------------
+
+        elif (
+            current_distance
+            <= WAYPOINT_TOLERANCE
+        ):
 
             waypoint_reached = True
 
+            # Reward for reaching an intermediate waypoint.
             reward += 5.0
 
-            # Is this the final waypoint?
+            # Check whether this is the final waypoint.
             if (
                 self.current_waypoint_index
-                == len(self.waypoints) - 1
+                == len(
+                    self.world_waypoints
+                ) - 1
             ):
 
+                # Additional final-goal reward.
                 reward += 20.0
 
                 terminated = True
+
+                termination_reason = (
+                    "goal"
+                )
 
                 self.robot.stop_for(
                     duration=0.5,
@@ -362,22 +627,30 @@ class ReachyGazeboEnv(gym.Env):
 
             else:
 
+                # Move target to the next waypoint.
                 self.current_waypoint_index += 1
 
                 current_distance = (
-                    self._distance_to_current_goal()
+                    self._distance_to_current_waypoint(
+                        state_after_action
+                    )
                 )
 
-        # ---------------------------------
-        # TIME LIMIT
-        # ---------------------------------
+        # -------------------------------------------------
+        # TIMEOUT
+        # -------------------------------------------------
 
-        truncated = (
+        if (
             self.step_number
             >= self.max_steps
-        )
+            and not terminated
+        ):
 
-        if truncated and not terminated:
+            truncated = True
+
+            termination_reason = (
+                "timeout"
+            )
 
             reward -= 5.0
 
@@ -386,24 +659,71 @@ class ReachyGazeboEnv(gym.Env):
                 frequency=20.0,
             )
 
-        # ---------------------------------
-        # PREPARE NEXT STEP
-        # ---------------------------------
+        # -------------------------------------------------
+        # STORE VALUES FOR NEXT STEP
+        # -------------------------------------------------
 
         self.previous_distance = (
             current_distance
         )
 
-        observation = self._get_observation()
+        self.previous_action = (
+            physical_action.copy()
+        )
+
+        # Get fresh state after stopping if the episode
+        # finished.
+        if (
+            terminated
+            or truncated
+        ):
+            state_after_action = (
+                self.robot.get_state()
+            )
+
+        observation = (
+            self._get_observation(
+                state_after_action
+            )
+        )
+
+        # -------------------------------------------------
+        # INFO
+        # -------------------------------------------------
 
         info: Dict = {
-            "episode_number": self.episode_number,
-            "step": self.step_number,
-            "waypoint": self.current_waypoint_index,
-            "waypoint_reached": waypoint_reached,
-            "distance_to_goal": current_distance,
-            "progress": progress,
-            "smoothness_penalty": smoothness_penalty,
+            "episode_number":
+                self.episode_number,
+
+            "step":
+                self.step_number,
+
+            "waypoint":
+                self.current_waypoint_index,
+
+            "waypoint_reached":
+                waypoint_reached,
+
+            "distance_to_goal":
+                current_distance,
+
+            "progress":
+                progress,
+
+            "smoothness_penalty":
+                smoothness_penalty,
+
+            "fell_over":
+                fell_over,
+
+            "roll":
+                roll,
+
+            "pitch":
+                pitch,
+
+            "termination_reason":
+                termination_reason,
         }
 
         return (
@@ -414,11 +734,14 @@ class ReachyGazeboEnv(gym.Env):
             info,
         )
 
-    # ============================================================
+    # -----------------------------------------------------
     # CLOSE
-    # ============================================================
+    # -----------------------------------------------------
 
     def close(self):
+        """
+        Always stop Reachy when the environment closes.
+        """
 
         self.robot.stop_for(
             duration=1.0,
