@@ -17,6 +17,10 @@ setup(
             'share/' + package_name,
             ['package.xml'],
         ),
+       (
+            'share/' + package_name + '/models',
+            ['models/human_contact.sdf'],
+       ),
     ],
 
     install_requires=['setuptools'],

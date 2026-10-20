@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <model name="human_1">
+
+    <static>false</static>
+
+    <link name="body">
+
+      <gravity>false</gravity>
+
+      <inertial>
+        <mass>70.0</mass>
+        <inertia>
+          <ixx>18.0</ixx>
+          <iyy>18.0</iyy>
+          <izz>2.0</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Invisible simple collision body -->
+      <collision name="human_collision">
+
+        <pose>0 0 0 0 0 0</pose>
+
+        <geometry>
+          <cylinder>
+            <radius>0.25</radius>
+            <length>1.70</length>
+          </cylinder>
+        </geometry>
+
+      </collision>
+
+      <!-- Human-looking visual -->
+      <visual name="human_visual">
+
+        <pose>0 0 0 0 0 0</pose>
+
+        <geometry>
+          <mesh>
+            <uri>file:///usr/share/gazebo-11/media/models/walk.dae</uri>
+            <scale>1.0 1.0 1.0</scale>
+          </mesh>
+        </geometry>
+
+      </visual>
+
+      <!-- Exact collision/contact detector -->
+      <sensor name="human_contact_sensor" type="contact">
+
+        <always_on>true</always_on>
+
+        <update_rate>50</update_rate>
+
+        <contact>
+          <collision>human_collision</collision>
+        </contact>
+
+        <plugin
+          name="human_bumper"
+          filename="libgazebo_ros_bumper.so">
+
+          <ros>
+            <namespace>/human_1</namespace>
+
+            <remapping>
+              bumper_states:=contacts
+            </remapping>
+          </ros>
+
+          <frame_name>world</frame_name>
+
+        </plugin>
+
+      </sensor>
+
+    </link>
+
+    <!-- Allows us to move the human -->
+    <plugin
+      name="human_planar_move"
+      filename="libgazebo_ros_planar_move.so">
+
+      <ros>
+        <namespace>/human_1</namespace>
+      </ros>
+
+      <update_rate>50.0</update_rate>
+
+      <publish_odom>false</publish_odom>
+      <publish_odom_tf>false</publish_odom_tf>
+
+    </plugin>
+
+  </model>
+
+</sdf>
