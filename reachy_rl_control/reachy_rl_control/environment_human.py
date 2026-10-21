@@ -46,33 +46,32 @@ FALL_PENALTY = 30.0
 
 COLLISION_PENALTY = 40.0
 
+
 # =========================================================
 # RESET VALIDATION
 # =========================================================
 
 RESET_MAX_ATTEMPTS = 3
 
-# We require Reachy to start reasonably upright.
-RESET_MAX_ANGLE_DEGREES = 10.0
+RESET_MAX_ANGLE_DEGREES = 5.0
 
 RESET_MAX_ANGLE_RAD = math.radians(
     RESET_MAX_ANGLE_DEGREES
 )
+RESET_MAX_LINEAR_SPEED = 0.05
 
-RESET_SETTLE_TIME = 0.5
+RESET_MAX_ANGULAR_SPEED = 0.10
+RESET_SETTLE_TIME = 0.75
+
+
 # =========================================================
 # HUMAN PROXIMITY PARAMETERS
 # =========================================================
 
-# If the closest filtered LiDAR return is below this
-# distance, Reachy receives a proximity penalty.
 SAFE_DISTANCE = 0.75
 
-# Used for evaluation/near-miss logging.
 NEAR_MISS_DISTANCE = 0.50
 
-# Maximum proximity penalty approaches this value
-# per environment step.
 PROXIMITY_PENALTY_SCALE = 1.0
 
 
@@ -89,16 +88,19 @@ LIDAR_MAX_DISTANCE = 3.0
 # HUMAN CROSSING SCENARIO
 # =========================================================
 
-# These coordinates are RELATIVE to Reachy's starting pose.
+# Human pose is now specified DIRECTLY relative to the
+# Gazebo "reachy" model using SpawnEntity.reference_frame.
 #
-# Reachy's trajectory travels along local +X.
+# Reachy's local trajectory travels along +X.
 #
 # Human starts:
 #
-#       x = 1.0 m along the trajectory
-#       y = -1.5 m beside the trajectory
+#       +1.0 m in Reachy's local X direction
+#       -1.5 m in Reachy's local Y direction
 #
-# and moves across the path in local +Y.
+# and moves across the trajectory in local +Y.
+
+HUMAN_REFERENCE_FRAME = "reachy"
 
 HUMAN_LOCAL_X = 1.0
 HUMAN_LOCAL_Y = -1.5
@@ -111,55 +113,60 @@ HUMAN_OMEGA = 0.0
 
 
 class ReachyHumanGazeboEnv(gym.Env):
+
     """
     Human-aware Gymnasium environment for Reachy's
     mobile base in Gazebo.
 
-    Observation
-    -----------
+    Observation:
 
-    20 values:
+        20 values
 
-    [
-        x,
-        y,
-        yaw,
-        vx,
-        vy,
-        wz,
-        goal_dx,
-        goal_dy,
+        [
+            x,
+            y,
+            yaw,
+            vx,
+            vy,
+            wz,
+            goal_dx,
+            goal_dy,
 
-        lidar_sector_0,
-        lidar_sector_1,
-        ...
-        lidar_sector_11,
-    ]
+            lidar_sector_0,
+            ...
+            lidar_sector_11,
+        ]
 
-    The first 8 values are the same as the original
-    ReachyGazeboEnv.
+    Action:
 
-    The 12 LiDAR sectors are normalized to [0, 1]:
+        [
+            normalized_vx,
+            normalized_vy,
+            normalized_omega,
+        ]
 
-        0.0 = extremely close obstacle
-        1.0 = 3 metres or farther
+    Action range:
 
-    Action
-    ------
+        [-1, 1]
 
-    [
-        normalized_vx,
-        normalized_vy,
-        normalized_omega,
-    ]
-
-    Each action lies in [-1, 1].
-
-    Physical limits:
+    Physical action limits:
 
         vx     = +/- 0.30 m/s
         vy     = +/- 0.30 m/s
         omega  = +/- 0.60 rad/s
+
+    Human:
+
+        Spawned relative to Gazebo model "reachy".
+
+        Local spawn:
+            x = +1.0 m
+            y = -1.5 m
+            z = +0.9 m
+
+        Local velocity:
+            vx = 0.0 m/s
+            vy = +0.35 m/s
 
     Termination reasons:
 
@@ -179,6 +186,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         control_duration: float = 0.1,
         max_steps: int = 300,
     ):
+
         super().__init__()
 
         self.robot = robot
@@ -202,8 +210,6 @@ class ReachyHumanGazeboEnv(gym.Env):
             max_distance=LIDAR_MAX_DISTANCE,
         )
 
-        # HumanManager and LidarProcessor need to spin
-        # continuously while the Gym environment runs.
         self._aux_executor = (
             SingleThreadedExecutor()
         )
@@ -216,9 +222,11 @@ class ReachyHumanGazeboEnv(gym.Env):
             self.lidar
         )
 
-        self._aux_spin_thread = threading.Thread(
-            target=self._spin_auxiliary_nodes,
-            daemon=True,
+        self._aux_spin_thread = (
+            threading.Thread(
+                target=self._spin_auxiliary_nodes,
+                daemon=True,
+            )
         )
 
         self._aux_spin_thread.start()
@@ -230,6 +238,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         if not self.human.wait_for_services(
             timeout=10.0
         ):
+
             raise RuntimeError(
                 "HumanManager could not connect to "
                 "Gazebo spawn/delete services."
@@ -242,6 +251,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         if not self.lidar.wait_for_scan(
             timeout=10.0
         ):
+
             raise RuntimeError(
                 "No /scan messages received."
             )
@@ -249,12 +259,6 @@ class ReachyHumanGazeboEnv(gym.Env):
         # -------------------------------------------------
         # OBSERVATION SPACE
         # -------------------------------------------------
-
-        # First 8 values:
-        # unrestricted robot / goal state.
-        #
-        # Final 12 values:
-        # normalized LiDAR values in [0, 1].
 
         observation_low = np.concatenate(
             (
@@ -306,21 +310,17 @@ class ReachyHumanGazeboEnv(gym.Env):
         # -------------------------------------------------
 
         self.episode_number = 0
+
         self.step_number = 0
 
         self.world_waypoints: List[
             Tuple[float, float]
         ] = []
 
-        # Index 0 is the starting position.
-        # First target is waypoint 1.
         self.current_waypoint_index = 1
 
         self.previous_distance = 0.0
 
-        # Physical action:
-        #
-        # [vx, vy, omega]
         self.previous_action = np.zeros(
             3,
             dtype=np.float32,
@@ -334,11 +334,23 @@ class ReachyHumanGazeboEnv(gym.Env):
         # HUMAN EPISODE STATE
         # -------------------------------------------------
 
-        self.human_spawn_x = 0.0
-        self.human_spawn_y = 0.0
+        # These values are now Reachy-relative coordinates,
+        # not Gazebo world coordinates.
+        self.human_spawn_x = (
+            HUMAN_LOCAL_X
+        )
 
-        self.human_velocity_x = 0.0
-        self.human_velocity_y = 0.0
+        self.human_spawn_y = (
+            HUMAN_LOCAL_Y
+        )
+
+        self.human_velocity_x = (
+            HUMAN_LOCAL_VX
+        )
+
+        self.human_velocity_y = (
+            HUMAN_LOCAL_VY
+        )
 
         self.episode_min_lidar_distance = (
             LIDAR_MAX_DISTANCE
@@ -357,11 +369,18 @@ class ReachyHumanGazeboEnv(gym.Env):
             self.observation_space.shape,
         )
 
+        print(
+            "Human reference frame:",
+            HUMAN_REFERENCE_FRAME,
+        )
+
     # =====================================================
     # AUXILIARY ROS EXECUTOR
     # =====================================================
 
-    def _spin_auxiliary_nodes(self):
+    def _spin_auxiliary_nodes(
+        self,
+    ):
 
         try:
 
@@ -370,70 +389,6 @@ class ReachyHumanGazeboEnv(gym.Env):
         except ExternalShutdownException:
 
             pass
-
-    # =====================================================
-    # COORDINATE TRANSFORMS
-    # =====================================================
-
-    def _local_point_to_world(
-        self,
-        local_x: float,
-        local_y: float,
-    ) -> Tuple[float, float]:
-
-        cos_yaw = math.cos(
-            self.start_yaw
-        )
-
-        sin_yaw = math.sin(
-            self.start_yaw
-        )
-
-        world_x = (
-            self.start_x
-            + cos_yaw * local_x
-            - sin_yaw * local_y
-        )
-
-        world_y = (
-            self.start_y
-            + sin_yaw * local_x
-            + cos_yaw * local_y
-        )
-
-        return (
-            world_x,
-            world_y,
-        )
-
-    def _local_velocity_to_world(
-        self,
-        local_vx: float,
-        local_vy: float,
-    ) -> Tuple[float, float]:
-
-        cos_yaw = math.cos(
-            self.start_yaw
-        )
-
-        sin_yaw = math.sin(
-            self.start_yaw
-        )
-
-        world_vx = (
-            cos_yaw * local_vx
-            - sin_yaw * local_vy
-        )
-
-        world_vy = (
-            sin_yaw * local_vx
-            + cos_yaw * local_vy
-        )
-
-        return (
-            world_vx,
-            world_vy,
-        )
 
     # =====================================================
     # TRAJECTORY
@@ -445,6 +400,15 @@ class ReachyHumanGazeboEnv(gym.Env):
         start_y: float,
         start_yaw: float,
     ) -> List[Tuple[float, float]]:
+
+        """
+        Convert the predefined Reachy-local trajectory into
+        Reachy's odometry coordinate system.
+
+        This is used only for trajectory tracking/reward.
+
+        It is NOT used for human Gazebo spawning.
+        """
 
         world_waypoints = []
 
@@ -493,7 +457,9 @@ class ReachyHumanGazeboEnv(gym.Env):
 
         if state is None:
 
-            state = self.robot.get_state()
+            state = (
+                self.robot.get_state()
+            )
 
         goal_x, goal_y = (
             self.world_waypoints[
@@ -527,7 +493,9 @@ class ReachyHumanGazeboEnv(gym.Env):
 
         if state is None:
 
-            state = self.robot.get_state()
+            state = (
+                self.robot.get_state()
+            )
 
         goal_x, goal_y = (
             self.world_waypoints[
@@ -587,6 +555,7 @@ class ReachyHumanGazeboEnv(gym.Env):
             min_distance
             >= SAFE_DISTANCE
         ):
+
             return 0.0
 
         normalized_closeness = (
@@ -611,22 +580,32 @@ class ReachyHumanGazeboEnv(gym.Env):
     # START HUMAN CROSSING
     # =====================================================
 
-    def _start_human_crossing(self):
+    def _start_human_crossing(
+        self,
+    ):
 
-        # Convert local crossing velocity into Gazebo/world
-        # coordinates so the scenario stays correct even if
-        # Reachy's reset yaw is not exactly zero.
+        """
+        Human is spawned with identity orientation relative
+        to the Reachy model.
 
-        (
-            self.human_velocity_x,
-            self.human_velocity_y,
-        ) = self._local_velocity_to_world(
-            HUMAN_LOCAL_VX,
-            HUMAN_LOCAL_VY,
+        Gazebo planar_move interprets Twist linear velocity
+        in the moving model's local frame.
+
+        Therefore:
+
+            vx = 0.0
+            vy = +0.35
+
+        moves the human across Reachy's local +Y direction.
+        """
+
+        self.human_velocity_x = (
+            HUMAN_LOCAL_VX
+        )    
+
+        self.human_velocity_y = (
+            HUMAN_LOCAL_VY
         )
-
-        # Publish several times to make sure the planar
-        # movement plugin receives the new command.
 
         for _ in range(5):
 
@@ -639,81 +618,126 @@ class ReachyHumanGazeboEnv(gym.Env):
             time.sleep(
                 0.02
             )
-    def _reset_robot_until_stable(self):
 
-    for attempt in range(
-        1,
-        RESET_MAX_ATTEMPTS + 1,
+    # =====================================================
+    # ROBOT RESET VALIDATION
+    # =====================================================
+
+        def _reset_robot_until_stable(
+        self,
     ):
 
-        print(
-            f"Resetting Reachy "
-            f"(attempt {attempt}/"
-            f"{RESET_MAX_ATTEMPTS})..."
-        )
-
-        self.robot.reset_gazebo()
-
-        time.sleep(
-            RESET_SETTLE_TIME
-        )
-
-        state = self.robot.get_state()
-
-        if state is None:
+        for attempt in range(
+            1,
+            RESET_MAX_ATTEMPTS + 1,
+        ):
 
             print(
-                "No valid state after reset."
+                f"Resetting Reachy "
+                f"(attempt {attempt}/"
+                f"{RESET_MAX_ATTEMPTS})..."
             )
 
-            continue
+            self.robot.reset_gazebo()
 
-        roll = float(
-            state.roll
-        )
+            time.sleep(
+                RESET_SETTLE_TIME
+            )
 
-        pitch = float(
-            state.pitch
-        )
+            state = (
+                self.robot.get_state()
+            )
 
-        upright = bool(
-            abs(roll)
-            <= RESET_MAX_ANGLE_RAD
-            and
-            abs(pitch)
-            <= RESET_MAX_ANGLE_RAD
-        )
+            if state is None:
 
-        if upright:
+                print(
+                    "No valid state after reset."
+                )
+
+                continue
+
+            roll = float(
+                state.roll
+            )
+
+            pitch = float(
+                state.pitch
+            )
+
+            vx = float(
+                state.vx
+            )
+
+            vy = float(
+                state.vy
+            )
+
+            wz = float(
+                state.wz
+            )
+
+            attitude_stable = bool(
+                abs(roll)
+                <= RESET_MAX_ANGLE_RAD
+                and
+                abs(pitch)
+                <= RESET_MAX_ANGLE_RAD
+            )
+
+            velocity_stable = bool(
+                abs(vx)
+                <= RESET_MAX_LINEAR_SPEED
+                and
+                abs(vy)
+                <= RESET_MAX_LINEAR_SPEED
+                and
+                abs(wz)
+                <= RESET_MAX_ANGULAR_SPEED
+            )
+
+            stable = bool(
+                attitude_stable
+                and
+                velocity_stable
+            )
+
+            if stable:
+
+                print(
+                    "Reachy reset is stable | "
+                    f"roll="
+                    f"{math.degrees(roll):.2f} deg | "
+                    f"pitch="
+                    f"{math.degrees(pitch):.2f} deg | "
+                    f"vx={vx:.3f} m/s | "
+                    f"vy={vy:.3f} m/s | "
+                    f"wz={wz:.3f} rad/s"
+                )
+
+                return state
 
             print(
-                "Reachy reset is stable | "
+                "WARNING: unstable reset | "
                 f"roll="
                 f"{math.degrees(roll):.2f} deg | "
                 f"pitch="
-                f"{math.degrees(pitch):.2f} deg"
+                f"{math.degrees(pitch):.2f} deg | "
+                f"vx={vx:.3f} m/s | "
+                f"vy={vy:.3f} m/s | "
+                f"wz={wz:.3f} rad/s"
             )
 
-            return state
+            self.robot.stop_for(
+                duration=0.5,
+                frequency=20.0,
+            )
 
-        print(
-            "WARNING: unstable reset | "
-            f"roll="
-            f"{math.degrees(roll):.2f} deg | "
-            f"pitch="
-            f"{math.degrees(pitch):.2f} deg"
-        )
+        raise RuntimeError(
+            "Reachy could not obtain a stable "
+            "upright and stationary reset after "
+            f"{RESET_MAX_ATTEMPTS} attempts."
+        )          
 
-        self.robot.stop_for(
-            duration=0.3,
-            frequency=20.0,
-        )
-
-    raise RuntimeError(
-        "Reachy could not obtain a stable "
-        "upright reset after "
-        f"{RESET_MAX_ATTEMPTS} attempts."
-    )
     # =====================================================
     # RESET
     # =====================================================
@@ -760,15 +784,12 @@ class ReachyHumanGazeboEnv(gym.Env):
         # RESET REACHY / GAZEBO
         # -------------------------------------------------
 
-       # self.robot.reset_gazebo()
-
-        #state = self.robot.get_state()
-
         state = (
-        self._reset_robot_until_stable()
+            self._reset_robot_until_stable()
         )
+
         self.start_x = float(
-        state.x
+            state.x
         )
 
         self.start_y = float(
@@ -780,7 +801,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         )
 
         # -------------------------------------------------
-        # CREATE WORLD TRAJECTORY
+        # CREATE REACHY TRAJECTORY
         # -------------------------------------------------
 
         self.world_waypoints = (
@@ -798,29 +819,39 @@ class ReachyHumanGazeboEnv(gym.Env):
         )
 
         # -------------------------------------------------
-        # COMPUTE HUMAN SPAWN POSITION
+        # HUMAN SPAWN PARAMETERS
         # -------------------------------------------------
 
-        (
-            self.human_spawn_x,
-            self.human_spawn_y,
-        ) = self._local_point_to_world(
-            HUMAN_LOCAL_X,
-            HUMAN_LOCAL_Y,
+        # IMPORTANT:
+        #
+        # These are NOT converted through /odom.
+        #
+        # SpawnEntity will interpret them relative to the
+        # Gazebo model called "reachy".
+
+        self.human_spawn_x = (
+            HUMAN_LOCAL_X
+        )
+
+        self.human_spawn_y = (
+            HUMAN_LOCAL_Y
         )
 
         # -------------------------------------------------
-        # RESET HUMAN
+        # RESET HUMAN RELATIVE TO REACHY
         # -------------------------------------------------
 
         self.human.reset_human(
             x=self.human_spawn_x,
             y=self.human_spawn_y,
             z=HUMAN_Z,
+            reference_frame=(
+                HUMAN_REFERENCE_FRAME
+            ),
         )
 
         # -------------------------------------------------
-        # WAIT FOR A FRESH LIDAR SCAN
+        # WAIT FOR FRESH LIDAR
         # -------------------------------------------------
 
         self.lidar.scan_received = False
@@ -828,6 +859,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         if not self.lidar.wait_for_scan(
             timeout=5.0
         ):
+
             raise RuntimeError(
                 "No fresh LiDAR scan received "
                 "after human reset."
@@ -852,7 +884,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         )
 
         # -------------------------------------------------
-        # START HUMAN MOVING
+        # START HUMAN CROSSING
         # -------------------------------------------------
 
         self._start_human_crossing()
@@ -907,11 +939,15 @@ class ReachyHumanGazeboEnv(gym.Env):
             "pitch":
                 float(state.pitch),
 
+            # These are Reachy-relative spawn coordinates.
             "human_spawn_x":
                 self.human_spawn_x,
 
             "human_spawn_y":
                 self.human_spawn_y,
+
+            "human_reference_frame":
+                HUMAN_REFERENCE_FRAME,
 
             "human_velocity_x":
                 self.human_velocity_x,
@@ -986,7 +1022,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         )
 
         # -------------------------------------------------
-        # SEND ACTION
+        # SEND REACHY ACTION
         # -------------------------------------------------
 
         self.robot.send_velocity(
@@ -1027,7 +1063,6 @@ class ReachyHumanGazeboEnv(gym.Env):
             * progress
         )
 
-        # Time penalty.
         reward -= 0.01
 
         # -------------------------------------------------
@@ -1134,8 +1169,6 @@ class ReachyHumanGazeboEnv(gym.Env):
 
         # -------------------------------------------------
         # COLLISION FAILURE
-        #
-        # Collision gets highest priority.
         # -------------------------------------------------
 
         if collision:
@@ -1275,7 +1308,7 @@ class ReachyHumanGazeboEnv(gym.Env):
         )
 
         # -------------------------------------------------
-        # GET FINAL/FRESH STATE
+        # FINAL / FRESH STATE
         # -------------------------------------------------
 
         if (
@@ -1358,6 +1391,9 @@ class ReachyHumanGazeboEnv(gym.Env):
             "human_spawn_y":
                 self.human_spawn_y,
 
+            "human_reference_frame":
+                HUMAN_REFERENCE_FRAME,
+
             "human_velocity_x":
                 self.human_velocity_x,
 
@@ -1383,9 +1419,12 @@ class ReachyHumanGazeboEnv(gym.Env):
     # CLOSE
     # =====================================================
 
-    def close(self):
+    def close(
+        self,
+    ):
 
         if self._closed:
+
             return
 
         self._closed = True
@@ -1394,7 +1433,6 @@ class ReachyHumanGazeboEnv(gym.Env):
             "\nClosing human-aware environment..."
         )
 
-        # Stop Reachy.
         try:
 
             self.robot.stop_for(
@@ -1409,7 +1447,6 @@ class ReachyHumanGazeboEnv(gym.Env):
                 exc,
             )
 
-        # Stop and remove human.
         try:
 
             self.human.stop()
@@ -1423,7 +1460,6 @@ class ReachyHumanGazeboEnv(gym.Env):
                 exc,
             )
 
-        # Shut down the executor before destroying nodes.
         try:
 
             self._aux_executor.shutdown()
