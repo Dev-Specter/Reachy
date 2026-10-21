@@ -26,7 +26,7 @@ TOTAL_TIMESTEPS = 2000
 
 MODEL_PATH = (
     "/opt/reachy_ws/src/reachy_rl_control/models/"
-    "ppo_human_smoke"
+    "ppo_human_smoke_fixed"
 )
 
 

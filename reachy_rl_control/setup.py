@@ -65,6 +65,8 @@ setup(
            'evaluate_sac_multi = reachy_rl_control.evaluate_sac_multi:main',
            'train_mbpo = reachy_rl_control.train_mbpo:main',
            'evaluate_mbpo_multi = reachy_rl_control.evaluate_mbpo_multi:main',
+           'human_manager = reachy_rl_control.human_manager:main',
+           'lidar_processor = reachy_rl_control.lidar_processor:main',
         ],
     },
 )
