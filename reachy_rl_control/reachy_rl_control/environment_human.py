@@ -823,13 +823,6 @@ class ReachyHumanGazeboEnv(gym.Env):
             self._reset_robot_until_stable()
         )
 
-        # -------------------------------------------------
-        # RESET REACHY / GAZEBO
-        # -------------------------------------------------
-
-        state = (
-            self._reset_robot_until_stable()
-        )
 
         self.start_x = float(
             state.x
