@@ -793,11 +793,35 @@ class ReachyHumanGazeboEnv(gym.Env):
             f"{self.episode_number}"
         )
 
-        # -------------------------------------------------
-        # STOP PREVIOUS HUMAN COMMAND
+                # -------------------------------------------------
+        # REMOVE PREVIOUS HUMAN BEFORE RESETTING REACHY
         # -------------------------------------------------
 
+        # Stop the previous human first.
         self.human.stop()
+
+        # Delete the previous human before /reset_world.
+        #
+        # This prevents the old human from being moved by
+        # Gazebo reset physics into Reachy's arms/body while
+        # Reachy itself is being reset.
+        self.human.delete_human()
+
+        time.sleep(
+            0.25
+        )
+
+        # Any contact messages associated with the previous
+        # episode must not carry into the new episode.
+        self.human.clear_collision()
+
+        # -------------------------------------------------
+        # RESET REACHY / GAZEBO
+        # -------------------------------------------------
+
+        state = (
+            self._reset_robot_until_stable()
+        )
 
         # -------------------------------------------------
         # RESET REACHY / GAZEBO
