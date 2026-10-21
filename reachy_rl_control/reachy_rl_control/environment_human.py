@@ -793,7 +793,7 @@ class ReachyHumanGazeboEnv(gym.Env):
             f"{self.episode_number}"
         )
 
-                # -------------------------------------------------
+        # -------------------------------------------------
         # REMOVE PREVIOUS HUMAN BEFORE RESETTING REACHY
         # -------------------------------------------------
 
