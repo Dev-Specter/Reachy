@@ -33,6 +33,12 @@ CONFIRMED:
 Gazebo GUI and Reachy simulation were working in the Docker environment.
 
 DOCKER:
+cd /opt/reachy_ws
+
 source /opt/ros/humble/setup.bash
+
 source /opt/reachy_ws/install/setup.bash
-ros2 launch reachy_bringup reachy.launch.py gazebo:=true start_sdk_server:=true
+
+ros2 launch reachy_bringup reachy.launch.py \
+gazebo:=true \
+start_sdk_server:=true
