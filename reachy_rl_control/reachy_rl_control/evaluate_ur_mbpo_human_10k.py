@@ -48,7 +48,7 @@ EPISODE_CSV_PATH = os.path.join(
 
 SUMMARY_CSV_PATH = os.path.join(
     RESULTS_DIRECTORY,
-    "ur_ur_mbpo_human_10k_summary.csv",
+    "ur_mbpo_human_10k_summary.csv",
 )
 
 
@@ -377,9 +377,37 @@ def main():
                 "----------------------------------------"
             )
 
-            observation, reset_info = (
-                env.reset()
-            )
+            reset_success = False
+
+            for reset_retry in range(1, 6):
+
+                try:
+
+                    observation, reset_info = env.reset()
+
+                    reset_success = True
+
+                    break
+
+                except RuntimeError as error:
+
+                    if (
+                        "stable upright and stationary reset"
+                        not in str(error)
+                    ):
+                        raise
+
+                    print(
+                        f"Evaluation reset cycle "
+                        f"{reset_retry}/5 failed; retrying..."
+                    )
+
+            if not reset_success:
+
+                raise RuntimeError(
+                    "Evaluation could not obtain a valid "
+                    "stable reset after 5 reset cycles."
+                )
 
             total_reward = 0.0
 
