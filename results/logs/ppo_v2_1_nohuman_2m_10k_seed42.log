@@ -1,0 +1,1131 @@
+[INFO] [1793498314.655322848] [reachy_gazebo_interface]: Reachy Gazebo interface started.
+[INFO] [1793498314.655803682] [reachy_gazebo_interface]: Publishing velocity commands to /cmd_vel
+[INFO] [1793498314.656192806] [reachy_gazebo_interface]: Reading odometry from /odom
+[INFO] [1793498314.656572372] [reachy_gazebo_interface]: Reset service: /reset_world
+[INFO] [1793498317.916687690] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498317.928028055] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498319.130406734] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793498345.760974149] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498345.772068991] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498346.974944893] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Waiting for /odom...
+Odometry received.
+Observation dimension: 10
+Action dimension: 3
+
+Creating PPO V2.1 no-human model...
+Using cpu device
+Wrapping the env in a DummyVecEnv.
+
+Starting PPO V2.1 no-human 2 m 10k training...
+Total timesteps: 10000
+Reachy will move automatically during training.
+
+Starting RL episode 1
+
+Starting RL episode 2
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -15.1    |
+| time/              |          |
+|    fps             | 8        |
+|    iterations      | 1        |
+|    time_elapsed    | 30       |
+|    total_timesteps | 256      |
+---------------------------------
+[INFO] [1793498373.859404353] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498373.871564382] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498375.074058953] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 3
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 250         |
+|    ep_rew_mean          | -15.7       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 2           |
+|    time_elapsed         | 58          |
+|    total_timesteps      | 512         |
+| train/                  |             |
+|    approx_kl            | 0.017146979 |
+|    clip_fraction        | 0.168       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.26       |
+|    explained_variance   | -0.0103     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.465       |
+|    n_updates            | 10          |
+|    policy_gradient_loss | -0.0225     |
+|    std                  | 1           |
+|    value_loss           | 1.22        |
+-----------------------------------------
+[INFO] [1793498401.904279936] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498401.915688247] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498403.119248434] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 4
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 250         |
+|    ep_rew_mean          | -11.4       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 3           |
+|    time_elapsed         | 87          |
+|    total_timesteps      | 768         |
+| train/                  |             |
+|    approx_kl            | 0.002683702 |
+|    clip_fraction        | 0.000781    |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.26       |
+|    explained_variance   | -0.0131     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.236       |
+|    n_updates            | 20          |
+|    policy_gradient_loss | -0.00446    |
+|    std                  | 0.997       |
+|    value_loss           | 0.824       |
+-----------------------------------------
+[INFO] [1793498430.030993885] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498430.042457572] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498431.244909646] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 5
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 250         |
+|    ep_rew_mean          | -13.3       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 4           |
+|    time_elapsed         | 116         |
+|    total_timesteps      | 1024        |
+| train/                  |             |
+|    approx_kl            | 0.015384563 |
+|    clip_fraction        | 0.118       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.24       |
+|    explained_variance   | -0.0144     |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.693       |
+|    n_updates            | 30          |
+|    policy_gradient_loss | -0.012      |
+|    std                  | 0.995       |
+|    value_loss           | 2.25        |
+-----------------------------------------
+[INFO] [1793498458.075299291] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498458.086731891] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498459.291971496] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 6
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 250         |
+|    ep_rew_mean          | -14.9       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 5           |
+|    time_elapsed         | 144         |
+|    total_timesteps      | 1280        |
+| train/                  |             |
+|    approx_kl            | 0.013614053 |
+|    clip_fraction        | 0.0711      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | -0.365      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.31        |
+|    n_updates            | 40          |
+|    policy_gradient_loss | -0.0125     |
+|    std                  | 0.999       |
+|    value_loss           | 1.17        |
+-----------------------------------------
+[INFO] [1793498485.140632376] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498485.151776117] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498486.354837076] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 7
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 248        |
+|    ep_rew_mean          | -4.08      |
+| time/                   |            |
+|    fps                  | 8          |
+|    iterations           | 6          |
+|    time_elapsed         | 173        |
+|    total_timesteps      | 1536       |
+| train/                  |            |
+|    approx_kl            | 0.00877156 |
+|    clip_fraction        | 0.0199     |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -4.25      |
+|    explained_variance   | -0.636     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.327      |
+|    n_updates            | 50         |
+|    policy_gradient_loss | -0.0142    |
+|    std                  | 0.998      |
+|    value_loss           | 1.78       |
+----------------------------------------
+[INFO] [1793498513.154941856] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498513.166390756] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498514.368287348] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 8
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -4.04       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 7           |
+|    time_elapsed         | 202         |
+|    total_timesteps      | 1792        |
+| train/                  |             |
+|    approx_kl            | 0.002705995 |
+|    clip_fraction        | 0.0043      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.0773      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 8.92        |
+|    n_updates            | 60          |
+|    policy_gradient_loss | -0.0042     |
+|    std                  | 0.998       |
+|    value_loss           | 27.8        |
+-----------------------------------------
+[INFO] [1793498541.073057340] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498541.084552016] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498542.288245012] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 9
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -1.41       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 8           |
+|    time_elapsed         | 230         |
+|    total_timesteps      | 2048        |
+| train/                  |             |
+|    approx_kl            | 0.012754711 |
+|    clip_fraction        | 0.11        |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.055       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.77        |
+|    n_updates            | 70          |
+|    policy_gradient_loss | -0.0179     |
+|    std                  | 0.996       |
+|    value_loss           | 4.64        |
+-----------------------------------------
+[INFO] [1793498568.996084140] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498569.007016153] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498570.209754820] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 10
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -1.96       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 9           |
+|    time_elapsed         | 259         |
+|    total_timesteps      | 2304        |
+| train/                  |             |
+|    approx_kl            | 0.005157019 |
+|    clip_fraction        | 0.00586     |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.24       |
+|    explained_variance   | -0.328      |
+|    learning_rate        | 0.0003      |
+|    loss                 | 2.08        |
+|    n_updates            | 80          |
+|    policy_gradient_loss | -0.00487    |
+|    std                  | 0.994       |
+|    value_loss           | 5.23        |
+-----------------------------------------
+[INFO] [1793498596.908464185] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498596.919864593] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498598.122789278] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 11
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -1.05       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 10          |
+|    time_elapsed         | 287         |
+|    total_timesteps      | 2560        |
+| train/                  |             |
+|    approx_kl            | 0.005931585 |
+|    clip_fraction        | 0.0215      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.24       |
+|    explained_variance   | 0.625       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.01        |
+|    n_updates            | 90          |
+|    policy_gradient_loss | -0.0102     |
+|    std                  | 0.994       |
+|    value_loss           | 2.66        |
+-----------------------------------------
+[INFO] [1793498624.865166850] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498624.876483208] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498626.080237201] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 12
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -1.23       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 11          |
+|    time_elapsed         | 316         |
+|    total_timesteps      | 2816        |
+| train/                  |             |
+|    approx_kl            | 0.009266473 |
+|    clip_fraction        | 0.0617      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.545       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.18        |
+|    n_updates            | 100         |
+|    policy_gradient_loss | -0.011      |
+|    std                  | 1           |
+|    value_loss           | 3.35        |
+-----------------------------------------
+[INFO] [1793498652.812934651] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498652.824135250] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498654.027255678] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 13
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -0.674      |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 12          |
+|    time_elapsed         | 344         |
+|    total_timesteps      | 3072        |
+| train/                  |             |
+|    approx_kl            | 0.014709524 |
+|    clip_fraction        | 0.101       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.26       |
+|    explained_variance   | 0.831       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.07        |
+|    n_updates            | 110         |
+|    policy_gradient_loss | -0.0163     |
+|    std                  | 0.999       |
+|    value_loss           | 2.25        |
+-----------------------------------------
+[INFO] [1793498680.770556360] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498680.781666346] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498681.984685813] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 14
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 249          |
+|    ep_rew_mean          | -0.0936      |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 13           |
+|    time_elapsed         | 373          |
+|    total_timesteps      | 3328         |
+| train/                  |              |
+|    approx_kl            | 0.0039576716 |
+|    clip_fraction        | 0.0043       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.25        |
+|    explained_variance   | 0.649        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 1.62         |
+|    n_updates            | 120          |
+|    policy_gradient_loss | -0.00612     |
+|    std                  | 0.999        |
+|    value_loss           | 4.82         |
+------------------------------------------
+[INFO] [1793498708.717272667] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498708.728509367] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498709.930720427] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 15
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -0.273      |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 14          |
+|    time_elapsed         | 402         |
+|    total_timesteps      | 3584        |
+| train/                  |             |
+|    approx_kl            | 0.011984058 |
+|    clip_fraction        | 0.0668      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.838       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.95        |
+|    n_updates            | 130         |
+|    policy_gradient_loss | -0.0184     |
+|    std                  | 1           |
+|    value_loss           | 2.77        |
+-----------------------------------------
+[INFO] [1793498736.690537772] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498736.702084931] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498737.904605829] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 16
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -1.23       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 15          |
+|    time_elapsed         | 430         |
+|    total_timesteps      | 3840        |
+| train/                  |             |
+|    approx_kl            | 0.003945373 |
+|    clip_fraction        | 0.00547     |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.26       |
+|    explained_variance   | 0.841       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.37        |
+|    n_updates            | 140         |
+|    policy_gradient_loss | -0.00355    |
+|    std                  | 0.999       |
+|    value_loss           | 3.3         |
+-----------------------------------------
+[INFO] [1793498764.651241458] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498764.662667957] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498765.865859884] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 17
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 249         |
+|    ep_rew_mean          | -2.49       |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 16          |
+|    time_elapsed         | 459         |
+|    total_timesteps      | 4096        |
+| train/                  |             |
+|    approx_kl            | 0.012047879 |
+|    clip_fraction        | 0.0453      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.442       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.402       |
+|    n_updates            | 150         |
+|    policy_gradient_loss | -0.0102     |
+|    std                  | 0.998       |
+|    value_loss           | 2.86        |
+-----------------------------------------
+[INFO] [1793498792.593641952] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498792.605848179] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498793.810098537] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 18
+---------------------------------------
+| rollout/                |           |
+|    ep_len_mean          | 249       |
+|    ep_rew_mean          | -2.58     |
+| time/                   |           |
+|    fps                  | 8         |
+|    iterations           | 17        |
+|    time_elapsed         | 487       |
+|    total_timesteps      | 4352      |
+| train/                  |           |
+|    approx_kl            | 0.0135511 |
+|    clip_fraction        | 0.0813    |
+|    clip_range           | 0.2       |
+|    entropy_loss         | -4.25     |
+|    explained_variance   | 0.692     |
+|    learning_rate        | 0.0003    |
+|    loss                 | 1.53      |
+|    n_updates            | 160       |
+|    policy_gradient_loss | -0.0129   |
+|    std                  | 0.996     |
+|    value_loss           | 3.54      |
+---------------------------------------
+[INFO] [1793498820.554485820] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498820.566058234] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498821.769394133] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 19
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 250        |
+|    ep_rew_mean          | -2.23      |
+| time/                   |            |
+|    fps                  | 8          |
+|    iterations           | 18         |
+|    time_elapsed         | 516        |
+|    total_timesteps      | 4608       |
+| train/                  |            |
+|    approx_kl            | 0.01961318 |
+|    clip_fraction        | 0.141      |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -4.25      |
+|    explained_variance   | 0.898      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.498      |
+|    n_updates            | 170        |
+|    policy_gradient_loss | -0.0286    |
+|    std                  | 0.998      |
+|    value_loss           | 1.6        |
+----------------------------------------
+[INFO] [1793498845.434050116] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498845.445242201] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498846.647978841] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 20
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 248         |
+|    ep_rew_mean          | 0.53        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 19          |
+|    time_elapsed         | 544         |
+|    total_timesteps      | 4864        |
+| train/                  |             |
+|    approx_kl            | 0.014365768 |
+|    clip_fraction        | 0.0789      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.467       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.05        |
+|    n_updates            | 180         |
+|    policy_gradient_loss | -0.0152     |
+|    std                  | 0.998       |
+|    value_loss           | 4.57        |
+-----------------------------------------
+[INFO] [1793498873.385593916] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498873.396994928] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498874.599620046] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 21
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 248           |
+|    ep_rew_mean          | 1.36          |
+| time/                   |               |
+|    fps                  | 8             |
+|    iterations           | 20            |
+|    time_elapsed         | 573           |
+|    total_timesteps      | 5120          |
+| train/                  |               |
+|    approx_kl            | 0.00091218273 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -4.25         |
+|    explained_variance   | -0.0208       |
+|    learning_rate        | 0.0003        |
+|    loss                 | 5.53          |
+|    n_updates            | 190           |
+|    policy_gradient_loss | -0.00284      |
+|    std                  | 0.998         |
+|    value_loss           | 25.9          |
+-------------------------------------------
+[INFO] [1793498901.336962335] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498901.350356180] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498902.553327927] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 22
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 248         |
+|    ep_rew_mean          | 1.04        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 21          |
+|    time_elapsed         | 602         |
+|    total_timesteps      | 5376        |
+| train/                  |             |
+|    approx_kl            | 0.017224085 |
+|    clip_fraction        | 0.0758      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.789       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.839       |
+|    n_updates            | 200         |
+|    policy_gradient_loss | -0.0106     |
+|    std                  | 0.998       |
+|    value_loss           | 2.75        |
+-----------------------------------------
+[INFO] [1793498929.301790812] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498929.313168630] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498930.515297207] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 23
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 248          |
+|    ep_rew_mean          | 0.385        |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 22           |
+|    time_elapsed         | 630          |
+|    total_timesteps      | 5632         |
+| train/                  |              |
+|    approx_kl            | 0.0052729114 |
+|    clip_fraction        | 0.00781      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.25        |
+|    explained_variance   | 0.164        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 1.06         |
+|    n_updates            | 210          |
+|    policy_gradient_loss | -0.0045      |
+|    std                  | 0.998        |
+|    value_loss           | 3.5          |
+------------------------------------------
+[INFO] [1793498957.273950408] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498957.285749131] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498958.488698996] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 24
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 248         |
+|    ep_rew_mean          | 1.1         |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 23          |
+|    time_elapsed         | 659         |
+|    total_timesteps      | 5888        |
+| train/                  |             |
+|    approx_kl            | 0.008263699 |
+|    clip_fraction        | 0.0688      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.398       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.777       |
+|    n_updates            | 220         |
+|    policy_gradient_loss | -0.00847    |
+|    std                  | 0.997       |
+|    value_loss           | 3.44        |
+-----------------------------------------
+[INFO] [1793498985.261337465] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793498985.272697437] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793498986.475933194] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 25
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 248          |
+|    ep_rew_mean          | 1.25         |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 24           |
+|    time_elapsed         | 687          |
+|    total_timesteps      | 6144         |
+| train/                  |              |
+|    approx_kl            | 0.0065436587 |
+|    clip_fraction        | 0.11         |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.25        |
+|    explained_variance   | 0.835        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.857        |
+|    n_updates            | 230          |
+|    policy_gradient_loss | -0.0137      |
+|    std                  | 0.996        |
+|    value_loss           | 2.05         |
+------------------------------------------
+[INFO] [1793499007.696038411] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499007.707695545] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499008.910903982] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 26
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 246         |
+|    ep_rew_mean          | 3.23        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 25          |
+|    time_elapsed         | 716         |
+|    total_timesteps      | 6400        |
+| train/                  |             |
+|    approx_kl            | 0.009352141 |
+|    clip_fraction        | 0.111       |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.24       |
+|    explained_variance   | 0.828       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.26        |
+|    n_updates            | 240         |
+|    policy_gradient_loss | -0.0146     |
+|    std                  | 0.996       |
+|    value_loss           | 2.91        |
+-----------------------------------------
+[INFO] [1793499035.636824890] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499035.647733332] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499036.850584012] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 27
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 246          |
+|    ep_rew_mean          | 3.8          |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 26           |
+|    time_elapsed         | 744          |
+|    total_timesteps      | 6656         |
+| train/                  |              |
+|    approx_kl            | 0.0055536907 |
+|    clip_fraction        | 0.0141       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.24        |
+|    explained_variance   | 0.327        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 7.85         |
+|    n_updates            | 250          |
+|    policy_gradient_loss | -0.0047      |
+|    std                  | 0.995        |
+|    value_loss           | 26.4         |
+------------------------------------------
+[INFO] [1793499063.599743048] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499063.610913335] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499064.813602534] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499091.402959276] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499091.414171925] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499092.616328908] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 28
+
+Starting RL episode 29
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 247        |
+|    ep_rew_mean          | 4.39       |
+| time/                   |            |
+|    fps                  | 8          |
+|    iterations           | 27         |
+|    time_elapsed         | 775        |
+|    total_timesteps      | 6912       |
+| train/                  |            |
+|    approx_kl            | 0.01580453 |
+|    clip_fraction        | 0.114      |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -4.24      |
+|    explained_variance   | 0.894      |
+|    learning_rate        | 0.0003     |
+|    loss                 | 0.328      |
+|    n_updates            | 260        |
+|    policy_gradient_loss | -0.0137    |
+|    std                  | 0.998      |
+|    value_loss           | 1.98       |
+----------------------------------------
+[INFO] [1793499114.149182269] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499114.160238136] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499115.362500003] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 30
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 245         |
+|    ep_rew_mean          | 6.03        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 28          |
+|    time_elapsed         | 804         |
+|    total_timesteps      | 7168        |
+| train/                  |             |
+|    approx_kl            | 0.010991927 |
+|    clip_fraction        | 0.0426      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.884       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.945       |
+|    n_updates            | 270         |
+|    policy_gradient_loss | -0.0105     |
+|    std                  | 0.997       |
+|    value_loss           | 3.04        |
+-----------------------------------------
+[INFO] [1793499142.134862211] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499142.146510835] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499143.348337154] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 31
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 245         |
+|    ep_rew_mean          | 6.45        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 29          |
+|    time_elapsed         | 832         |
+|    total_timesteps      | 7424        |
+| train/                  |             |
+|    approx_kl            | 0.001952141 |
+|    clip_fraction        | 0.00195     |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.25       |
+|    explained_variance   | 0.183       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 4.68        |
+|    n_updates            | 280         |
+|    policy_gradient_loss | -0.00213    |
+|    std                  | 0.996       |
+|    value_loss           | 27.6        |
+-----------------------------------------
+[INFO] [1793499162.483350201] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499162.494234732] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499163.696895835] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499178.816474834] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499178.828449735] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499180.030714992] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 32
+
+Starting RL episode 33
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 240         |
+|    ep_rew_mean          | 9.36        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 30          |
+|    time_elapsed         | 863         |
+|    total_timesteps      | 7680        |
+| train/                  |             |
+|    approx_kl            | 0.012076897 |
+|    clip_fraction        | 0.0547      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.24       |
+|    explained_variance   | 0.909       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 1.11        |
+|    n_updates            | 290         |
+|    policy_gradient_loss | -0.0123     |
+|    std                  | 0.995       |
+|    value_loss           | 2.64        |
+-----------------------------------------
+[INFO] [1793499206.787223767] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499206.798197910] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499208.003005389] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 34
+-------------------------------------------
+| rollout/                |               |
+|    ep_len_mean          | 240           |
+|    ep_rew_mean          | 8.65          |
+| time/                   |               |
+|    fps                  | 8             |
+|    iterations           | 31            |
+|    time_elapsed         | 892           |
+|    total_timesteps      | 7936          |
+| train/                  |               |
+|    approx_kl            | 0.00051701884 |
+|    clip_fraction        | 0             |
+|    clip_range           | 0.2           |
+|    entropy_loss         | -4.24         |
+|    explained_variance   | -0.000616     |
+|    learning_rate        | 0.0003        |
+|    loss                 | 20.1          |
+|    n_updates            | 300           |
+|    policy_gradient_loss | -0.000262     |
+|    std                  | 0.994         |
+|    value_loss           | 43.1          |
+-------------------------------------------
+[INFO] [1793499224.626393703] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499224.639173511] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499225.842497991] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499238.613630588] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499238.626041614] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499239.830079903] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499240.941571202] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499240.953684950] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499242.157628782] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499243.266028311] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499243.277820975] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499244.482972158] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 35
+
+Starting RL episode 36
+
+FALL DETECTED | Roll: -179.6 deg | Pitch: -0.8 deg
+
+Starting RL episode 37
+
+FALL DETECTED | Roll: 18.1 deg | Pitch: 36.4 deg
+
+Starting RL episode 38
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 221          |
+|    ep_rew_mean          | 9.03         |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 32           |
+|    time_elapsed         | 927          |
+|    total_timesteps      | 8192         |
+| train/                  |              |
+|    approx_kl            | 0.0041065253 |
+|    clip_fraction        | 0.0102       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.24        |
+|    explained_variance   | 0.415        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 1.61         |
+|    n_updates            | 310          |
+|    policy_gradient_loss | -0.0111      |
+|    std                  | 0.994        |
+|    value_loss           | 6.93         |
+------------------------------------------
+[INFO] [1793499271.268170389] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499271.279161008] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499272.481311813] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 39
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 222          |
+|    ep_rew_mean          | 8.72         |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 33           |
+|    time_elapsed         | 956          |
+|    total_timesteps      | 8448         |
+| train/                  |              |
+|    approx_kl            | 0.0006981855 |
+|    clip_fraction        | 0            |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.24        |
+|    explained_variance   | -0.307       |
+|    learning_rate        | 0.0003       |
+|    loss                 | 24.6         |
+|    n_updates            | 320          |
+|    policy_gradient_loss | -0.000391    |
+|    std                  | 0.994        |
+|    value_loss           | 52.3         |
+------------------------------------------
+[INFO] [1793499299.218765452] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499299.229882131] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499300.432979034] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 40
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 223          |
+|    ep_rew_mean          | 8.2          |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 34           |
+|    time_elapsed         | 984          |
+|    total_timesteps      | 8704         |
+| train/                  |              |
+|    approx_kl            | 0.0024737979 |
+|    clip_fraction        | 0.00117      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.24        |
+|    explained_variance   | 0.597        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 3.55         |
+|    n_updates            | 330          |
+|    policy_gradient_loss | -0.00497     |
+|    std                  | 0.993        |
+|    value_loss           | 11.1         |
+------------------------------------------
+[INFO] [1793499327.155952944] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499327.166966300] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499328.369707452] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 41
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 223         |
+|    ep_rew_mean          | 7.68        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 35          |
+|    time_elapsed         | 1013        |
+|    total_timesteps      | 8960        |
+| train/                  |             |
+|    approx_kl            | 0.011432733 |
+|    clip_fraction        | 0.0473      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.23       |
+|    explained_variance   | 0.694       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 0.51        |
+|    n_updates            | 340         |
+|    policy_gradient_loss | -0.0119     |
+|    std                  | 0.991       |
+|    value_loss           | 3.19        |
+-----------------------------------------
+[INFO] [1793499345.601940412] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499345.612980579] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499346.816368904] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 42
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 222          |
+|    ep_rew_mean          | 8.8          |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 36           |
+|    time_elapsed         | 1041         |
+|    total_timesteps      | 9216         |
+| train/                  |              |
+|    approx_kl            | 0.0071579968 |
+|    clip_fraction        | 0.0187       |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.23        |
+|    explained_variance   | 0.829        |
+|    learning_rate        | 0.0003       |
+|    loss                 | 0.594        |
+|    n_updates            | 350          |
+|    policy_gradient_loss | -0.00417     |
+|    std                  | 0.991        |
+|    value_loss           | 2.18         |
+------------------------------------------
+[INFO] [1793499373.555110121] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499373.566041997] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499374.768596662] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 43
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 222        |
+|    ep_rew_mean          | 8.79       |
+| time/                   |            |
+|    fps                  | 8          |
+|    iterations           | 37         |
+|    time_elapsed         | 1070       |
+|    total_timesteps      | 9472       |
+| train/                  |            |
+|    approx_kl            | 0.00704337 |
+|    clip_fraction        | 0.0109     |
+|    clip_range           | 0.2        |
+|    entropy_loss         | -4.23      |
+|    explained_variance   | -0.441     |
+|    learning_rate        | 0.0003     |
+|    loss                 | 18.8       |
+|    n_updates            | 360        |
+|    policy_gradient_loss | -0.00396   |
+|    std                  | 0.992      |
+|    value_loss           | 27.4       |
+----------------------------------------
+[INFO] [1793499396.086232274] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499396.097778537] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499397.301472096] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 44
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 222         |
+|    ep_rew_mean          | 9.77        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 38          |
+|    time_elapsed         | 1099        |
+|    total_timesteps      | 9728        |
+| train/                  |             |
+|    approx_kl            | 0.010222571 |
+|    clip_fraction        | 0.0434      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.23       |
+|    explained_variance   | 0.338       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 3.47        |
+|    n_updates            | 370         |
+|    policy_gradient_loss | -0.00904    |
+|    std                  | 0.991       |
+|    value_loss           | 9.5         |
+-----------------------------------------
+[INFO] [1793499422.692308571] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499422.703458820] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499423.906213023] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 45
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 222         |
+|    ep_rew_mean          | 10.7        |
+| time/                   |             |
+|    fps                  | 8           |
+|    iterations           | 39          |
+|    time_elapsed         | 1127        |
+|    total_timesteps      | 9984        |
+| train/                  |             |
+|    approx_kl            | 0.007831424 |
+|    clip_fraction        | 0.0266      |
+|    clip_range           | 0.2         |
+|    entropy_loss         | -4.23       |
+|    explained_variance   | 0.215       |
+|    learning_rate        | 0.0003      |
+|    loss                 | 17.5        |
+|    n_updates            | 380         |
+|    policy_gradient_loss | -0.00714    |
+|    std                  | 0.992       |
+|    value_loss           | 20.8        |
+-----------------------------------------
+[INFO] [1793499450.656608696] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499450.667900493] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499451.870697608] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793499466.985974425] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793499466.997283024] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793499468.200520974] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+
+Starting RL episode 46
+
+Starting RL episode 47
+------------------------------------------
+| rollout/                |              |
+|    ep_len_mean          | 221          |
+|    ep_rew_mean          | 11.1         |
+| time/                   |              |
+|    fps                  | 8            |
+|    iterations           | 40           |
+|    time_elapsed         | 1158         |
+|    total_timesteps      | 10240        |
+| train/                  |              |
+|    approx_kl            | 0.0018533738 |
+|    clip_fraction        | 0.00156      |
+|    clip_range           | 0.2          |
+|    entropy_loss         | -4.23        |
+|    explained_variance   | -0.477       |
+|    learning_rate        | 0.0003       |
+|    loss                 | 10.2         |
+|    n_updates            | 390          |
+|    policy_gradient_loss | -0.00271     |
+|    std                  | 0.992        |
+|    value_loss           | 21.5         |
+------------------------------------------
+
+PPO V2.1 no-human training completed.
+Model saved to:
+/opt/reachy_ws/src/reachy_rl_control/models/ppo_v2_1_nohuman_2m_10k_seed42.zip
+
+Stopping Reachy safely...
+PPO training process closed.

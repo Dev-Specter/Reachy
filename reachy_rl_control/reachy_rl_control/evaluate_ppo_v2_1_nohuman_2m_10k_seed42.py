@@ -590,6 +590,8 @@ def main():
                     "success",
                     False,
                 )
+                or
+                termination_reason == "goal"
             )
 
             fell_over = bool(
