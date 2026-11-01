@@ -1,0 +1,985 @@
+[INFO] [1793487578.984582426] [reachy_gazebo_interface]: Reachy Gazebo interface started.
+[INFO] [1793487578.985368403] [reachy_gazebo_interface]: Publishing velocity commands to /cmd_vel
+[INFO] [1793487578.985984759] [reachy_gazebo_interface]: Reading odometry from /odom
+[INFO] [1793487578.986497889] [reachy_gazebo_interface]: Reset service: /reset_world
+[INFO] [1793487579.959474193] [human_manager]: Human model loaded from /opt/reachy_ws/install/reachy_rl_control/share/reachy_rl_control/models/human_contact.sdf
+[INFO] [1793487579.972571243] [lidar_processor]: LiDAR processor started: 12 sectors
+[INFO] [1793487581.756247671] [human_manager]: No existing human needed deleting.
+[INFO] [1793487582.510087175] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487582.522223440] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487583.724860525] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487584.587704213] [human_manager]: No existing human needed deleting.
+[INFO] [1793487585.020400407] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487585.771684289] [human_manager]: Human reset completed.
+[INFO] [1793487612.443486833] [human_manager]: Existing human deleted.
+[INFO] [1793487613.196951353] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487613.207873200] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487614.410965467] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487615.273475465] [human_manager]: No existing human needed deleting.
+[INFO] [1793487615.678511169] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487616.430608295] [human_manager]: Human reset completed.
+[INFO] [1793487643.151259462] [human_manager]: Existing human deleted.
+[INFO] [1793487643.907141265] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487643.918522209] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487645.121247804] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487645.983755479] [human_manager]: No existing human needed deleting.
+[INFO] [1793487646.376575965] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487647.127815739] [human_manager]: Human reset completed.
+[INFO] [1793487678.850411269] [human_manager]: Existing human deleted.
+[INFO] [1793487679.604458416] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487679.615579526] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487680.817978736] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487681.681333293] [human_manager]: No existing human needed deleting.
+[INFO] [1793487682.084313569] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487682.835427739] [human_manager]: Human reset completed.
+[INFO] [1793487714.766475556] [human_manager]: Existing human deleted.
+[INFO] [1793487715.520598280] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487715.532269317] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487716.735237511] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487717.597677514] [human_manager]: No existing human needed deleting.
+[INFO] [1793487718.010423878] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487718.762112326] [human_manager]: Human reset completed.
+
+Waiting for Reachy /odom...
+Odometry received.
+
+Creating human-aware environment...
+
+Human-aware Reachy environment ready.
+Observation size: (20,)
+Human reference frame: reachy
+
+Environment ready.
+Observation dimension: 22
+Action dimension: 3
+
+Creating UR-MBPO SAC policy...
+Using cpu device
+Wrapping the env in a DummyVecEnv.
+
+======================================
+UR-MBPO HUMAN V2 10K - RISK SCALE 1.0
+======================================
+Real environment timesteps: 10000
+Observation dimension: 22
+Action dimension: 3
+Maximum episode steps: 250
+Seed: 42
+
+Baseline MBPO parameters:
+  ensemble_size         = 5
+  model_warmup_steps    = 1000
+  model_train_frequency = 500
+  model_gradient_steps  = 50
+  model_batch_size      = 256
+  synthetic_transitions = 1000
+  real_buffer_size      = 50000
+  reward_scale          = 30.0
+
+Initial UR parameters:
+  uncertainty_threshold     = 0.05
+  uncertainty_penalty_scale = 2.0
+  safe_clearance             = 0.75 m
+  near_miss_clearance        = 0.50 m
+  risk_penalty_scale         = 1.0
+
+This is a controlled V1-vs-V2 observation comparison run.
+Do not use its policy performance as a dissertation result.
+
+Starting HUMAN RL episode 1
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+MBPO dynamics ensemble ready.
+Ensemble models: 5
+Model warmup: 1000 real steps
+Synthetic rollout horizon: 1
+
+======================================
+UR-MBPO SAFETY LAYER READY
+======================================
+Uncertainty threshold: 0.050
+Uncertainty penalty scale: 2.000
+Safe LiDAR clearance: 0.75 m
+Near-miss threshold: 0.50 m
+LiDAR maximum distance: 3.00 m
+Risk penalty scale: 1.000
+LiDAR start index: 10
+LiDAR sectors: 12
+
+======================================
+V2 PATH-RELATIVE UR-MBPO CONFIGURATION
+======================================
+Observation dimension: 22
+LiDAR start index: 10
+V2 uncertainty scales:
+[0.3       0.3       0.6       0.5       0.5       0.8       0.8
+ 0.5       3.1415927 2.        1.        1.        1.        1.
+ 1.        1.        1.        1.        1.        1.        1.
+ 1.       ]
+
+Starting HUMAN RL episode 2
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.518 m
+
+Starting HUMAN RL episode 3
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.706 m
+
+Starting HUMAN RL episode 4
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.619 m
+
+Starting HUMAN RL episode 5
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+[UR-MBPO] real_steps=1000 | real_buffer=1000 | attempted=1000 | accepted=323 | uncertainty_rejected=677 | acceptance=32.3% | synthetic_total=323
+[UR-MBPO] uncertainty | min=0.025826 | mean=0.056482 | max=0.101170 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.240 m | min_predicted_clearance=0.467 m | risk_penalized_total=10 | near_miss_predicted_total=0
+[UR-MBPO] totals | candidates=1000 | accepted=323 | uncertainty_rejected=677
+[UR-MBPO] validation | delta_mse=0.004878 | reward_loss=0.000091 | done_loss=0.003477
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.608 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -16      |
+| time/              |          |
+|    episodes        | 4        |
+|    fps             | 7        |
+|    time_elapsed    | 138      |
+|    total_timesteps | 1000     |
+| train/             |          |
+|    actor_loss      | -6.96    |
+|    critic_loss     | 0.12     |
+|    ent_coef        | 0.861    |
+|    ent_coef_loss   | -0.756   |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 499      |
+---------------------------------
+[INFO] [1793487751.643705557] [human_manager]: Existing human deleted.
+[INFO] [1793487752.397967215] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487752.409104838] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487753.612045418] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487754.475960625] [human_manager]: No existing human needed deleting.
+[INFO] [1793487754.879005615] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487755.630791169] [human_manager]: Human reset completed.
+[INFO] [1793487787.714088862] [human_manager]: Existing human deleted.
+[INFO] [1793487788.470206423] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487788.481365326] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487789.685042920] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487790.547943221] [human_manager]: No existing human needed deleting.
+[INFO] [1793487790.950996661] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487791.702745948] [human_manager]: Human reset completed.
+[INFO] [1793487824.407064702] [human_manager]: Existing human deleted.
+[INFO] [1793487825.162316884] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487825.173875171] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487826.377067506] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487827.240079842] [human_manager]: No existing human needed deleting.
+[INFO] [1793487827.642837993] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487828.394341836] [human_manager]: Human reset completed.
+[INFO] [1793487860.074935405] [human_manager]: Existing human deleted.
+[INFO] [1793487860.829898509] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487860.841311627] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487862.043571432] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487862.905546913] [human_manager]: No existing human needed deleting.
+[INFO] [1793487863.318390514] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487864.069383266] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 6
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.602 m
+
+Starting HUMAN RL episode 7
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+[UR-MBPO] real_steps=1500 | real_buffer=1500 | attempted=1000 | accepted=972 | uncertainty_rejected=28 | acceptance=97.2% | synthetic_total=1295
+[UR-MBPO] uncertainty | min=0.012570 | mean=0.031616 | max=0.058642 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.226 m | min_predicted_clearance=0.295 m | risk_penalized_total=96 | near_miss_predicted_total=4
+[UR-MBPO] totals | candidates=2000 | accepted=1295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001859 | reward_loss=0.000122 | done_loss=0.000728
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.263 m
+
+Starting HUMAN RL episode 8
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.375 m
+
+Starting HUMAN RL episode 9
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+[UR-MBPO] real_steps=2000 | real_buffer=2000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=2295
+[UR-MBPO] uncertainty | min=0.009152 | mean=0.019026 | max=0.043424 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.248 m | min_predicted_clearance=0.305 m | risk_penalized_total=210 | near_miss_predicted_total=30
+[UR-MBPO] totals | candidates=3000 | accepted=2295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001506 | reward_loss=0.000151 | done_loss=0.000452
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.380 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -17.5    |
+| time/              |          |
+|    episodes        | 8        |
+|    fps             | 7        |
+|    time_elapsed    | 283      |
+|    total_timesteps | 2000     |
+| train/             |          |
+|    actor_loss      | -12.2    |
+|    critic_loss     | 0.0696   |
+|    ent_coef        | 0.638    |
+|    ent_coef_loss   | -2.26    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 1499     |
+---------------------------------
+[INFO] [1793487896.970538555] [human_manager]: Existing human deleted.
+[INFO] [1793487897.724576599] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487897.735906131] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487898.939992632] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487899.803505204] [human_manager]: No existing human needed deleting.
+[INFO] [1793487900.206026243] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487900.957518120] [human_manager]: Human reset completed.
+[INFO] [1793487932.853095953] [human_manager]: Existing human deleted.
+[INFO] [1793487933.608245662] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487933.621354344] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487934.825020573] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487935.688039756] [human_manager]: No existing human needed deleting.
+[INFO] [1793487936.091003821] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487936.842376140] [human_manager]: Human reset completed.
+[INFO] [1793487969.747018662] [human_manager]: Existing human deleted.
+[INFO] [1793487970.503310499] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793487970.514979799] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793487971.718095693] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793487972.581288241] [human_manager]: No existing human needed deleting.
+[INFO] [1793487972.984401985] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793487973.736299978] [human_manager]: Human reset completed.
+[INFO] [1793488005.845628792] [human_manager]: Existing human deleted.
+[INFO] [1793488006.601233042] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488006.612558622] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488007.814917906] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488008.679040179] [human_manager]: No existing human needed deleting.
+[INFO] [1793488009.081888338] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488009.834014523] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 10
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.435 m
+
+Starting HUMAN RL episode 11
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+[UR-MBPO] real_steps=2500 | real_buffer=2500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=3295
+[UR-MBPO] uncertainty | min=0.007584 | mean=0.013909 | max=0.032462 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.247 m | min_predicted_clearance=0.270 m | risk_penalized_total=319 | near_miss_predicted_total=58
+[UR-MBPO] totals | candidates=4000 | accepted=3295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.000826 | reward_loss=0.000161 | done_loss=0.000318
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.408 m
+
+Starting HUMAN RL episode 12
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.468 m
+
+Starting HUMAN RL episode 13
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+[UR-MBPO] real_steps=3000 | real_buffer=3000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=4295
+[UR-MBPO] uncertainty | min=0.007339 | mean=0.012498 | max=0.027186 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.243 m | min_predicted_clearance=0.280 m | risk_penalized_total=438 | near_miss_predicted_total=87
+[UR-MBPO] totals | candidates=5000 | accepted=4295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001459 | reward_loss=0.000128 | done_loss=0.000259
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.345 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -14.7    |
+| time/              |          |
+|    episodes        | 12       |
+|    fps             | 6        |
+|    time_elapsed    | 429      |
+|    total_timesteps | 3000     |
+| train/             |          |
+|    actor_loss      | -16      |
+|    critic_loss     | 0.086    |
+|    ent_coef        | 0.473    |
+|    ent_coef_loss   | -3.78    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 2499     |
+---------------------------------
+[INFO] [1793488042.707107022] [human_manager]: Existing human deleted.
+[INFO] [1793488043.461245764] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488043.472608356] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488044.674408629] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488045.537285143] [human_manager]: No existing human needed deleting.
+[INFO] [1793488045.940241964] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488046.691802104] [human_manager]: Human reset completed.
+[INFO] [1793488079.010407167] [human_manager]: Existing human deleted.
+[INFO] [1793488079.763994706] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488079.775057143] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488080.977289228] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488081.839872968] [human_manager]: No existing human needed deleting.
+[INFO] [1793488082.252712534] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488083.005512378] [human_manager]: Human reset completed.
+[INFO] [1793488115.675726818] [human_manager]: Existing human deleted.
+[INFO] [1793488116.429540465] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488116.440980848] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488117.643532744] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488118.505988819] [human_manager]: No existing human needed deleting.
+[INFO] [1793488118.908926726] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488119.660234368] [human_manager]: Human reset completed.
+[INFO] [1793488151.558618129] [human_manager]: Existing human deleted.
+[INFO] [1793488152.314000696] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488152.328366760] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488153.531597728] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488155.288558013] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488155.300108945] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488156.503061546] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488158.261668615] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488158.273538540] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488159.476455361] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488160.339101337] [human_manager]: No existing human needed deleting.
+[INFO] [1793488160.812288847] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488161.563318431] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 14
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.501 m
+
+Starting HUMAN RL episode 15
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+[UR-MBPO] real_steps=3500 | real_buffer=3500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=5295
+[UR-MBPO] uncertainty | min=0.006439 | mean=0.010805 | max=0.028010 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.243 m | min_predicted_clearance=0.260 m | risk_penalized_total=559 | near_miss_predicted_total=124
+[UR-MBPO] totals | candidates=6000 | accepted=5295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001040 | reward_loss=0.000128 | done_loss=0.000203
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.430 m
+
+Starting HUMAN RL episode 16
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.310 m
+
+Starting HUMAN RL episode 17
+Resetting Reachy (attempt 1/3)...
+WARNING: unstable reset | roll=-97.20 deg | pitch=-16.77 deg | vx=0.001 m/s | vy=-0.015 m/s | wz=0.023 rad/s
+Resetting Reachy (attempt 2/3)...
+WARNING: unstable reset | roll=179.86 deg | pitch=-0.50 deg | vx=-0.000 m/s | vy=-0.000 m/s | wz=0.043 rad/s
+Resetting Reachy (attempt 3/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.025 rad/s
+
+[UR-MBPO] real_steps=4000 | real_buffer=4000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=6295
+[UR-MBPO] uncertainty | min=0.007125 | mean=0.011452 | max=0.036217 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.255 m | min_predicted_clearance=0.253 m | risk_penalized_total=686 | near_miss_predicted_total=162
+[UR-MBPO] totals | candidates=7000 | accepted=6295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001287 | reward_loss=0.000145 | done_loss=0.000189
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.466 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -13.6    |
+| time/              |          |
+|    episodes        | 16       |
+|    fps             | 6        |
+|    time_elapsed    | 581      |
+|    total_timesteps | 4000     |
+| train/             |          |
+|    actor_loss      | -18.3    |
+|    critic_loss     | 0.0854   |
+|    ent_coef        | 0.351    |
+|    ent_coef_loss   | -5.24    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 3499     |
+---------------------------------
+[INFO] [1793488194.234849077] [human_manager]: Existing human deleted.
+[INFO] [1793488194.988657618] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488194.999882391] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488196.203173512] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488197.065918191] [human_manager]: No existing human needed deleting.
+[INFO] [1793488197.468745854] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488198.220269399] [human_manager]: Human reset completed.
+[INFO] [1793488229.909335512] [human_manager]: Existing human deleted.
+[INFO] [1793488230.663138538] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488230.674662580] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488231.878158228] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488232.741259738] [human_manager]: No existing human needed deleting.
+[INFO] [1793488233.143858486] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488233.895445744] [human_manager]: Human reset completed.
+[INFO] [1793488266.786293116] [human_manager]: Existing human deleted.
+[INFO] [1793488267.539538985] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488267.550842317] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488268.753357990] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488269.615662102] [human_manager]: No existing human needed deleting.
+[INFO] [1793488270.018174101] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488270.769599970] [human_manager]: Human reset completed.
+[INFO] [1793488302.875753247] [human_manager]: Existing human deleted.
+[INFO] [1793488303.629743275] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488303.640889763] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488304.843492804] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488305.706286701] [human_manager]: No existing human needed deleting.
+[INFO] [1793488306.098914374] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488306.850678241] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 18
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.011 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.344 m
+
+Starting HUMAN RL episode 19
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.008 rad/s
+
+[UR-MBPO] real_steps=4500 | real_buffer=4500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=7295
+[UR-MBPO] uncertainty | min=0.006712 | mean=0.010591 | max=0.031454 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.303 m | min_predicted_clearance=0.213 m | risk_penalized_total=790 | near_miss_predicted_total=199
+[UR-MBPO] totals | candidates=8000 | accepted=7295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001296 | reward_loss=0.000181 | done_loss=0.000156
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.241 m
+
+Starting HUMAN RL episode 20
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.007 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.430 m
+
+Starting HUMAN RL episode 21
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.003 rad/s
+
+[UR-MBPO] real_steps=5000 | real_buffer=5000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=8295
+[UR-MBPO] uncertainty | min=0.007213 | mean=0.011194 | max=0.032919 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.292 m | min_predicted_clearance=0.218 m | risk_penalized_total=892 | near_miss_predicted_total=224
+[UR-MBPO] totals | candidates=9000 | accepted=8295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001206 | reward_loss=0.000167 | done_loss=0.000141
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.435 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -13.8    |
+| time/              |          |
+|    episodes        | 20       |
+|    fps             | 6        |
+|    time_elapsed    | 726      |
+|    total_timesteps | 5000     |
+| train/             |          |
+|    actor_loss      | -19.5    |
+|    critic_loss     | 0.37     |
+|    ent_coef        | 0.26     |
+|    ent_coef_loss   | -6.77    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 4499     |
+---------------------------------
+[INFO] [1793488339.759381039] [human_manager]: Existing human deleted.
+[INFO] [1793488340.513099492] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488340.525925889] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488341.729379986] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488342.592280570] [human_manager]: No existing human needed deleting.
+[INFO] [1793488342.995237135] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488343.747018008] [human_manager]: Human reset completed.
+[INFO] [1793488375.616523358] [human_manager]: Existing human deleted.
+[INFO] [1793488376.370142367] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488376.381666286] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488377.584629189] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488378.446947346] [human_manager]: No existing human needed deleting.
+[INFO] [1793488378.849945832] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488379.601698379] [human_manager]: Human reset completed.
+[INFO] [1793488412.931191989] [human_manager]: Existing human deleted.
+[INFO] [1793488413.685380218] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488413.696963873] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488414.901972055] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488415.765928179] [human_manager]: No existing human needed deleting.
+[INFO] [1793488416.168457612] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488416.919676820] [human_manager]: Human reset completed.
+[INFO] [1793488448.837288934] [human_manager]: Existing human deleted.
+[INFO] [1793488449.591967982] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488449.604752514] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488450.808552960] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488451.671210919] [human_manager]: No existing human needed deleting.
+[INFO] [1793488452.073928483] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488452.825541079] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 22
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.004 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.352 m
+
+Starting HUMAN RL episode 23
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.001 rad/s
+
+[UR-MBPO] real_steps=5500 | real_buffer=5500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=9295
+[UR-MBPO] uncertainty | min=0.006050 | mean=0.010264 | max=0.029294 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.244 m | min_predicted_clearance=0.276 m | risk_penalized_total=1016 | near_miss_predicted_total=261
+[UR-MBPO] totals | candidates=10000 | accepted=9295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001260 | reward_loss=0.000047 | done_loss=0.000126
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.399 m
+
+Starting HUMAN RL episode 24
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.001 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.293 m
+
+Starting HUMAN RL episode 25
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+[UR-MBPO] real_steps=6000 | real_buffer=6000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=10295
+[UR-MBPO] uncertainty | min=0.007894 | mean=0.011339 | max=0.028061 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.293 m | min_predicted_clearance=0.289 m | risk_penalized_total=1140 | near_miss_predicted_total=303
+[UR-MBPO] totals | candidates=11000 | accepted=10295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001054 | reward_loss=0.000128 | done_loss=0.000118
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.491 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -14.7    |
+| time/              |          |
+|    episodes        | 24       |
+|    fps             | 6        |
+|    time_elapsed    | 872      |
+|    total_timesteps | 6000     |
+| train/             |          |
+|    actor_loss      | -20      |
+|    critic_loss     | 0.132    |
+|    ent_coef        | 0.193    |
+|    ent_coef_loss   | -8.07    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 5499     |
+---------------------------------
+[INFO] [1793488485.695528555] [human_manager]: Existing human deleted.
+[INFO] [1793488486.451058799] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488486.462458026] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488487.665058223] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488488.527658739] [human_manager]: No existing human needed deleting.
+[INFO] [1793488488.930386338] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488489.681383637] [human_manager]: Human reset completed.
+[INFO] [1793488521.770068679] [human_manager]: Existing human deleted.
+[INFO] [1793488522.523548983] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488522.535060520] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488523.737372500] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488524.600642260] [human_manager]: No existing human needed deleting.
+[INFO] [1793488525.004803002] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488525.756606718] [human_manager]: Human reset completed.
+[INFO] [1793488558.681112277] [human_manager]: Existing human deleted.
+[INFO] [1793488559.435009853] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488559.446595837] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488560.649638550] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488561.513296852] [human_manager]: No existing human needed deleting.
+[INFO] [1793488561.916467504] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488562.667499601] [human_manager]: Human reset completed.
+[INFO] [1793488594.536489300] [human_manager]: Existing human deleted.
+[INFO] [1793488595.291344840] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488595.302664783] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488596.505651691] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488597.368242391] [human_manager]: No existing human needed deleting.
+[INFO] [1793488597.770994313] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488598.522415167] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 26
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.334 m
+
+Starting HUMAN RL episode 27
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=0.000 m/s | vy=-0.000 m/s | wz=-0.037 rad/s
+
+[UR-MBPO] real_steps=6500 | real_buffer=6500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=11295
+[UR-MBPO] uncertainty | min=0.006693 | mean=0.009970 | max=0.028663 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.239 m | min_predicted_clearance=0.270 m | risk_penalized_total=1284 | near_miss_predicted_total=361
+[UR-MBPO] totals | candidates=12000 | accepted=11295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001116 | reward_loss=0.000116 | done_loss=0.000108
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.272 m
+
+Starting HUMAN RL episode 28
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=-0.000 m/s | wz=-0.003 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.451 m
+
+Starting HUMAN RL episode 29
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=-0.000 m/s | wz=-0.007 rad/s
+
+[UR-MBPO] real_steps=7000 | real_buffer=7000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=12295
+[UR-MBPO] uncertainty | min=0.007616 | mean=0.010504 | max=0.027689 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.258 m | min_predicted_clearance=0.264 m | risk_penalized_total=1422 | near_miss_predicted_total=404
+[UR-MBPO] totals | candidates=13000 | accepted=12295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.001168 | reward_loss=0.000121 | done_loss=0.000097
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.294 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -14.3    |
+| time/              |          |
+|    episodes        | 28       |
+|    fps             | 6        |
+|    time_elapsed    | 1018     |
+|    total_timesteps | 7000     |
+| train/             |          |
+|    actor_loss      | -20      |
+|    critic_loss     | 0.0775   |
+|    ent_coef        | 0.144    |
+|    ent_coef_loss   | -9.25    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 6499     |
+---------------------------------
+[INFO] [1793488631.391610831] [human_manager]: Existing human deleted.
+[INFO] [1793488632.146423331] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488632.157301339] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488633.359555663] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488634.221726711] [human_manager]: No existing human needed deleting.
+[INFO] [1793488634.634516979] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488635.385495341] [human_manager]: Human reset completed.
+[INFO] [1793488667.487647720] [human_manager]: Existing human deleted.
+[INFO] [1793488668.241203480] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488668.252241482] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488669.454943498] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488670.317883259] [human_manager]: No existing human needed deleting.
+[INFO] [1793488670.720317454] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488671.471271963] [human_manager]: Human reset completed.
+[INFO] [1793488704.579854389] [human_manager]: Existing human deleted.
+[INFO] [1793488705.333797994] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488705.345147259] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488706.547498196] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488707.409971196] [human_manager]: No existing human needed deleting.
+[INFO] [1793488707.812803846] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488708.565214812] [human_manager]: Human reset completed.
+[INFO] [1793488740.429572181] [human_manager]: Existing human deleted.
+[INFO] [1793488741.183012339] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488741.194023009] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488742.397336954] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488743.259915714] [human_manager]: No existing human needed deleting.
+[INFO] [1793488743.673308380] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488744.425153085] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 30
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=0.000 m/s | vy=-0.000 m/s | wz=-0.005 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.438 m
+
+Starting HUMAN RL episode 31
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=-0.000 m/s | wz=-0.002 rad/s
+
+[UR-MBPO] real_steps=7500 | real_buffer=7500 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=13295
+[UR-MBPO] uncertainty | min=0.006809 | mean=0.009453 | max=0.030784 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.293 m | min_predicted_clearance=0.257 m | risk_penalized_total=1543 | near_miss_predicted_total=439
+[UR-MBPO] totals | candidates=14000 | accepted=13295 | uncertainty_rejected=705
+[UR-MBPO] validation | delta_mse=0.000940 | reward_loss=0.000115 | done_loss=0.000085
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.136 m
+
+Starting HUMAN RL episode 32
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=-0.000 m/s | wz=-0.001 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.396 m
+
+Starting HUMAN RL episode 33
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.001 rad/s
+
+[UR-MBPO] real_steps=8000 | real_buffer=8000 | attempted=1000 | accepted=999 | uncertainty_rejected=1 | acceptance=99.9% | synthetic_total=14294
+[UR-MBPO] uncertainty | min=0.007378 | mean=0.010600 | max=0.063258 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.265 m | min_predicted_clearance=0.109 m | risk_penalized_total=1670 | near_miss_predicted_total=488
+[UR-MBPO] totals | candidates=15000 | accepted=14294 | uncertainty_rejected=706
+[UR-MBPO] validation | delta_mse=0.001241 | reward_loss=0.000131 | done_loss=0.000080
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.272 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 250      |
+|    ep_rew_mean     | -14.3    |
+| time/              |          |
+|    episodes        | 32       |
+|    fps             | 6        |
+|    time_elapsed    | 1163     |
+|    total_timesteps | 8000     |
+| train/             |          |
+|    actor_loss      | -19.6    |
+|    critic_loss     | 0.115    |
+|    ent_coef        | 0.107    |
+|    ent_coef_loss   | -10.5    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 7499     |
+---------------------------------
+[INFO] [1793488777.570216778] [human_manager]: Existing human deleted.
+[INFO] [1793488778.325598210] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488778.338100799] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488779.542036629] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488780.405098312] [human_manager]: No existing human needed deleting.
+[INFO] [1793488780.808170169] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488781.559808800] [human_manager]: Human reset completed.
+[INFO] [1793488813.455147098] [human_manager]: Existing human deleted.
+[INFO] [1793488814.209485483] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488814.220862082] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488815.423560359] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488816.286812031] [human_manager]: No existing human needed deleting.
+[INFO] [1793488816.699799007] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488817.451214796] [human_manager]: Human reset completed.
+[INFO] [1793488850.333353463] [human_manager]: Existing human deleted.
+[INFO] [1793488851.086723979] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488851.097641036] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488852.300909427] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488853.163499846] [human_manager]: No existing human needed deleting.
+[INFO] [1793488853.576417485] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488854.329016959] [human_manager]: Human reset completed.
+[WARN] [1793488858.583909414] [human_manager]: HUMAN COLLISION DETECTED: human_1::body::human_collision <-> reachy::base_footprint::base_footprint_fixed_joint_lump__base_link_collision
+[INFO] [1793488859.737447046] [human_manager]: Existing human deleted.
+[INFO] [1793488860.491706658] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488860.503299929] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488861.707147362] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488862.570962498] [human_manager]: No existing human needed deleting.
+[INFO] [1793488862.973596597] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488863.724272264] [human_manager]: Human reset completed.
+
+Starting HUMAN RL episode 34
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.326 m
+
+Starting HUMAN RL episode 35
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+[UR-MBPO] real_steps=8500 | real_buffer=8500 | attempted=1000 | accepted=999 | uncertainty_rejected=1 | acceptance=99.9% | synthetic_total=15293
+[UR-MBPO] uncertainty | min=0.006650 | mean=0.009821 | max=0.054809 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.285 m | min_predicted_clearance=0.232 m | risk_penalized_total=1782 | near_miss_predicted_total=538
+[UR-MBPO] totals | candidates=16000 | accepted=15293 | uncertainty_rejected=707
+[UR-MBPO] validation | delta_mse=0.001037 | reward_loss=0.000146 | done_loss=0.000077
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.290 m
+
+Starting HUMAN RL episode 36
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.391 m
+
+HUMAN COLLISION DETECTED
+
+Starting HUMAN RL episode 37
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=collision | minimum LiDAR clearance=0.125 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 244      |
+|    ep_rew_mean     | -14.6    |
+| time/              |          |
+|    episodes        | 36       |
+|    fps             | 6        |
+|    time_elapsed    | 1282     |
+|    total_timesteps | 8783     |
+| train/             |          |
+|    actor_loss      | -19.2    |
+|    critic_loss     | 0.228    |
+|    ent_coef        | 0.0854   |
+|    ent_coef_loss   | -11      |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 8282     |
+---------------------------------
+[WARN] [1793488867.919686049] [human_manager]: HUMAN COLLISION DETECTED: human_1::body::human_collision <-> reachy::base_footprint::base_footprint_fixed_joint_lump__base_link_collision
+[INFO] [1793488869.195764435] [human_manager]: Existing human deleted.
+[INFO] [1793488869.949444929] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488869.960638568] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488871.163809537] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488872.026912824] [human_manager]: No existing human needed deleting.
+[INFO] [1793488872.430069152] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488873.181562616] [human_manager]: Human reset completed.
+[WARN] [1793488877.629552450] [human_manager]: HUMAN COLLISION DETECTED: human_1::body::human_collision <-> reachy::base_footprint::base_footprint_fixed_joint_lump__base_link_collision
+[INFO] [1793488878.819655127] [human_manager]: Existing human deleted.
+[INFO] [1793488879.573923165] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488879.585430759] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488880.787628073] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488881.651833524] [human_manager]: No existing human needed deleting.
+[INFO] [1793488882.054474167] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488882.806442603] [human_manager]: Human reset completed.
+[INFO] [1793488916.100294742] [human_manager]: Existing human deleted.
+[INFO] [1793488916.854357260] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488916.866258033] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488918.069335044] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488918.932384943] [human_manager]: No existing human needed deleting.
+[INFO] [1793488919.324932238] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488920.076588798] [human_manager]: Human reset completed.
+[INFO] [1793488951.990654010] [human_manager]: Existing human deleted.
+[INFO] [1793488952.744476130] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488952.758395589] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488953.961342669] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488954.824364453] [human_manager]: No existing human needed deleting.
+[INFO] [1793488955.227438134] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488955.978305729] [human_manager]: Human reset completed.
+
+HUMAN COLLISION DETECTED
+
+Starting HUMAN RL episode 38
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=collision | minimum LiDAR clearance=0.124 m
+
+HUMAN COLLISION DETECTED
+
+Starting HUMAN RL episode 39
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=-0.000 rad/s
+
+UR-MBPO episode finished | reason=collision | minimum LiDAR clearance=0.149 m
+
+[UR-MBPO] real_steps=9000 | real_buffer=9000 | attempted=1000 | accepted=994 | uncertainty_rejected=6 | acceptance=99.4% | synthetic_total=16287
+[UR-MBPO] uncertainty | min=0.008094 | mean=0.011147 | max=0.055586 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.227 m | min_predicted_clearance=0.188 m | risk_penalized_total=1914 | near_miss_predicted_total=585
+[UR-MBPO] totals | candidates=17000 | accepted=16287 | uncertainty_rejected=713
+[UR-MBPO] validation | delta_mse=0.001233 | reward_loss=0.000621 | done_loss=0.000078
+
+Starting HUMAN RL episode 40
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.297 m
+
+Starting HUMAN RL episode 41
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.368 m
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 234      |
+|    ep_rew_mean     | -15.7    |
+| time/              |          |
+|    episodes        | 40       |
+|    fps             | 6        |
+|    time_elapsed    | 1374     |
+|    total_timesteps | 9350     |
+| train/             |          |
+|    actor_loss      | -19.1    |
+|    critic_loss     | 0.238    |
+|    ent_coef        | 0.0725   |
+|    ent_coef_loss   | -11.1    |
+|    learning_rate   | 0.0003   |
+|    n_updates       | 8849     |
+---------------------------------
+[INFO] [1793488989.113132148] [human_manager]: Existing human deleted.
+[INFO] [1793488989.866867480] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793488989.878116041] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793488991.081105891] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793488991.943845719] [human_manager]: No existing human needed deleting.
+[INFO] [1793488992.357257911] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793488993.108712200] [human_manager]: Human reset completed.
+[INFO] [1793489025.245481222] [human_manager]: Existing human deleted.
+[INFO] [1793489025.999488897] [reachy_gazebo_interface]: Resetting Gazebo using /reset_world
+[INFO] [1793489026.010744226] [reachy_gazebo_interface]: Gazebo reset service completed.
+[INFO] [1793489027.213582198] [reachy_gazebo_interface]: Gazebo reset completed successfully.
+[INFO] [1793489028.075655253] [human_manager]: No existing human needed deleting.
+[INFO] [1793489028.480501035] [human_manager]: Human spawned at x=1.00, y=-1.50, z=0.90 relative to 'reachy'
+[INFO] [1793489029.232422047] [human_manager]: Human reset completed.
+[INFO] [1793489050.713244789] [human_manager]: Existing human deleted.
+
+[UR-MBPO] real_steps=9500 | real_buffer=9500 | attempted=1000 | accepted=999 | uncertainty_rejected=1 | acceptance=99.9% | synthetic_total=17286
+[UR-MBPO] uncertainty | min=0.006764 | mean=0.009954 | max=0.050295 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.272 m | min_predicted_clearance=0.221 m | risk_penalized_total=2019 | near_miss_predicted_total=633
+[UR-MBPO] totals | candidates=18000 | accepted=17286 | uncertainty_rejected=714
+[UR-MBPO] validation | delta_mse=0.001177 | reward_loss=0.001021 | done_loss=0.000076
+
+Starting HUMAN RL episode 42
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.456 m
+
+Starting HUMAN RL episode 43
+Resetting Reachy (attempt 1/3)...
+Reachy reset is stable | roll=-0.00 deg | pitch=0.00 deg | vx=-0.000 m/s | vy=0.000 m/s | wz=0.000 rad/s
+
+UR-MBPO episode finished | reason=timeout | minimum LiDAR clearance=0.405 m
+
+[UR-MBPO] real_steps=10000 | real_buffer=10000 | attempted=1000 | accepted=1000 | uncertainty_rejected=0 | acceptance=100.0% | synthetic_total=18286
+[UR-MBPO] uncertainty | min=0.007781 | mean=0.010719 | max=0.048998 | threshold=0.050000
+[UR-MBPO] risk | mean_predicted_clearance=2.189 m | min_predicted_clearance=0.175 m | risk_penalized_total=2150 | near_miss_predicted_total=692
+[UR-MBPO] totals | candidates=19000 | accepted=18286 | uncertainty_rejected=714
+[UR-MBPO] validation | delta_mse=0.001290 | reward_loss=0.000193 | done_loss=0.000073
+
+UR-MBPO dynamics ensemble saved to:
+/opt/reachy_ws/src/reachy_rl_control/models/ur_mbpo_human_v2_dynamics_risk1_10k_seed42.pt
+
+======================================
+UR-MBPO HUMAN V2 10K - RISK SCALE 1.0 SUMMARY
+======================================
+
+Real environment:
+Completed episodes: 42
+Goals: 0
+Collisions: 3
+Falls: 0
+Timeouts: 39
+Episodes with near miss: 36
+
+Synthetic model data:
+Candidates: 19000
+Accepted: 18286
+Rejected by uncertainty: 714
+Acceptance rate: 96.2%
+Risk-penalized accepted transitions: 2150
+Predicted near-miss accepted transitions: 692
+
+Latest uncertainty:
+Minimum: 0.007781
+Mean: 0.010719
+Maximum: 0.048998
+
+Latest predicted LiDAR clearance:
+Mean: 2.189 m
+Minimum: 0.175 m
+
+Smoke policy saved to:
+/opt/reachy_ws/src/reachy_rl_control/models/ur_mbpo_human_v2_risk1_10k_seed42.zip
+
+Smoke dynamics saved to:
+/opt/reachy_ws/src/reachy_rl_control/models/ur_mbpo_human_v2_dynamics_risk1_10k_seed42.pt
+
+Stopping UR-MBPO risk-1 training safely...
+
+Closing human-aware environment...
+Human-aware environment closed.
+UR-MBPO risk-1 training process closed.
