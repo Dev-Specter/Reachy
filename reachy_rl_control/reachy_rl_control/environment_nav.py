@@ -511,6 +511,7 @@ class ReachyNavEnv(gym.Env):
             "start": (self.task.start_x, self.task.start_y, self.task.start_yaw),
             "goal": (self.task.goal_x, self.task.goal_y),
             "straight_line_distance": self.task.straight_line_distance,
+            "reference_path_length": getattr(self.task, "reference_path_length", float("nan")),
             "termination_reason": termination_reason,
             "success": termination_reason == "goal",
         }
