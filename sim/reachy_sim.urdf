@@ -386,7 +386,7 @@
     <sensor name="lidar" type="ray">
       <always_on>true</always_on>
       <visualize>true</visualize>
-      <update_rate>5</update_rate>
+      <update_rate>10</update_rate>
       <ray>
         <scan>
           <horizontal>
@@ -2306,20 +2306,18 @@
         <collision>base_footprint_fixed_joint_lump__lidar_link_collision_10</collision>
       </contact>
       <plugin name="body_bumper" filename="libgazebo_ros_bumper.so">
-        <ros>
-          <namespace>/reachy</namespace>
-          <remapping>bumper_states:=body_contact</remapping>
-        </ros>
+        <ros><namespace>/reachy</namespace><remapping>bumper_states:=body_contact</remapping></ros>
         <frame_name>base_footprint</frame_name>
       </plugin>
     </sensor>
   </gazebo>
-
   <gazebo reference="r_shoulder">
     <sensor name="r_shoulder_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_shoulder_collision</collision></contact>
+      <contact>
+        <collision>r_shoulder_collision</collision>
+      </contact>
       <plugin name="r_shoulder_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_shoulder</frame_name>
@@ -2330,7 +2328,9 @@
     <sensor name="r_shoulder_x_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_shoulder_x_collision</collision></contact>
+      <contact>
+        <collision>r_shoulder_x_collision</collision>
+      </contact>
       <plugin name="r_shoulder_x_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_shoulder_x</frame_name>
@@ -2341,7 +2341,9 @@
     <sensor name="r_upper_arm_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_upper_arm_collision</collision></contact>
+      <contact>
+        <collision>r_upper_arm_collision</collision>
+      </contact>
       <plugin name="r_upper_arm_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_upper_arm</frame_name>
@@ -2352,7 +2354,9 @@
     <sensor name="r_forearm_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_forearm_collision</collision></contact>
+      <contact>
+        <collision>r_forearm_collision</collision>
+      </contact>
       <plugin name="r_forearm_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_forearm</frame_name>
@@ -2363,7 +2367,9 @@
     <sensor name="r_wrist_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_wrist_collision</collision></contact>
+      <contact>
+        <collision>r_wrist_collision</collision>
+      </contact>
       <plugin name="r_wrist_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_wrist</frame_name>
@@ -2374,7 +2380,9 @@
     <sensor name="r_wrist2hand_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_wrist2hand_collision</collision></contact>
+      <contact>
+        <collision>r_wrist2hand_collision</collision>
+      </contact>
       <plugin name="r_wrist2hand_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_wrist2hand</frame_name>
@@ -2385,7 +2393,9 @@
     <sensor name="r_gripper_thumb_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_gripper_thumb_collision</collision></contact>
+      <contact>
+        <collision>r_gripper_thumb_collision</collision>
+      </contact>
       <plugin name="r_gripper_thumb_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_gripper_thumb</frame_name>
@@ -2396,7 +2406,9 @@
     <sensor name="r_gripper_finger_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>r_gripper_finger_collision</collision></contact>
+      <contact>
+        <collision>r_gripper_finger_collision</collision>
+      </contact>
       <plugin name="r_gripper_finger_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>r_gripper_finger</frame_name>
@@ -2407,7 +2419,9 @@
     <sensor name="l_shoulder_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_shoulder_collision</collision></contact>
+      <contact>
+        <collision>l_shoulder_collision</collision>
+      </contact>
       <plugin name="l_shoulder_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_shoulder</frame_name>
@@ -2418,7 +2432,9 @@
     <sensor name="l_shoulder_x_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_shoulder_x_collision</collision></contact>
+      <contact>
+        <collision>l_shoulder_x_collision</collision>
+      </contact>
       <plugin name="l_shoulder_x_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_shoulder_x</frame_name>
@@ -2429,7 +2445,9 @@
     <sensor name="l_upper_arm_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_upper_arm_collision</collision></contact>
+      <contact>
+        <collision>l_upper_arm_collision</collision>
+      </contact>
       <plugin name="l_upper_arm_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_upper_arm</frame_name>
@@ -2440,7 +2458,9 @@
     <sensor name="l_forearm_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_forearm_collision</collision></contact>
+      <contact>
+        <collision>l_forearm_collision</collision>
+      </contact>
       <plugin name="l_forearm_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_forearm</frame_name>
@@ -2451,7 +2471,9 @@
     <sensor name="l_wrist_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_wrist_collision</collision></contact>
+      <contact>
+        <collision>l_wrist_collision</collision>
+      </contact>
       <plugin name="l_wrist_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_wrist</frame_name>
@@ -2462,7 +2484,9 @@
     <sensor name="l_wrist2hand_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_wrist2hand_collision</collision></contact>
+      <contact>
+        <collision>l_wrist2hand_collision</collision>
+      </contact>
       <plugin name="l_wrist2hand_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_wrist2hand</frame_name>
@@ -2473,7 +2497,9 @@
     <sensor name="l_gripper_thumb_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_gripper_thumb_collision</collision></contact>
+      <contact>
+        <collision>l_gripper_thumb_collision</collision>
+      </contact>
       <plugin name="l_gripper_thumb_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_gripper_thumb</frame_name>
@@ -2484,7 +2510,9 @@
     <sensor name="l_gripper_finger_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>l_gripper_finger_collision</collision></contact>
+      <contact>
+        <collision>l_gripper_finger_collision</collision>
+      </contact>
       <plugin name="l_gripper_finger_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>l_gripper_finger</frame_name>
@@ -2495,7 +2523,9 @@
     <sensor name="head_z_contact" type="contact">
       <always_on>true</always_on>
       <update_rate>10</update_rate>
-      <contact><collision>head_z_fixed_joint_lump__head_collision</collision></contact>
+      <contact>
+        <collision>head_z_fixed_joint_lump__head_collision</collision>
+      </contact>
       <plugin name="head_z_bumper" filename="libgazebo_ros_bumper.so">
         <ros><namespace>/reachy</namespace><remapping>bumper_states:=arm_contact</remapping></ros>
         <frame_name>head_z</frame_name>
