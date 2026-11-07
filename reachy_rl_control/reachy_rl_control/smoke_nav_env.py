@@ -47,7 +47,7 @@ def main():
     parser.add_argument("--tasks", default="hospital_smoke")
     parser.add_argument("--policy", choices=["scripted", "random"], default="scripted")
     parser.add_argument("--episodes", type=int, default=5)
-    parser.add_argument("--max-steps", type=int, default=300)
+    parser.add_argument("--max-steps", type=int, default=500)
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
 
@@ -108,6 +108,8 @@ def main():
                 "path": info["path_length"],
                 "straight": info["straight_line_distance"],
                 "contact": info["contact_link"],
+                "unsafe": info["episode_steps_unsafe"],
+                "below_pref": info["episode_steps_below_preferred"],
             })
 
         wall_total = time.monotonic() - wall_start
@@ -115,10 +117,11 @@ def main():
         print("\n================ SMOKE TEST SUMMARY ================")
         print(f"tasks={args.tasks} policy={args.policy} episodes={args.episodes}")
         print(f"{'#':>2} {'reason':>9} {'steps':>5} {'return':>8} {'sim_s':>6} {'wall_s':>6} "
-              f"{'min_clr':>7} {'path':>5} {'line':>5}  contact")
+              f"{'min_clr':>7} {'<0.20':>5} {'<0.10':>5} {'path':>5} {'line':>5}  contact")
         for i, r in enumerate(results, 1):
             print(f"{i:>2} {r['reason']:>9} {r['steps']:>5} {r['return']:>8.2f} {r['sim_s']:>6.1f} "
-                  f"{r['wall_s']:>6.1f} {r['min_clear']:>7.3f} {r['path']:>5.2f} {r['straight']:>5.2f}  "
+                  f"{r['wall_s']:>6.1f} {r['min_clear']:>7.3f} {r['below_pref']:>5} {r['unsafe']:>5} "
+                  f"{r['path']:>5.2f} {r['straight']:>5.2f}  "
                   f"{r['contact'] or '-'}")
         reasons = [r["reason"] for r in results]
         print("\noutcomes:", {k: reasons.count(k) for k in sorted(set(reasons))})

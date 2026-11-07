@@ -8,7 +8,8 @@ any collision, while keeping good LiDAR clearance. No path following.
 Compatible with the existing training stack:
     - Gymnasium API, Env(robot=..., control_duration=0.1, max_steps=...)
     - same reward terms/scale as V1 (progress x10, -0.01/step, smoothness 0.05,
-      collision -40, fall -30, timeout -5, proximity penalty scale 1.0)
+      collision -40, fall -30, timeout -5; proximity penalty bounded at
+      0.05/step below 0.10 m edge clearance)
     - same info keys (termination_reason, min_lidar_distance,
       episode_min_lidar_distance, near_miss_occurred, success, ...)
     - env.lidar.get_min_distance() / get_normalized_distances() and
@@ -73,14 +74,17 @@ OBS_DIM = LIDAR_START_INDEX + NUM_LIDAR_SECTORS  # 31
 # Task
 GOAL_TOLERANCE = 0.30
 
-# Clearance thresholds (EDGE clearance, metres). Note the old V1/V2 values
-# (0.75 / 0.50) were raw LiDAR ranges that included the sensor offset.
-# The Bookstore aisles leave only ~0.17-0.20 m to the side, so these are
-# provisional and will be tuned from measured clearances.
-SAFE_DISTANCE = 0.25
-NEAR_MISS_DISTANCE = 0.10
+# Clearance bands (EDGE clearance, metres) - identical in every world:
+#   > 0.20      comfortably clear
+#   0.10-0.20   acceptable (UR-MBPO may prefer more room)
+#   0.05-0.10   unsafe proximity  -> bounded base penalty
+#   < 0.05      near miss (metric)
+#   contact     collision (terminal)
+SAFE_DISTANCE = 0.10
+NEAR_MISS_DISTANCE = 0.05
+PREFERRED_CLEARANCE = 0.20
 
-# Reward (same terms and scale as V1)
+# Reward (same terms as V1; proximity penalty is now bounded and modest)
 PROGRESS_SCALE = 10.0
 STEP_PENALTY = 0.01
 SMOOTHNESS_SCALE = 0.05
@@ -88,7 +92,37 @@ GOAL_REWARD = 25.0          # V1 final step gave +5 (waypoint) + 20 (goal)
 COLLISION_PENALTY = 40.0
 FALL_PENALTY = 30.0
 TIMEOUT_PENALTY = 5.0
-PROXIMITY_PENALTY_SCALE = 1.0
+PROXIMITY_PENALTY_MAX = 0.05   # per step, reached only at zero clearance
+RISK_PENALTY_MAX = 0.06        # per step, for UR-MBPO / risk-shaping wrappers
+
+DEFAULT_MAX_STEPS = 500
+
+
+def check_no_crash_incentive(max_steps: int, extra_per_step: float = 0.0):
+    """
+    Guarantee that finishing always beats crashing, for every route.
+
+    Crashing at step t instead of finishing forgoes the remaining progress
+    reward (>= 0) and the goal reward, adds the collision penalty, and saves
+    only the per-step costs of the remaining steps. Hence
+
+        R_success - R_crash(t) >= GOAL + COLLISION - c_max * (T_max - t) > 0
+
+    whenever c_max * T_max < GOAL + COLLISION, with
+    c_max = STEP_PENALTY + PROXIMITY_PENALTY_MAX + extra_per_step.
+
+    The smoothness penalty is excluded: it is chosen by the policy and is zero
+    for a constant command.
+    """
+    worst = (STEP_PENALTY + PROXIMITY_PENALTY_MAX + float(extra_per_step)) * int(max_steps)
+    margin = GOAL_REWARD + COLLISION_PENALTY
+    if worst >= margin:
+        raise ValueError(
+            f"Crash incentive: worst-case per-step costs over {max_steps} steps = {worst:.1f} "
+            f">= goal + collision = {margin:.1f}. Reduce penalties or max_steps."
+        )
+    return worst, margin
+
 
 # Fall detection
 FALL_ANGLE_RAD = math.radians(30.0)
@@ -131,6 +165,7 @@ class ReachyNavEnv(gym.Env):
 
     safe_distance = SAFE_DISTANCE
     near_miss_distance = NEAR_MISS_DISTANCE
+    preferred_clearance = PREFERRED_CLEARANCE
     lidar_start_index = LIDAR_START_INDEX
     lidar_max_distance = LIDAR_MAX_DISTANCE
 
@@ -139,7 +174,7 @@ class ReachyNavEnv(gym.Env):
         robot: ReachyNavInterface,
         task_sampler,
         control_duration: float = 0.1,
-        max_steps: int = 300,
+        max_steps: int = DEFAULT_MAX_STEPS,
         check_goal_pose: bool = True,
         verbose: bool = True,
     ):
@@ -151,6 +186,11 @@ class ReachyNavEnv(gym.Env):
         self.max_steps = int(max_steps)
         self.check_goal_pose = bool(check_goal_pose)
         self.verbose = bool(verbose)
+
+        worst, margin = check_no_crash_incentive(self.max_steps)
+        if self.verbose:
+            print(f"Reward check: worst-case per-step costs {worst:.1f} < goal+collision {margin:.1f} "
+                  f"over {self.max_steps} steps -> finishing always beats crashing.")
 
         self.lidar = LidarView()
 
@@ -173,6 +213,9 @@ class ReachyNavEnv(gym.Env):
         self.previous_command = np.zeros(2, dtype=np.float32)   # physical (v, w)
         self.episode_min_lidar_distance = LIDAR_MAX_DISTANCE
         self.near_miss_occurred = False
+        self.steps_below_preferred = 0
+        self.steps_unsafe = 0
+        self.steps_near_miss = 0
         self.path_length = 0.0
         self.episode_start_sim_time = 0.0
         self._last_xy = (0.0, 0.0)
@@ -259,7 +302,7 @@ class ReachyNavEnv(gym.Env):
         if clearance >= SAFE_DISTANCE:
             return 0.0
         closeness = float(np.clip((SAFE_DISTANCE - clearance) / SAFE_DISTANCE, 0.0, 1.0))
-        return PROXIMITY_PENALTY_SCALE * closeness
+        return PROXIMITY_PENALTY_MAX * closeness
 
     # -----------------------------------------------------------------------
     # RESET
@@ -315,6 +358,9 @@ class ReachyNavEnv(gym.Env):
         self.previous_distance, _ = self._goal_geometry(state)
         self.episode_min_lidar_distance = float(np.min(sectors))
         self.near_miss_occurred = bool(self.episode_min_lidar_distance < NEAR_MISS_DISTANCE)
+        self.steps_below_preferred = 0
+        self.steps_unsafe = 0
+        self.steps_near_miss = 0
         self.path_length = 0.0
         self._last_xy = (state.x, state.y)
         self.episode_start_sim_time = self.robot.sim_time()
@@ -367,7 +413,12 @@ class ReachyNavEnv(gym.Env):
         self.path_length += math.hypot(state.x - self._last_xy[0], state.y - self._last_xy[1])
         self._last_xy = (state.x, state.y)
         self.episode_min_lidar_distance = min(self.episode_min_lidar_distance, clearance)
+        if clearance < PREFERRED_CLEARANCE:
+            self.steps_below_preferred += 1
+        if clearance < SAFE_DISTANCE:
+            self.steps_unsafe += 1
         if clearance < NEAR_MISS_DISTANCE:
+            self.steps_near_miss += 1
             self.near_miss_occurred = True
 
         distance, _ = self._goal_geometry(state)
@@ -437,6 +488,14 @@ class ReachyNavEnv(gym.Env):
             "min_lidar_distance": clearance,
             "episode_min_lidar_distance": self.episode_min_lidar_distance,
             "near_miss_occurred": self.near_miss_occurred,
+            "clearance_band": (
+                "clear" if clearance >= PREFERRED_CLEARANCE else
+                "acceptable" if clearance >= SAFE_DISTANCE else
+                "unsafe" if clearance >= NEAR_MISS_DISTANCE else "near_miss"
+            ),
+            "episode_steps_below_preferred": self.steps_below_preferred,
+            "episode_steps_unsafe": self.steps_unsafe,
+            "episode_steps_near_miss": self.steps_near_miss,
             "collision": contact is not None,
             "contact_source": None if contact is None else contact["source"],
             "contact_link": None if contact is None else contact["link"],
