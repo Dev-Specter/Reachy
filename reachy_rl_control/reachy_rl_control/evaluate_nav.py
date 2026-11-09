@@ -14,20 +14,26 @@ from stable_baselines3 import PPO, SAC
 
 from reachy_rl_control.environment_nav import ReachyNavEnv
 from reachy_rl_control.nav_interface import ReachyNavInterface
-from reachy_rl_control.nav_tasks import make_task_sampler
+from reachy_rl_control.nav_tasks import make_task_sampler, FixedTaskSampler, load_tasks
 
 
 def parse_args():
     ap = argparse.ArgumentParser(
         description="Evaluate a V3 Reachy navigation policy."
     )
-    ap.add_argument("--algo", choices=["ppo", "sac"], required=True)
+    ap.add_argument("--algo", choices=["ppo", "sac", "mbpo", "ur_mbpo"], required=True)
     ap.add_argument("--world", choices=["hospital", "bookstore"], required=True)
     ap.add_argument("--model", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--episodes", type=int, default=50)
     ap.add_argument("--max-steps", type=int, default=500)
     ap.add_argument("--seed", type=int, default=2026)
+    ap.add_argument(
+        "--eval-set",
+        default=None,
+        help="Optional fixed task-set JSON. When supplied, tasks are loaded "
+             "from this file instead of <world>_eval.",
+    )
     return ap.parse_args()
 
 
@@ -99,7 +105,26 @@ def main():
 
         print("[eval] Navigation interface ready.")
 
-        sampler = make_task_sampler(f"{args.world}_eval")
+        if args.eval_set is not None:
+            if not os.path.exists(args.eval_set):
+                raise FileNotFoundError(args.eval_set)
+
+            tasks = load_tasks(args.eval_set)
+
+            if args.episodes > len(tasks):
+                raise ValueError(
+                    f"--episodes={args.episodes} exceeds fixed eval-set size "
+                    f"{len(tasks)}: {args.eval_set}"
+                )
+
+            sampler = FixedTaskSampler(tasks)
+
+            print(
+                f"[eval] Using fixed task set: {args.eval_set} "
+                f"({len(tasks)} tasks)"
+            )
+        else:
+            sampler = make_task_sampler(f"{args.world}_eval")
 
         env = ReachyNavEnv(
             robot=robot,
@@ -116,7 +141,9 @@ def main():
                 env=env,
                 device="cpu",
             )
-        elif args.algo == "sac":
+        elif args.algo in ("sac", "mbpo", "ur_mbpo"):
+            # SAC, MBPO and UR-MBPO all deploy the learned SAC policy.
+            # Dynamics ensembles are training-time components only.
             model = SAC.load(
                 args.model,
                 env=env,
@@ -147,6 +174,13 @@ def main():
                     obs,
                     deterministic=True,
                 )
+
+                if steps < 20:
+                    print(
+                        f"[ACTION] step={steps + 1} "
+                        f"shape={np.asarray(action).shape} "
+                        f"raw={np.asarray(action)}"
+                    )
 
                 obs, reward, terminated, truncated, info = env.step(action)
 

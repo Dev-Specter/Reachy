@@ -20,12 +20,13 @@ from collections import Counter
 import rclpy
 
 from stable_baselines3 import PPO, SAC
-from stable_baselines3.common.callbacks import CheckpointCallback
+from stable_baselines3.common.callbacks import CheckpointCallback, CallbackList
 from stable_baselines3.common.monitor import Monitor
 
 from reachy_rl_control.environment_nav import ReachyNavEnv
 from reachy_rl_control.nav_interface import ReachyNavInterface
 from reachy_rl_control.nav_tasks import make_task_sampler
+from reachy_rl_control.nav_mbpo import NavMBPOCallback, NavURMBPOCallback
 
 
 INFO_KEYWORDS = (
@@ -55,7 +56,7 @@ def parse_args():
 
     parser.add_argument(
         "--algo",
-        choices=["ppo", "sac"],
+        choices=["ppo", "sac", "mbpo", "ur_mbpo"],
         required=True,
         help="Algorithm to train.",
     )
@@ -67,6 +68,12 @@ def parse_args():
     )
 
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--learning-rate",
+        type=float,
+        default=3e-4,
+        help="Learning rate for the selected algorithm/base SAC policy. Default: 3e-4.",
+    )
     parser.add_argument("--steps", type=int, required=True)
     parser.add_argument("--tag", type=str, default="")
     parser.add_argument("--checkpoint-every", type=int, default=0)
@@ -144,6 +151,7 @@ def main():
         "algo": args.algo,
         "world": args.world,
         "seed": args.seed,
+        "learning_rate": args.learning_rate,
         "requested_steps": args.steps,
         "max_episode_steps": args.max_steps,
 
@@ -152,7 +160,7 @@ def main():
 
         "ppo": {
             "policy": "MlpPolicy",
-            "learning_rate": 3e-4,
+            "learning_rate": args.learning_rate,
             "n_steps": 256,
             "batch_size": 64,
             "gamma": 0.99,
@@ -160,7 +168,7 @@ def main():
 
         "sac": {
             "policy": "MlpPolicy",
-            "learning_rate": 3e-4,
+            "learning_rate": args.learning_rate,
             "buffer_size": 100000,
             "learning_starts": 500,
             "batch_size": 256,
@@ -168,6 +176,37 @@ def main():
             "gamma": 0.99,
             "train_freq": 1,
             "gradient_steps": 1,
+        },
+
+        "mbpo": {
+            "base_algorithm": "sac",
+            "ensemble_size": 5,
+            "model_warmup_steps": 1000,
+            "model_train_frequency": 500,
+            "model_gradient_steps": 50,
+            "model_batch_size": 256,
+            "synthetic_transitions": 1000,
+            "real_buffer_size": 50000,
+            "reward_scale": 30.0,
+        },
+
+        "ur_mbpo": {
+            "base_algorithm": "sac",
+            "ensemble_size": 5,
+            "model_warmup_steps": 1000,
+            "model_train_frequency": 500,
+            "model_gradient_steps": 50,
+            "model_batch_size": 256,
+            "synthetic_transitions": 1000,
+            "real_buffer_size": 50000,
+            "reward_scale": 30.0,
+            "uncertainty_threshold": 0.05,
+            "uncertainty_penalty_scale": 2.0,
+            "safe_clearance": 0.20,
+            "near_miss_clearance": 0.05,
+            "lidar_max_distance": 3.0,
+            "risk_penalty_scale": 0.06,
+            "lidar_start_index": 7,
         },
 
         "checkpoint_every": args.checkpoint_every,
@@ -248,7 +287,7 @@ def main():
             model = PPO(
                 policy="MlpPolicy",
                 env=env,
-                learning_rate=3e-4,
+                learning_rate=args.learning_rate,
                 n_steps=256,
                 batch_size=64,
                 gamma=0.99,
@@ -262,7 +301,30 @@ def main():
             model = SAC(
                 policy="MlpPolicy",
                 env=env,
-                learning_rate=3e-4,
+                learning_rate=args.learning_rate,
+                buffer_size=100000,
+                learning_starts=500,
+                batch_size=256,
+                tau=0.005,
+                gamma=0.99,
+                train_freq=1,
+                gradient_steps=1,
+                verbose=1,
+                seed=args.seed,
+            )
+
+        elif args.algo in ("mbpo", "ur_mbpo"):
+            label = "MBPO" if args.algo == "mbpo" else "UR-MBPO"
+
+            print(
+                f"\n[train] Creating {label} model "
+                "(SAC base policy)..."
+            )
+
+            model = SAC(
+                policy="MlpPolicy",
+                env=env,
+                learning_rate=args.learning_rate,
                 buffer_size=100000,
                 learning_starts=500,
                 batch_size=256,
@@ -280,9 +342,68 @@ def main():
             )
 
         callback = None
+        mbpo_callback = None
+        callbacks = []
+
+        if args.algo in ("mbpo", "ur_mbpo"):
+            obs_dim = int(env.observation_space.shape[0])
+            action_dim = int(env.action_space.shape[0])
+
+            if obs_dim != 31:
+                raise RuntimeError(
+                    f"V3 model-based training expected "
+                    f"observation dimension 31, got {obs_dim}"
+                )
+
+            if action_dim != 2:
+                raise RuntimeError(
+                    f"V3 model-based training expected "
+                    f"action dimension 2, got {action_dim}"
+                )
+
+            if args.algo == "mbpo":
+                mbpo_callback = NavMBPOCallback(
+                    obs_dim=obs_dim,
+                    action_dim=action_dim,
+                    ensemble_size=5,
+                    model_warmup_steps=1000,
+                    model_train_frequency=500,
+                    model_gradient_steps=50,
+                    model_batch_size=256,
+                    synthetic_transitions=1000,
+                    real_buffer_size=50000,
+                    reward_scale=30.0,
+                    seed=args.seed,
+                    verbose=1,
+                )
+
+            else:
+                mbpo_callback = NavURMBPOCallback(
+                    obs_dim=obs_dim,
+                    action_dim=action_dim,
+                    ensemble_size=5,
+                    model_warmup_steps=1000,
+                    model_train_frequency=500,
+                    model_gradient_steps=50,
+                    model_batch_size=256,
+                    synthetic_transitions=1000,
+                    real_buffer_size=50000,
+                    reward_scale=30.0,
+                    seed=args.seed,
+                    verbose=1,
+                    uncertainty_threshold=0.05,
+                    uncertainty_penalty_scale=2.0,
+                    safe_clearance=0.20,
+                    near_miss_clearance=0.05,
+                    lidar_max_distance=3.0,
+                    risk_penalty_scale=0.06,
+                    lidar_start_index=7,
+                )
+
+            callbacks.append(mbpo_callback)
 
         if args.checkpoint_every > 0:
-            callback = CheckpointCallback(
+            checkpoint_callback = CheckpointCallback(
                 save_freq=args.checkpoint_every,
                 save_path=checkpoint_dir,
                 name_prefix="model",
@@ -290,6 +411,13 @@ def main():
                 save_vecnormalize=False,
                 verbose=1,
             )
+
+            callbacks.append(checkpoint_callback)
+
+        if len(callbacks) == 1:
+            callback = callbacks[0]
+        elif len(callbacks) > 1:
+            callback = CallbackList(callbacks)
 
         # ------------------------------------------------------------
         # Train
@@ -317,6 +445,31 @@ def main():
 
         model.save(final_path)
 
+        dynamics_path = None
+        total_synthetic = None
+
+        if mbpo_callback is not None:
+            dynamics_path = os.path.join(
+                run_dir,
+                "dynamics.pt",
+            )
+
+            mbpo_callback.save_dynamics(
+                dynamics_path
+            )
+
+            total_synthetic = int(
+                mbpo_callback.total_synthetic
+            )
+
+            print(
+                f"[train] dynamics model      : {dynamics_path}"
+            )
+
+            print(
+                f"[train] synthetic total    : {total_synthetic}"
+            )
+
         wall_seconds = time.monotonic() - start_wall
 
         episodes, outcomes = read_monitor_summary(
@@ -335,6 +488,21 @@ def main():
             "wall_seconds": wall_seconds,
             "final_model": final_path + ".zip",
         }
+
+        if dynamics_path is not None:
+            summary["dynamics_model"] = dynamics_path
+            summary["total_synthetic"] = total_synthetic
+
+        if args.algo == "ur_mbpo" and mbpo_callback is not None:
+            summary["total_accepted"] = int(
+                mbpo_callback.total_accepted
+            )
+            summary["total_uncertainty_rejected"] = int(
+                mbpo_callback.total_uncertainty_rejected
+            )
+            summary["total_near_miss_predictions"] = int(
+                mbpo_callback.total_near_miss_predictions
+            )
 
         with open(
             os.path.join(run_dir, "summary.json"),

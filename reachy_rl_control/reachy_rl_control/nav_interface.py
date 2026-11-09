@@ -380,7 +380,14 @@ class ReachyNavInterface(Node):
             self.cmd_vel_publisher.publish(Twist())
 
     def teleport(self, x: float, y: float, yaw: float, z: float = 0.02,
-                 wall_timeout: float = 5.0):
+                 wall_timeout: float = 5.0, attempts: int = 4):
+        """
+        Teleport the robot with /set_entity_state, retrying lost or slow replies.
+
+        Under heavy gzserver load a Humble service reply can occasionally be
+        lost. Re-sending the same pose is idempotent, so the call is retried
+        up to `attempts` times before giving up.
+        """
         request = SetEntityState.Request()
         request.state.name = self.entity_name
         request.state.pose.position.x = float(x)
@@ -390,13 +397,41 @@ class ReachyNavInterface(Node):
         request.state.pose.orientation.w = math.cos(0.5 * float(yaw))
         request.state.reference_frame = "world"
 
-        future = self.set_state_client.call_async(request)
-        deadline = time.monotonic() + wall_timeout
-        while not future.done():
-            if time.monotonic() > deadline:
-                raise RuntimeError("Timed out calling /set_entity_state.")
-            time.sleep(0.001)
+        if not hasattr(self, "teleport_retries"):
+            self.teleport_retries = 0
 
-        result = future.result()
-        if result is None or not result.success:
-            raise RuntimeError(f"/set_entity_state failed for '{self.entity_name}'.")
+        last = "no attempt"
+        for attempt in range(1, int(attempts) + 1):
+            if not self.set_state_client.wait_for_service(timeout_sec=wall_timeout):
+                last = "service not available"
+            else:
+                future = self.set_state_client.call_async(request)
+                deadline = time.monotonic() + wall_timeout
+                while not future.done() and time.monotonic() < deadline:
+                    time.sleep(0.001)
+                if future.done():
+                    result = future.result()
+                    if result is not None and result.success:
+                        return
+                    last = "success=False"
+                else:
+                    last = f"no reply within {wall_timeout:.0f} s"
+                    try:
+                        self.set_state_client.remove_pending_request(future)
+                    except Exception:
+                        pass
+                    try:
+                        future.cancel()
+                    except Exception:
+                        pass
+            if attempt < attempts:
+                self.teleport_retries += 1
+                self.get_logger().warn(
+                    f"/set_entity_state attempt {attempt}/{attempts} failed ({last}); retrying "
+                    f"(total retries so far: {self.teleport_retries})"
+                )
+                time.sleep(0.2)
+
+        raise RuntimeError(
+            f"/set_entity_state failed after {attempts} attempts for '{self.entity_name}' ({last})."
+        )
