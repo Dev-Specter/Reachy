@@ -74,6 +74,12 @@ def parse_args():
         default=3e-4,
         help="Learning rate for the selected algorithm/base SAC policy. Default: 3e-4.",
     )
+    parser.add_argument(
+        "--risk-penalty-scale",
+        type=float,
+        default=0.06,
+        help="UR-MBPO synthetic risk penalty scale. Default: 0.06.",
+    )
     parser.add_argument("--steps", type=int, required=True)
     parser.add_argument("--tag", type=str, default="")
     parser.add_argument("--checkpoint-every", type=int, default=0)
@@ -205,7 +211,7 @@ def main():
             "safe_clearance": 0.20,
             "near_miss_clearance": 0.05,
             "lidar_max_distance": 3.0,
-            "risk_penalty_scale": 0.06,
+            "risk_penalty_scale": args.risk_penalty_scale,
             "lidar_start_index": 7,
         },
 
@@ -396,7 +402,7 @@ def main():
                     safe_clearance=0.20,
                     near_miss_clearance=0.05,
                     lidar_max_distance=3.0,
-                    risk_penalty_scale=0.06,
+                    risk_penalty_scale=args.risk_penalty_scale,
                     lidar_start_index=7,
                 )
 
