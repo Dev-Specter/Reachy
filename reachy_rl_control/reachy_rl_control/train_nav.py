@@ -39,6 +39,18 @@ INFO_KEYWORDS = (
     "fell_over",
     "episode_min_lidar_distance",
     "near_miss_occurred",
+
+    "robot_task_group",
+    "robot_geometry",
+    "robot_exposure",
+    "human_motion",
+    "human_phase",
+
+    "episode_min_human_clearance",
+    "human_collision_occurred",
+    "human_near_miss_occurred",
+    "episode_steps_human_near_miss",
+
     "episode_steps_below_preferred",
     "episode_steps_unsafe",
     "episode_steps_near_miss",
@@ -63,7 +75,11 @@ def parse_args():
 
     parser.add_argument(
         "--world",
-        choices=["hospital", "bookstore"],
+        choices=[
+            "hospital",
+            "bookstore",
+            "hospital_dynamic_train",
+        ],
         required=True,
     )
 

@@ -82,6 +82,12 @@ GOAL_TOLERANCE = 0.30
 #   contact     collision (terminal)
 SAFE_DISTANCE = 0.10
 NEAR_MISS_DISTANCE = 0.05
+
+# Dynamic pedestrian geometry. These metrics are dormant when
+# /pedestrian/pose is not available, preserving static-world behaviour.
+HUMAN_RADIUS = 0.250
+HUMAN_COLLISION_DISTANCE = 0.245 + HUMAN_RADIUS  # Reachy base + pedestrian
+HUMAN_POSE_MAX_AGE = 0.5  # simulation seconds
 PREFERRED_CLEARANCE = 0.20
 
 # Reward (same terms as V1; proximity penalty is now bounded and modest)
@@ -216,6 +222,13 @@ class ReachyNavEnv(gym.Env):
         self.steps_below_preferred = 0
         self.steps_unsafe = 0
         self.steps_near_miss = 0
+
+        # Dynamic-human metrics. inf/False in static worlds.
+        self.episode_min_human_clearance = float("inf")
+        self.human_collision_occurred = False
+        self.human_near_miss_occurred = False
+        self.steps_human_near_miss = 0
+
         self.path_length = 0.0
         self.episode_start_sim_time = 0.0
         self._last_xy = (0.0, 0.0)
@@ -308,6 +321,28 @@ class ReachyNavEnv(gym.Env):
     # RESET
     # -----------------------------------------------------------------------
 
+    def _human_geometry(self, state):
+        """
+        Return (centre_distance, surface_clearance) to the dynamic pedestrian.
+
+        Returns (None, None) when no pedestrian publisher exists or when the
+        latest pose is stale. Therefore static Hospital / Bookstore behaviour
+        remains unchanged.
+        """
+        pedestrian = self.robot.get_pedestrian_pose()
+        if pedestrian is None:
+            return None, None
+
+        px, py, stamp = pedestrian
+        age = self.robot.sim_time() - float(stamp)
+
+        if age > HUMAN_POSE_MAX_AGE:
+            return None, None
+
+        centre_distance = math.hypot(state.x - px, state.y - py)
+        clearance = centre_distance - HUMAN_COLLISION_DISTANCE
+        return float(centre_distance), float(clearance)
+
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         options = options or {}
@@ -349,6 +384,32 @@ class ReachyNavEnv(gym.Env):
         if not accepted:
             raise RuntimeError(f"Could not obtain a valid reset. Last failure: {failure}")
 
+        # -------------------------------------------------------
+        # Dynamic-human episode reset.
+        #
+        # When the pedestrian controller is running in train_mix,
+        # this samples a new trajectory family and phase for every
+        # RL episode. Static worlds remain unchanged because the
+        # service simply will not be available.
+        # -------------------------------------------------------
+        pedestrian_reset = self.robot.reset_pedestrian_phase()
+
+        if pedestrian_reset:
+            t0 = self.robot.sim_time()
+            self.robot.wait_sim_until(t0 + 0.1)
+
+            # Refresh robot/LiDAR state after the human has moved
+            # to its newly sampled episode phase.
+            ok, state, sectors, why = self._settle_and_check(
+                START_MIN_CLEARANCE
+            )
+
+            if not ok:
+                raise RuntimeError(
+                    "Dynamic-human reset produced invalid initial "
+                    f"state: {why}"
+                )
+
         self.robot.clear_contacts()
 
         self.task = task
@@ -361,6 +422,12 @@ class ReachyNavEnv(gym.Env):
         self.steps_below_preferred = 0
         self.steps_unsafe = 0
         self.steps_near_miss = 0
+
+        self.episode_min_human_clearance = float("inf")
+        self.human_collision_occurred = False
+        self.human_near_miss_occurred = False
+        self.steps_human_near_miss = 0
+
         self.path_length = 0.0
         self._last_xy = (state.x, state.y)
         self.episode_start_sim_time = self.robot.sim_time()
@@ -409,6 +476,13 @@ class ReachyNavEnv(gym.Env):
         clearance = float(np.min(sectors))
         contact = self.robot.get_contact()
 
+        human_distance, human_clearance = self._human_geometry(state)
+
+        human_contact = (
+            contact is not None
+            and "pedestrian_proxy" in str(contact.get("other", ""))
+        )
+
         # --- bookkeeping ---
         self.path_length += math.hypot(state.x - self._last_xy[0], state.y - self._last_xy[1])
         self._last_xy = (state.x, state.y)
@@ -420,6 +494,21 @@ class ReachyNavEnv(gym.Env):
         if clearance < NEAR_MISS_DISTANCE:
             self.steps_near_miss += 1
             self.near_miss_occurred = True
+
+        if human_clearance is not None:
+            self.episode_min_human_clearance = min(
+                self.episode_min_human_clearance,
+                human_clearance,
+            )
+
+            if human_clearance <= 0.0:
+                self.human_collision_occurred = True
+            elif human_clearance < NEAR_MISS_DISTANCE:
+                self.steps_human_near_miss += 1
+                self.human_near_miss_occurred = True
+
+        if human_contact:
+            self.human_collision_occurred = True
 
         distance, _ = self._goal_geometry(state)
         progress = self.previous_distance - distance
@@ -437,7 +526,13 @@ class ReachyNavEnv(gym.Env):
         truncated = False
         reason = "running"
 
-        if contact is not None:
+        if (
+            human_contact
+            or (human_clearance is not None and human_clearance <= 0.0)
+        ):
+            reward -= COLLISION_PENALTY
+            terminated, reason = True, "human_collision"
+        elif contact is not None:
             reward -= COLLISION_PENALTY
             terminated, reason = True, "collision"
         elif fell_over:
@@ -477,6 +572,55 @@ class ReachyNavEnv(gym.Env):
     def _info(self, state, clearance, progress, smoothness_penalty, proximity_penalty,
               contact, fell_over, termination_reason) -> Dict:
         distance, bearing = self._goal_geometry(state)
+        human_distance, human_clearance = self._human_geometry(state)
+
+        human_contact = (
+            contact is not None
+            and "pedestrian_proxy" in str(contact.get("other", ""))
+        )
+
+        task_sampler = getattr(
+            self,
+            "task_sampler",
+            getattr(self, "sampler", None),
+        )
+
+        robot_task_group = getattr(
+            task_sampler,
+            "last_group",
+            None,
+        )
+
+        robot_geometry = None
+        robot_exposure = None
+
+        if robot_task_group:
+            group = str(robot_task_group)
+
+            for geometry in (
+                "straight",
+                "turning",
+                "complex",
+            ):
+                prefix = geometry + "_"
+
+                if group.startswith(prefix):
+                    robot_geometry = geometry
+                    robot_exposure = group[len(prefix):]
+                    break
+
+        human_motion = getattr(
+            self.robot,
+            "last_pedestrian_motion",
+            None,
+        )
+
+        human_phase = getattr(
+            self.robot,
+            "last_pedestrian_phase",
+            None,
+        )
+
         return {
             "episode_number": self.episode_number,
             "step": self.step_number,
@@ -488,6 +632,35 @@ class ReachyNavEnv(gym.Env):
             "min_lidar_distance": clearance,
             "episode_min_lidar_distance": self.episode_min_lidar_distance,
             "near_miss_occurred": self.near_miss_occurred,
+
+            "robot_task_group": robot_task_group,
+            "robot_geometry": robot_geometry,
+            "robot_exposure": robot_exposure,
+            "human_motion": human_motion,
+            "human_phase": human_phase,
+
+            "human_distance": human_distance,
+            "human_clearance": human_clearance,
+            "episode_min_human_clearance": (
+                None
+                if not math.isfinite(self.episode_min_human_clearance)
+                else self.episode_min_human_clearance
+            ),
+            "human_collision": (
+                human_contact
+                or (
+                    human_clearance is not None
+                    and human_clearance <= 0.0
+                )
+            ),
+            "human_collision_occurred": self.human_collision_occurred,
+            "human_near_miss": (
+                human_clearance is not None
+                and 0.0 < human_clearance < NEAR_MISS_DISTANCE
+            ),
+            "human_near_miss_occurred": self.human_near_miss_occurred,
+            "episode_steps_human_near_miss": self.steps_human_near_miss,
+
             "clearance_band": (
                 "clear" if clearance >= PREFERRED_CLEARANCE else
                 "acceptable" if clearance >= SAFE_DISTANCE else

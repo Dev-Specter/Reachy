@@ -176,6 +176,106 @@ class FreeSpaceTaskSampler:
                     heapq.heappush(heap, (nd, v))
         return math.inf
 
+    def shortest_path_points(self, a: int, b: int):
+        """
+        Return (distance, [(x, y), ...]) for the shortest free-space
+        path between two free-space cells.
+
+        This is used only by geometry-aware training-task generation.
+        Existing task sampling behaviour is unchanged.
+        """
+        dist = {a: 0.0}
+        prev = {}
+        heap = [(0.0, a)]
+
+        while heap:
+            d, u = heapq.heappop(heap)
+
+            if d > dist.get(u, math.inf):
+                continue
+
+            if u == b:
+                indices = [u]
+
+                while u in prev:
+                    u = prev[u]
+                    indices.append(u)
+
+                indices.reverse()
+
+                points = [
+                    (
+                        float(self.cells[k]["x"]),
+                        float(self.cells[k]["y"]),
+                    )
+                    for k in indices
+                ]
+
+                return float(d), points
+
+            if d > self.max_distance:
+                continue
+
+            for v, w in self.neighbours[u]:
+                nd = d + w
+
+                if nd < dist.get(v, math.inf):
+                    dist[v] = nd
+                    prev[v] = u
+                    heapq.heappush(heap, (nd, v))
+
+        return math.inf, []
+
+    def sample_with_path(self, rng: np.random.Generator):
+        """
+        Sample a normal navigation task and also return its actual
+        shortest free-space path.
+
+        Returns:
+            task, path_points
+        """
+        n = len(self.endpoints)
+
+        for _ in range(self.max_tries):
+            a = self.endpoints[int(rng.integers(n))]
+            b = self.endpoints[int(rng.integers(n))]
+
+            if a == b:
+                continue
+
+            ca = self.cells[a]
+            cb = self.cells[b]
+
+            straight = math.hypot(
+                cb["x"] - ca["x"],
+                cb["y"] - ca["y"],
+            )
+
+            if straight > self.max_distance:
+                continue
+
+            d, path = self.shortest_path_points(a, b)
+
+            if self.min_distance <= d <= self.max_distance:
+                yaw = float(
+                    rng.uniform(-math.pi, math.pi)
+                )
+
+                task = NavTask(
+                    ca["x"],
+                    ca["y"],
+                    yaw,
+                    cb["x"],
+                    cb["y"],
+                    round(d, 3),
+                )
+
+                return task, path
+
+        raise RuntimeError(
+            f"{self.map_path}: no geometry-aware task found."
+        )
+
     def sample(self, rng: np.random.Generator) -> NavTask:
         n = len(self.endpoints)
         for _ in range(self.max_tries):
@@ -192,6 +292,102 @@ class FreeSpaceTaskSampler:
                 return NavTask(ca["x"], ca["y"], yaw, cb["x"], cb["y"], round(d, 3))
         raise RuntimeError(f"{self.map_path}: no task found in the {self.min_distance}-"
                            f"{self.max_distance} m path-length band.")
+
+
+
+# ---------------------------------------------------------------------------
+# MIXED SAMPLER
+# ---------------------------------------------------------------------------
+
+class MixedTaskSampler:
+    """
+    Sample from two task samplers according to a fixed probability.
+
+    Used for dynamic-human training:
+      - general_sampler preserves broad Hospital navigation
+      - interaction_sampler deliberately creates pedestrian encounters
+    """
+
+    def __init__(
+        self,
+        general_sampler,
+        interaction_sampler,
+        interaction_probability: float = 0.5,
+    ):
+        self.general_sampler = general_sampler
+        self.interaction_sampler = interaction_sampler
+        self.interaction_probability = float(
+            interaction_probability
+        )
+
+        if not 0.0 <= self.interaction_probability <= 1.0:
+            raise ValueError(
+                "interaction_probability must be in [0, 1]"
+            )
+
+    def sample(self, rng: np.random.Generator) -> NavTask:
+        if rng.random() < self.interaction_probability:
+            return self.interaction_sampler.sample(rng)
+
+        return self.general_sampler.sample(rng)
+
+
+# ---------------------------------------------------------------------------
+# BALANCED FIXED-POOL SAMPLER
+# ---------------------------------------------------------------------------
+
+class BalancedTaskPoolSampler:
+    """
+    Uniformly choose one task pool, then uniformly choose one task
+    from that pool.
+
+    For dynamic-human training the six pools correspond to:
+
+        straight  x interaction/general
+        turning   x interaction/general
+        complex   x interaction/general
+
+    Therefore every robot-route geometry and exposure condition has
+    equal probability, independent of how common it is in the full
+    Hospital map.
+    """
+
+    def __init__(self, pools):
+        if not pools:
+            raise ValueError(
+                "BalancedTaskPoolSampler requires at least one pool."
+            )
+
+        self.pools = {
+            str(name): list(tasks)
+            for name, tasks in pools.items()
+        }
+
+        for name, tasks in self.pools.items():
+            if not tasks:
+                raise ValueError(
+                    f"Task pool {name!r} is empty."
+                )
+
+        self.pool_names = list(self.pools)
+        self.last_group = None
+
+    def sample(self, rng: np.random.Generator) -> NavTask:
+
+        group_index = int(
+            rng.integers(len(self.pool_names))
+        )
+
+        group = self.pool_names[group_index]
+        tasks = self.pools[group]
+
+        task_index = int(
+            rng.integers(len(tasks))
+        )
+
+        self.last_group = group
+
+        return tasks[task_index]
 
 
 # ---------------------------------------------------------------------------
@@ -246,8 +442,64 @@ def make_task_sampler(name: str, maps_dir: str = MAPS_DIR):
             min_distance=1.5,
             max_distance=3.3,
         )
+    if name == "hospital_dynamic_train":
+
+        pools = {}
+
+        for geometry in (
+            "straight",
+            "turning",
+            "complex",
+        ):
+            for exposure in (
+                "interaction",
+                "general",
+            ):
+
+                group = (
+                    f"{geometry}_{exposure}"
+                )
+
+                path = (
+                    f"{maps_dir}/hospital_dynamic_"
+                    f"{geometry}_{exposure}.json"
+                )
+
+                pools[group] = load_tasks(path)
+
+        return BalancedTaskPoolSampler(pools)
+
+    if name == "hospital_dynamic_eval":
+
+        pools = {}
+
+        for geometry in (
+            "straight",
+            "turning",
+            "complex",
+        ):
+            for exposure in (
+                "interaction",
+                "general",
+            ):
+
+                group = (
+                    f"{geometry}_{exposure}"
+                )
+
+                path = (
+                    f"{maps_dir}/hospital_dynamic_eval_"
+                    f"{geometry}_{exposure}.json"
+                )
+
+                pools[group] = load_tasks(path)
+
+        return BalancedTaskPoolSampler(pools)
+
     if name in ("hospital", "bookstore"):
-        return FreeSpaceTaskSampler(f"{maps_dir}/{name}_free.json")
+        return FreeSpaceTaskSampler(
+            f"{maps_dir}/{name}_free.json"
+        )
     if name in ("hospital_eval", "bookstore_eval"):
         return FixedTaskSampler(load_tasks(f"{maps_dir}/{name}.json"))
     raise ValueError(f"Unknown task set: {name}")

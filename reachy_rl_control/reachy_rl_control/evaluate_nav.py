@@ -5,11 +5,13 @@ import csv
 import json
 import math
 import os
+from pathlib import Path
 import time
 from collections import Counter
 
 import numpy as np
 import rclpy
+from std_srvs.srv import Trigger
 from stable_baselines3 import PPO, SAC
 
 from reachy_rl_control.environment_nav import ReachyNavEnv
@@ -22,7 +24,16 @@ def parse_args():
         description="Evaluate a V3 Reachy navigation policy."
     )
     ap.add_argument("--algo", choices=["ppo", "sac", "mbpo", "ur_mbpo"], required=True)
-    ap.add_argument("--world", choices=["hospital", "bookstore"], required=True)
+    ap.add_argument(
+        "--world",
+        choices=[
+            "hospital",
+            "bookstore",
+            "hospital_dynamic_train",
+            "hospital_dynamic_eval",
+        ],
+        required=True,
+    )
     ap.add_argument("--model", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--episodes", type=int, default=50)
@@ -67,6 +78,72 @@ def safe_mean(values):
         return None
 
     return float(np.mean(values))
+
+
+def reset_pedestrian_phase(node, timeout=2.0):
+    """
+    Reset dynamic pedestrian trajectory phase if the service exists.
+
+    Static-world evaluation is unchanged when the service is absent.
+    """
+    client = node.create_client(Trigger, "/pedestrian/reset_phase")
+
+    if not client.wait_for_service(timeout_sec=0.05):
+        return False
+
+    future = client.call_async(Trigger.Request())
+
+    deadline = time.monotonic() + float(timeout)
+
+    while not future.done() and time.monotonic() < deadline:
+        time.sleep(0.001)
+
+    if not future.done():
+        try:
+            future.cancel()
+        except Exception:
+            pass
+        return False
+
+    result = future.result()
+
+    success = bool(
+        result is not None
+        and result.success
+    )
+
+    if success:
+        message = str(
+            getattr(result, "message", "")
+        )
+
+        active_mode = None
+        phase = None
+
+        for part in message.split(","):
+            part = part.strip()
+
+            if part.startswith("active="):
+                active_mode = (
+                    part.split("=", 1)[1].strip()
+                )
+
+            elif part.startswith("phase="):
+                value = (
+                    part.split("=", 1)[1]
+                    .strip()
+                    .rstrip("s")
+                )
+
+                try:
+                    phase = float(value)
+                except ValueError:
+                    phase = None
+
+        node.last_pedestrian_motion = active_mode
+        node.last_pedestrian_phase = phase
+
+    return success
 
 
 def main():
@@ -124,7 +201,17 @@ def main():
                 f"({len(tasks)} tasks)"
             )
         else:
-            sampler = make_task_sampler(f"{args.world}_eval")
+            if args.world in (
+                "hospital_dynamic_train",
+                "hospital_dynamic_eval",
+            ):
+                sampler = make_task_sampler(
+                    args.world
+                )
+            else:
+                sampler = make_task_sampler(
+                    f"{args.world}_eval"
+                )
 
         env = ReachyNavEnv(
             robot=robot,
@@ -162,6 +249,14 @@ def main():
             obs, reset_info = env.reset(
                 seed=args.seed if episode == 1 else None
             )
+
+            pedestrian_phase_reset = reset_pedestrian_phase(robot)
+
+            if pedestrian_phase_reset:
+                # Allow one short simulation interval for the proxy controller
+                # to apply the phase-0 position before the first policy action.
+                t_phase = robot.sim_time()
+                robot.wait_sim_until(t_phase + 0.1)
 
             done = False
             episode_return = 0.0
@@ -218,11 +313,73 @@ def main():
             else:
                 path_efficiency = float("nan")
 
+            # -------------------------------------------------
+            # Scenario labels for structured dynamic analysis
+            # -------------------------------------------------
+
+            robot_task_group = (
+                final_info.get("robot_task_group") or ""
+            )
+
+            robot_geometry = (
+                final_info.get("robot_geometry") or ""
+            )
+
+            robot_exposure = (
+                final_info.get("robot_exposure") or ""
+            )
+
+            # FixedTaskSampler does not carry last_group.
+            # For structured held-out evaluation, recover the
+            # exact group from the frozen eval-set filename.
+            if (
+                not robot_task_group
+                and args.eval_set
+            ):
+                stem = Path(args.eval_set).stem
+
+                prefix = "hospital_dynamic_eval_"
+
+                if stem.startswith(prefix):
+                    robot_task_group = stem[len(prefix):]
+
+                    for geometry in (
+                        "straight",
+                        "turning",
+                        "complex",
+                    ):
+                        geometry_prefix = geometry + "_"
+
+                        if robot_task_group.startswith(
+                            geometry_prefix
+                        ):
+                            robot_geometry = geometry
+                            robot_exposure = (
+                                robot_task_group[
+                                    len(geometry_prefix):
+                                ]
+                            )
+                            break
+
             row = {
                 "episode": episode,
+
+                "robot_task_group": robot_task_group,
+                "robot_geometry": robot_geometry,
+                "robot_exposure": robot_exposure,
+                "human_motion": (
+                    final_info.get("human_motion") or ""
+                ),
+                "human_phase": (
+                    final_info.get("human_phase")
+                    if final_info.get("human_phase") is not None
+                    else ""
+                ),
+
                 "termination_reason": reason,
                 "success": int(reason == "goal"),
                 "collision": int(reason == "collision"),
+                "human_collision": int(reason == "human_collision"),
                 "fall": int(reason == "fall"),
                 "timeout": int(reason == "timeout"),
 
@@ -247,6 +404,24 @@ def main():
 
                 "near_miss": int(
                     bool(final_info["near_miss_occurred"])
+                ),
+
+                "human_near_miss": int(
+                    reason != "human_collision"
+                    and bool(
+                        final_info.get(
+                            "human_near_miss_occurred",
+                            False,
+                        )
+                    )
+                ),
+                "min_human_clearance": (
+                    float(final_info["episode_min_human_clearance"])
+                    if final_info.get("episode_min_human_clearance") is not None
+                    else float("nan")
+                ),
+                "steps_human_near_miss": int(
+                    final_info.get("episode_steps_human_near_miss", 0)
                 ),
 
                 "steps_below_0_20": int(
@@ -304,12 +479,20 @@ def main():
 
         success = [r["success"] for r in rows]
         collision = [r["collision"] for r in rows]
+        human_collision = [r["human_collision"] for r in rows]
         timeout = [r["timeout"] for r in rows]
         fall = [r["fall"] for r in rows]
         near_miss = [r["near_miss"] for r in rows]
+        human_near_miss = [r["human_near_miss"] for r in rows]
 
         min_clearance = [
             r["min_clearance"] for r in rows
+        ]
+
+        min_human_clearance = [
+            r["min_human_clearance"]
+            for r in rows
+            if math.isfinite(r["min_human_clearance"])
         ]
 
         efficiencies = [
@@ -335,6 +518,9 @@ def main():
             "collision_rate": safe_mean(collision),
             "collision_rate_95ci": bootstrap_ci(collision),
 
+            "human_collision_rate": safe_mean(human_collision),
+            "human_collision_rate_95ci": bootstrap_ci(human_collision),
+
             "timeout_rate": safe_mean(timeout),
             "timeout_rate_95ci": bootstrap_ci(timeout),
 
@@ -344,8 +530,20 @@ def main():
             "near_miss_rate": safe_mean(near_miss),
             "near_miss_rate_95ci": bootstrap_ci(near_miss),
 
+            "human_near_miss_rate": safe_mean(human_near_miss),
+            "human_near_miss_rate_95ci": bootstrap_ci(human_near_miss),
+
             "mean_min_clearance": safe_mean(min_clearance),
             "mean_min_clearance_95ci": bootstrap_ci(min_clearance),
+
+            "mean_min_human_clearance": (
+                safe_mean(min_human_clearance)
+                if min_human_clearance else None
+            ),
+            "mean_min_human_clearance_95ci": (
+                bootstrap_ci(min_human_clearance)
+                if min_human_clearance else None
+            ),
 
             "mean_path_efficiency": safe_mean(efficiencies),
             "mean_path_efficiency_95ci": bootstrap_ci(efficiencies),

@@ -38,7 +38,8 @@ from rclpy.qos import (
 )
 
 from gazebo_msgs.msg import ContactsState
-from gazebo_msgs.srv import SetEntityState
+from gazebo_msgs.srv import GetEntityState, SetEntityState
+from std_srvs.srv import Trigger
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from rosgraph_msgs.msg import Clock
@@ -194,6 +195,12 @@ class ReachyNavInterface(Node):
         )
 
         self.set_state_client = self.create_client(SetEntityState, "/set_entity_state")
+        self.get_state_client = self.create_client(GetEntityState, "/get_entity_state")
+
+        self.pedestrian_reset_client = self.create_client(
+            Trigger,
+            "/pedestrian/reset_phase",
+        )
 
     # -----------------------------------------------------------------------
     # EXECUTOR
@@ -351,6 +358,114 @@ class ReachyNavInterface(Node):
             if self._scan is None:
                 raise RuntimeError("No /scan received yet.")
             return self._scan
+
+    def reset_pedestrian_phase(
+        self,
+        wall_timeout: float = 2.0,
+    ) -> bool:
+        """
+        Reset or resample the pedestrian trajectory.
+
+        Returns False when the pedestrian controller is absent,
+        preserving compatibility with the static world.
+        """
+        if not self.pedestrian_reset_client.wait_for_service(
+            timeout_sec=0.05
+        ):
+            return False
+
+        future = self.pedestrian_reset_client.call_async(
+            Trigger.Request()
+        )
+
+        deadline = time.monotonic() + wall_timeout
+
+        while not future.done():
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.0005)
+
+        try:
+            result = future.result()
+        except Exception:
+            return False
+
+        success = bool(
+            result is not None
+            and result.success
+        )
+
+        if success:
+            message = str(
+                getattr(result, "message", "")
+            )
+
+            active_mode = None
+            phase = None
+
+            for part in message.split(","):
+                part = part.strip()
+
+                if part.startswith("active="):
+                    active_mode = (
+                        part.split("=", 1)[1].strip()
+                    )
+
+                elif part.startswith("phase="):
+                    value = (
+                        part.split("=", 1)[1]
+                        .strip()
+                        .rstrip("s")
+                    )
+
+                    try:
+                        phase = float(value)
+                    except ValueError:
+                        phase = None
+
+            self.last_pedestrian_motion = active_mode
+            self.last_pedestrian_phase = phase
+
+        return success
+
+    def get_pedestrian_pose(self, wall_timeout: float = 0.5):
+        """
+        Return the pedestrian proxy's actual Gazebo world pose as
+        (x, y, stamp), or None when the entity/service is unavailable.
+
+        This is evaluation instrumentation only. The policy still observes
+        the pedestrian exclusively through LiDAR.
+        """
+        if not self.get_state_client.wait_for_service(timeout_sec=0.02):
+            return None
+
+        request = GetEntityState.Request()
+        request.name = "pedestrian_proxy"
+        request.reference_frame = "world"
+
+        future = self.get_state_client.call_async(request)
+        deadline = time.monotonic() + float(wall_timeout)
+
+        while not future.done() and time.monotonic() < deadline:
+            time.sleep(0.0005)
+
+        if not future.done():
+            try:
+                future.cancel()
+            except Exception:
+                pass
+            return None
+
+        result = future.result()
+
+        if result is None or not result.success:
+            return None
+
+        return (
+            float(result.state.pose.position.x),
+            float(result.state.pose.position.y),
+            _stamp_to_sec(result.header.stamp),
+        )
 
     def clear_contacts(self):
         """Forget latched contacts; ignore contact messages stamped up to now."""
