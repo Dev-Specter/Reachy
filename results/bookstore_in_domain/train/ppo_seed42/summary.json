@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "algo": "ppo",
+  "world": "bookstore",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50176,
+  "episodes": 194,
+  "outcomes": {
+    "collision": 136,
+    "timeout": 40,
+    "goal": 18
+  },
+  "wall_seconds": 1813.119856746,
+  "final_model": "/opt/reachy_ws/rl_runs/bookstore_ppo_seed42_50k_bookstore_seed42_50k_final/final_model.zip"
+}

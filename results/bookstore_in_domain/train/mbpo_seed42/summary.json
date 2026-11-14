@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "algo": "mbpo",
+  "world": "bookstore",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 127,
+  "outcomes": {
+    "collision": 46,
+    "timeout": 81
+  },
+  "wall_seconds": 2377.2073366030017,
+  "final_model": "/opt/reachy_ws/rl_runs/bookstore_mbpo_seed42_50k_bookstore_seed42_50k_final/final_model.zip",
+  "dynamics_model": "/opt/reachy_ws/rl_runs/bookstore_mbpo_seed42_50k_bookstore_seed42_50k_final/dynamics.pt",
+  "total_synthetic": 99000
+}

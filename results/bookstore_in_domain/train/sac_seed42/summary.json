@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "bookstore",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 142,
+  "outcomes": {
+    "collision": 63,
+    "timeout": 79
+  },
+  "wall_seconds": 2333.6377032829987,
+  "final_model": "/opt/reachy_ws/rl_runs/bookstore_sac_seed42_50k_bookstore_seed42_50k_final/final_model.zip"
+}

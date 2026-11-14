@@ -1,0 +1,67 @@
+{
+  "status": "completed",
+  "algo": "ur_mbpo",
+  "world": "hospital",
+  "model": "/opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed42_50k_finaldev50k_risk012_lr2e4/final_model.zip",
+  "episodes": 5,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "human_collision": 1,
+    "goal": 4
+  },
+  "success_rate": 0.8,
+  "success_rate_95ci": [
+    0.4,
+    1.0
+  ],
+  "collision_rate": 0.0,
+  "collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "human_collision_rate": 0.2,
+  "human_collision_rate_95ci": [
+    0.0,
+    0.6
+  ],
+  "timeout_rate": 0.0,
+  "timeout_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.0,
+  "near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "human_near_miss_rate": 0.0,
+  "human_near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "mean_min_clearance": 0.20376662611961366,
+  "mean_min_clearance_95ci": [
+    0.13019038140773773,
+    0.29303319454193116
+  ],
+  "mean_min_human_clearance": 0.2534544451050182,
+  "mean_min_human_clearance_95ci": [
+    0.10331133625567952,
+    0.42206594121867763
+  ],
+  "mean_path_efficiency": 0.6736802611899773,
+  "mean_path_efficiency_95ci": [
+    0.4751878039135191,
+    0.9350852118507513
+  ],
+  "mean_steps": 34.6,
+  "mean_return": 37.21901582693121,
+  "wall_seconds": 46.82686535599896,
+  "csv": "/opt/reachy_ws/rl_runs/dynamic_unseen_ur_mbpo_seed42_slow_phase0.csv"
+}

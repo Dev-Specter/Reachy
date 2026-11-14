@@ -1,0 +1,53 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "hospital",
+  "model": "/opt/reachy_ws/rl_runs/hospital_sac_seed42_50k_finaldev50k_lr2e4/final_model.zip",
+  "episodes": 20,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "timeout": 12,
+    "goal": 6,
+    "collision": 2
+  },
+  "success_rate": 0.3,
+  "success_rate_95ci": [
+    0.1,
+    0.5
+  ],
+  "collision_rate": 0.1,
+  "collision_rate_95ci": [
+    0.0,
+    0.25
+  ],
+  "timeout_rate": 0.6,
+  "timeout_rate_95ci": [
+    0.4,
+    0.8
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.05,
+  "near_miss_rate_95ci": [
+    0.0,
+    0.15
+  ],
+  "mean_min_clearance": 0.6343583977373782,
+  "mean_min_clearance_95ci": [
+    0.4274276004634157,
+    0.8754141580838763
+  ],
+  "mean_path_efficiency": 0.9825882245169192,
+  "mean_path_efficiency_95ci": [
+    0.9477646735507577,
+    1.0
+  ],
+  "mean_steps": 372.75,
+  "mean_return": 18.002373713946074,
+  "wall_seconds": 242.9904335330002,
+  "csv": "/opt/reachy_ws/rl_runs/eval/dev_hospital_sac_seed42_50k.csv"
+}
