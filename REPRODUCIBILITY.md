@@ -4,8 +4,13 @@
 
 - ROS 2 Humble
 - Gazebo Classic 11
+- Docker image: `pollenrobotics/reachy_2023:1.1`
 - Docker container: `reachy_2023`
 - Workspace inside container: `/opt/reachy_ws`
+
+Python dependencies from the final container environment are recorded in:
+
+`requirements.txt`
 
 ## Main source package
 
@@ -17,6 +22,13 @@ Primary entry points:
 - `evaluate_nav.py`
 - `make_eval_set.py`
 - `probe_free_space.py`
+
+The active navigation stack supports:
+
+- PPO
+- SAC
+- MBPO
+- UR-MBPO
 
 ## Simulation
 
@@ -31,6 +43,10 @@ Key files:
 - `rl_sim/pedestrian_proxy_controller.py`
 - `rl_sim/urdf/`
 - `rl_sim/maps/`
+
+World revisions, spawn poses, task-set layout, and simulation setup details are documented in:
+
+`rl_sim/README.md`
 
 ## Static Hospital benchmark
 
@@ -54,11 +70,35 @@ Training seeds:
 Evaluation:
 
 - 50 fixed Hospital tasks per seed
-- 150 episodes per algorithm
+- 150 episodes per algorithm across the three seeds
 
 Final outputs:
 
 `results/static_hospital/`
+
+The corresponding aggregate summary is:
+
+`results/tables/hospital_static_matched50_summary.csv`
+
+## Hospital development benchmark
+
+The retained development benchmark uses:
+
+- 20 Hospital tasks
+- seed 42
+- 50,000 training steps
+
+Algorithms:
+
+- SAC
+- MBPO
+- UR-MBPO
+
+Final development summaries are stored under:
+
+`results/static_hospital/dev/`
+
+These development results are separate from the final matched 50-task Hospital benchmark.
 
 ## Dynamic Hospital benchmark
 
@@ -77,48 +117,168 @@ Training:
 - 50,000 real environment steps
 - balanced dynamic-human task pools
 
-Evaluation:
+Training task categories include:
 
-- held-out diagonal pedestrian motion
-- straight, turning and complex robot geometry groups
-- general and interaction exposure groups
+- straight general
+- straight interaction
+- turning general
+- turning interaction
+- complex general
+- complex interaction
+
+Final dynamic training metadata is stored under:
+
+`results/dynamic_hospital/train/`
+
+### Held-out dynamic evaluation
+
+The final dynamic evaluation uses held-out diagonal pedestrian motion across:
+
+- straight geometry
+- turning geometry
+- complex geometry
+- general exposure
+- interaction exposure
 - pedestrian phase offsets 0, 2, 4 and 6
 
-Final outputs:
+Final outputs are stored under:
 
-`results/dynamic_hospital/`
+`results/dynamic_hospital/eval/`
+
+### Seen pedestrian crossing
+
+The seen pedestrian-crossing evaluation covers:
+
+- SAC
+- MBPO
+- UR-MBPO
+- seeds 42–44
+- phase offsets 0, 2, 4 and 6
+- 5 episodes per seed/phase combination
+
+Raw outputs are stored under:
+
+`results/dynamic_hospital/seen_crossing/`
+
+The aggregate dissertation table is:
+
+`results/tables/table_7_1_seen_crossing.csv`
+
+### Unseen pedestrian motion
+
+The unseen-motion evaluation covers:
+
+- slow
+- fast
+- reverse
+- stop-go
+
+It uses:
+
+- SAC
+- MBPO
+- UR-MBPO
+- seeds 42–44
+- phase offsets 0, 2, 4 and 6
+- 5 episodes per seed/phase combination
+
+Raw outputs are stored under:
+
+`results/dynamic_hospital/unseen_motion/`
+
+The aggregate dissertation table is:
+
+`results/tables/table_7_2_unseen_motion.csv`
 
 ## Transfer evaluation
 
-Final transfer outputs:
+Final transfer outputs are stored under:
 
 `results/transfer/`
 
-Contains:
+They include:
 
-- Hospital-trained -> Bookstore
-- Bookstore-trained -> Hospital
-- Bookstore-trained -> Bookstore in-domain
+- static Hospital-trained → Bookstore
+- dynamic Hospital-trained → Bookstore
+- Bookstore-trained → Hospital
+- Bookstore-trained → Bookstore in-domain
 
-These transfer experiments use seed 42 only and should be interpreted descriptively.
+Relevant directories are:
 
-## Historical experiments
+`results/transfer/hospital_to_bookstore/`
 
-Earlier exploratory training scripts, evaluation scripts and results are retained under:
+`results/transfer/dynamic_hospital_to_bookstore/`
 
-`legacy/`
+`results/transfer/bookstore_to_hospital/`
 
-They are not part of the final dissertation benchmark.
+`results/transfer/bookstore_in_domain/`
+
+These transfer experiments use seed 42 only and should be interpreted descriptively rather than as multi-seed statistical comparisons.
+
+## Bookstore training
+
+Final Bookstore in-domain training metadata is stored under:
+
+`results/bookstore_in_domain/train/`
+
+Subdirectories are provided for:
+
+- PPO
+- SAC
+- MBPO
+- UR-MBPO
+
+Each retained training directory contains compact metadata such as:
+
+- `config.json`
+- `summary.json`
+- `train.monitor.csv`
+
+## Frozen benchmark manifest
+
+The frozen 50k benchmark manifest is:
+
+`results/manifests/frozen_50k_manifest.txt`
+
+It records the final static benchmark model references and hashes used for reproducibility.
 
 ## Trained models
 
-Model checkpoints are intentionally not stored in Git.
-
-The Git repository contains compact configuration, training-monitor and evaluation data required to reproduce and inspect the dissertation results.
-## Trained model release
+Model checkpoints are intentionally not stored directly in Git.
 
 Final trained models used for the dissertation are published at:
 
 https://github.com/Dev-Specter/Reachy/releases/tag/models-50k-final
 
-The release includes model archives, `SHA256SUMS.txt`, and the frozen 50k benchmark manifest. The static Hospital model hashes can be verified against `results/manifests/frozen_50k_manifest.txt` in this repository.
+The release contains:
+
+- static Hospital SAC, MBPO and UR-MBPO models for seeds 42–44
+- dynamic Hospital SAC, MBPO and UR-MBPO models for seed 42
+- `SHA256SUMS.txt` for all released model archives
+- `frozen_50k_manifest.txt` for the frozen static-benchmark hashes
+
+The static Hospital model hashes can be verified against:
+
+`results/manifests/frozen_50k_manifest.txt`
+
+Large model archives remain outside the Git repository itself.
+
+## Historical experiments
+
+Earlier exploratory training scripts, evaluation scripts, development runs, superseded result files, and legacy simulation artifacts are retained under:
+
+`legacy/`
+
+They are not part of the final active dissertation benchmark.
+
+## Interpretation
+
+The project is a simulation-based research study.
+
+UR-MBPO applies uncertainty-aware model-based learning and a risk penalty during synthetic model rollouts.
+
+The method does not provide a formal safety guarantee.
+
+Reported success, collision, clearance, return, and uncertainty results apply to the specific simulation environments, robot model, task distributions, and pedestrian proxies used in this repository.
+
+No claim of real-world deployment safety is made.
