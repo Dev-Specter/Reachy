@@ -93,7 +93,7 @@ Contains compact final training metadata such as:
 - `summary.json`
 - `train.monitor.csv`
 
-Model checkpoints are not included.
+Model checkpoints are not included directly in Git.
 
 ## Dynamic Hospital
 
@@ -239,7 +239,7 @@ Algorithms:
 - MBPO
 - UR-MBPO
 
-This set is also used for the dissertation's clearance-shift discussion.
+This evaluation is also used for the dissertation's clearance-shift discussion.
 
 ### Bookstore → Hospital
 
@@ -283,7 +283,11 @@ manifests/frozen_50k_manifest.txt
 
 Records the frozen final 50k experiment/model references used by the dissertation.
 
-The trained models themselves are excluded from Git and are intended to be distributed separately through a GitHub Release.
+The trained models themselves are excluded from Git and are published separately in the final model release:
+
+https://github.com/Dev-Specter/Reachy/releases/tag/models-50k-final
+
+The release also contains checksums for the published model archives.
 
 ## Dissertation result mapping
 
