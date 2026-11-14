@@ -1,163 +1,81 @@
-# Risk-Aware Model-Based Reinforcement Learning for Dynamic Navigation of the Reachy Mobile Robot
+# Simulation setup: Reachy 2023 · ROS 2 Humble · Gazebo Classic 11
 
-This repository contains the final dissertation implementation and evaluation artifacts for reinforcement-learning-based navigation of the Reachy mobile robot in ROS 2 and Gazebo.
+## Worlds
 
-The project compares model-free and model-based reinforcement learning for static and dynamic indoor navigation, with particular emphasis on collision risk and pedestrian interaction.
-
-## Methods
-
-The final navigation stack supports:
-
-- PPO
-- Soft Actor-Critic (SAC)
-- Model-Based Policy Optimisation (MBPO)
-- Uncertainty/Risk-Aware MBPO (UR-MBPO)
-
-The primary dissertation comparisons focus on SAC, MBPO and UR-MBPO, with PPO retained as an additional baseline in the matched static benchmark.
-
-## System
-
-The project uses:
-
-- ROS 2 Humble
-- Gazebo Classic
-- Reachy mobile base simulation
-- 2D LiDAR-based observations
-- continuous linear and angular velocity control
-- AWS RoboMaker Hospital and Bookstore environments
-- dynamic pedestrian proxy evaluation
-
-The final policy observation contains robot motion state, goal-relative features, previous actions and LiDAR sectors. Actions are continuous mobile-base velocity commands.
-
-## Repository structure
+The AWS RoboMaker environments are installed inside Docker under:
 
 ```text
-.
-├── reachy_rl_control/
-│   └── reachy_rl_control/
-│       ├── environment_nav.py
-│       ├── evaluate_nav.py
-│       ├── make_eval_set.py
-│       ├── mbpo_dynamics.py
-│       ├── nav_interface.py
-│       ├── nav_mbpo.py
-│       ├── nav_tasks.py
-│       ├── nav_wrappers.py
-│       ├── probe_free_space.py
-│       ├── train_nav.py
-│       └── ur_mbpo_dynamics.py
-│
-├── rl_sim/
-│   ├── maps/
-│   ├── tests/
-│   ├── tools/
-│   ├── urdf/
-│   ├── pedestrian_proxy_controller.py
-│   ├── sim_up.sh
-│   └── sim_down.sh
-│
-├── results/
-│   ├── static_hospital/
-│   ├── dynamic_hospital/
-│   ├── transfer/
-│   ├── tables/
-│   └── manifests/
-│
-├── docs/
-│   └── media/
-│
-├── legacy/
-│   ├── environments/
-│   ├── train/
-│   ├── evaluate/
-│   ├── experiments/
-│   ├── helpers/
-│   ├── tests/
-│   └── results/
-│
-└── REPRODUCIBILITY.md
+/opt/reachy_ws/external/
 ```
 
-Historical development scripts and exploratory results are retained under `legacy/` for provenance but are not part of the final dissertation implementation.
+| World | Source | Branch | Commit |
+|---|---|---|---|
+| Hospital | `aws-robotics/aws-robomaker-hospital-world` (+43 Fuel models via setup script) | `ros2` | `7161eb8448f5cba6a469da7a79ae5d660b0b7f58` |
+| Bookstore | `aws-robotics/aws-robomaker-bookstore-world` | `ros2` | `f5a2aaacd5418f9ecfa30f79e788856417f17c13` |
 
-## Final static Hospital benchmark
+The Bookstore revision was verified directly from the final Docker environment.
 
-The main static benchmark uses:
+The Hospital revision is the pinned revision recorded for the final simulation setup; the current installed Hospital directory does not retain its `.git` metadata.
 
-- 50,000 real environment training steps
-- three training seeds: 42, 43 and 44
-- 50 fixed Hospital evaluation tasks per seed
-- PPO, SAC, MBPO and UR-MBPO
+RL world variants such as `*_rl.world` are generated with `tools/make_rl_world.py`.
 
-Final aggregate results are stored in:
+The modified worlds use:
+
+- 1 ms ODE simulation step
+- `real_time_update_rate=0`
+- Gazebo ROS state plugin for entity-state resets
+
+## Directory structure
 
 ```text
-results/tables/hospital_static_matched50_summary.csv
+rl_sim/
+├── README.md
+├── sim_up.sh
+├── sim_down.sh
+├── pedestrian_proxy_controller.py
+├── maps/
+│   ├── bookstore/
+│   ├── hospital/
+│   │   ├── static/
+│   │   └── dynamic/
+│   │       ├── train/
+│   │       └── eval/
+│   └── tests/
+├── urdf/
+│   ├── reachy_sim.urdf
+│   ├── reachy_sim_bodyonly.urdf
+│   ├── reachy_sim_nocontact.urdf
+│   └── reachy_xacro_generated.urdf
+├── tools/
+│   ├── build_sim_urdf.py
+│   ├── compare_urdf.py
+│   └── make_rl_world.py
+└── tests/
+    ├── contact_drive_test.py
+    └── wall_test.py
 ```
 
-The final static benchmark showed:
+## Robot URDF
 
-| Method | Success | Collision | Mean return |
-|---|---:|---:|---:|
-| PPO | 76.0% | 22.7% | +50.26 |
-| SAC | 92.0% | 2.0% | +60.94 |
-| MBPO | 85.3% | 3.3% | +58.17 |
-| UR-MBPO | 91.3% | 6.7% | +59.14 |
+`urdf/reachy_xacro_generated.urdf` is the Reachy xacro-generated model used as the source simulation description.
 
-SAC achieved the strongest overall static result in the final matched benchmark. MBPO and UR-MBPO remained competitive, but UR-MBPO did not outperform SAC on collision rate.
-
-## Dynamic Hospital benchmark
-
-The dynamic benchmark uses policies trained with moving pedestrian scenarios and evaluates held-out diagonal pedestrian motion.
-
-The final held-out evaluation includes:
-
-- straight, turning and complex robot task geometries
-- general and interaction exposure groups
-- pedestrian phase offsets of 0, 2, 4 and 6 seconds
-- SAC, MBPO and UR-MBPO
-- seed 42
-
-Aggregate held-out results:
-
-| Method | Goal | Human collision | Static collision | Timeout |
-|---|---:|---:|---:|---:|
-| SAC | 52.9% | 10.8% | 27.1% | 9.2% |
-| MBPO | 59.6% | 11.7% | 23.8% | 5.0% |
-| UR-MBPO | 55.4% | 14.6% | 23.3% | 6.7% |
-
-MBPO achieved the strongest overall result on the final held-out dynamic benchmark.
-
-The risk-aware method should be interpreted as an empirical reward-shaping variant rather than a formal safety method. The project does not claim deployment-ready safety guarantees.
-
-## Transfer experiments
-
-The repository also contains single-seed transfer experiments:
-
-- Hospital-trained policies evaluated in Bookstore
-- Bookstore-trained policies evaluated in Hospital
-- Bookstore-trained policies evaluated in Bookstore
-
-These are stored under:
+`tools/build_sim_urdf.py` produces:
 
 ```text
-results/transfer/
+urdf/reachy_sim.urdf
 ```
 
-Bookstore navigation was substantially harder than Hospital navigation, including for policies trained directly in Bookstore, so these transfer results should be interpreted descriptively rather than as strong generalisation evidence.
+The final simulation startup script uses:
 
-## Running the simulation
-
-Inside the Docker workspace:
-
-```bash
-cd /opt/reachy_ws
-source /opt/ros/humble/setup.bash
-source /opt/reachy_ws/install/setup.bash
-export PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH
+```text
+/opt/reachy_ws/rl_sim/urdf/reachy_sim.urdf
 ```
 
-Hospital:
+## Bring-up
+
+Run inside the Docker container.
+
+### Hospital
 
 ```bash
 /opt/reachy_ws/rl_sim/sim_up.sh \
@@ -165,7 +83,25 @@ Hospital:
   0.37 1.07 0.0
 ```
 
-Bookstore:
+### Dynamic Hospital
+
+```bash
+/opt/reachy_ws/rl_sim/sim_up.sh \
+  /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/hospital_dynamic_rl.world \
+  0.37 1.07 0.0
+```
+
+### Bookstore
+
+The final Bookstore runs used the spawn pose:
+
+```text
+x   = -2.8
+y   = -0.2
+yaw = -0.813669
+```
+
+Bring-up command:
 
 ```bash
 /opt/reachy_ws/rl_sim/sim_up.sh \
@@ -173,110 +109,121 @@ Bookstore:
   -2.8 -0.2 -0.813669
 ```
 
-Shutdown:
+## Shutdown
 
 ```bash
 /opt/reachy_ws/rl_sim/sim_down.sh
 ```
 
-## Training and evaluation entry points
+## Reachy container shell note
 
-The final ROS 2 package exposes:
+The `pollenrobotics/reachy_2023:1.1` image uses a wrapper for `/bin/bash`.
+
+The simulation startup script explicitly invokes `/bin/bashroot` when calling `sim_down.sh` so startup works reliably inside this container.
+
+Do not replace the container's `/bin/bash` wrapper globally.
+
+## Static task sets
+
+Hospital:
 
 ```text
-train_nav
-evaluate_nav
-make_eval_set
-probe_free_space
+maps/hospital/static/dev.json
+maps/hospital/static/eval.json
+maps/hospital/static/free.json
+maps/hospital/static/free.txt
 ```
 
-Examples:
+Bookstore:
+
+```text
+maps/bookstore/eval.json
+maps/bookstore/free.json
+maps/bookstore/free.txt
+```
+
+## Dynamic task sets
+
+Training pools:
+
+```text
+maps/hospital/dynamic/train/complex_general.json
+maps/hospital/dynamic/train/complex_interaction.json
+maps/hospital/dynamic/train/straight_general.json
+maps/hospital/dynamic/train/straight_interaction.json
+maps/hospital/dynamic/train/turning_general.json
+maps/hospital/dynamic/train/turning_interaction.json
+```
+
+Evaluation pools:
+
+```text
+maps/hospital/dynamic/eval/complex_general.json
+maps/hospital/dynamic/eval/complex_interaction.json
+maps/hospital/dynamic/eval/straight_general.json
+maps/hospital/dynamic/eval/straight_interaction.json
+maps/hospital/dynamic/eval/turning_general.json
+maps/hospital/dynamic/eval/turning_interaction.json
+```
+
+A local smoke-test task set may also exist at:
+
+```text
+maps/tests/hospital_dynamic_smoke.json
+```
+
+That smoke file is ignored by Git and is not part of the final benchmark.
+
+## Dynamic pedestrian control
+
+The pedestrian proxy controller is:
+
+```text
+pedestrian_proxy_controller.py
+```
+
+It supports the dynamic navigation experiments and controlled pedestrian-motion evaluation.
+
+The dissertation includes both seen and held-out pedestrian-motion evaluations.
+
+## Utilities
+
+### Generate RL world variants
 
 ```bash
-ros2 run reachy_rl_control train_nav --help
+python3 tools/make_rl_world.py
 ```
+
+### Build simulation URDF
 
 ```bash
-ros2 run reachy_rl_control evaluate_nav --help
+python3 tools/build_sim_urdf.py
 ```
 
-## Task sets
+### Compare URDF variants
 
-Static Hospital task sets:
+```bash
+python3 tools/compare_urdf.py
+```
+
+## Simulation checks
+
+Simulation-specific checks are stored under:
 
 ```text
-rl_sim/maps/hospital/static/
+tests/
 ```
 
-Dynamic Hospital task sets:
+These include contact and wall-interaction tests.
 
-```text
-rl_sim/maps/hospital/dynamic/train/
-rl_sim/maps/hospital/dynamic/eval/
-```
+## Final runtime validation
 
-Bookstore task sets:
+The final repository layout was validated by:
 
-```text
-rl_sim/maps/bookstore/
-```
+1. copying the reorganized `rl_sim/` tree into the Reachy Docker container,
+2. rebuilding `reachy_rl_control`,
+3. launching `hospital_dynamic_rl.world`,
+4. loading the nested dynamic-training task pool from `maps/hospital/dynamic/train/`,
+5. running a one-episode SAC dynamic navigation smoke evaluation.
 
-## Results
-
-Final dissertation result artifacts are stored under:
-
-```text
-results/
-```
-
-This includes:
-
-- per-episode evaluation CSVs
-- summary JSON files
-- compact training monitor logs
-- final summary tables
-- frozen experiment manifests
-
-Large model checkpoints and replay buffers are intentionally excluded from Git.
-
-## Figures and screenshots
-
-Dissertation media is stored under:
-
-```text
-docs/media/
-```
-
-Current figures include:
-
-- Hospital static learning success
-- Hospital static learning collision rate
-- Hospital/Bookstore clearance and exposure analysis
-
-Setup screenshots are also included for reproducibility documentation.
-
-## Reproducibility
-
-See:
-
-```text
-REPRODUCIBILITY.md
-```
-
-for the final training budgets, seeds, benchmark definitions and repository conventions.
-
-## Legacy code
-
-Earlier experiments, tuning scripts, ablations and historical result files are retained under:
-
-```text
-legacy/
-```
-
-These files are preserved for project history and reproducibility but are not maintained as part of the final navigation stack.
-
-## Disclaimer
-
-All experiments were conducted in simulation.
-
-The safety-related metrics in this project are empirical evaluation metrics only. UR-MBPO uses risk-sensitive reward shaping and synthetic model rollouts, but does not provide a formal safety guarantee.
+The smoke evaluation completed successfully through the full navigation loop.
