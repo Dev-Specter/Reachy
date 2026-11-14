@@ -115,3 +115,10 @@ They are not part of the final dissertation benchmark.
 Model checkpoints are intentionally not stored in Git.
 
 The Git repository contains compact configuration, training-monitor and evaluation data required to reproduce and inspect the dissertation results.
+## Trained model release
+
+Final trained models used for the dissertation are published at:
+
+https://github.com/Dev-Specter/Reachy/releases/tag/models-50k-final
+
+The release includes model archives, `SHA256SUMS.txt`, and the frozen 50k benchmark manifest. The static Hospital model hashes can be verified against `results/manifests/frozen_50k_manifest.txt` in this repository.

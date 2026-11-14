@@ -1,79 +1,210 @@
-# Simulation setup: Reachy 2023 · ROS 2 Humble · Gazebo Classic 11
+# Risk-Aware Model-Based Reinforcement Learning for Dynamic Navigation of the Reachy Mobile Robot
 
-## Worlds
+This repository contains the final code, simulation assets, task sets, evaluation outputs, and reproducibility metadata for the dissertation:
 
-The AWS RoboMaker environments are installed inside Docker under:
+**Risk-Aware Model-Based Reinforcement Learning for Dynamic Navigation of the Reachy Mobile Robot**
 
-```text
-/opt/reachy_ws/external/
-```
+The project studies reinforcement-learning-based mobile navigation for Reachy in ROS 2 and Gazebo, with particular emphasis on model-based reinforcement learning and navigation around moving pedestrians.
 
-| World | Source | Branch | Commit |
-|---|---|---|---|
-| Hospital | `aws-robotics/aws-robomaker-hospital-world` (+43 Fuel models via setup script) | `ros2` | `7161eb8448f5cba6a469da7a79ae5d660b0b7f58` |
-| Bookstore | `aws-robotics/aws-robomaker-bookstore-world` | `ros2` | `f5a2aaacd5418f9ecfa30f79e788856417f17c13` |
+## Methods
 
-The Bookstore revision was verified directly from the final Docker environment.
+The final navigation stack supports:
 
-The Hospital revision is the pinned revision recorded for the final simulation setup; the current installed Hospital directory does not retain its `.git` metadata.
+- PPO
+- SAC
+- MBPO
+- UR-MBPO
 
-RL world variants such as `*_rl.world` are generated with `tools/make_rl_world.py`.
+The dissertation evaluates PPO, SAC, MBPO and UR-MBPO in the matched static benchmark and transfer experiments, while the dynamic-navigation experiments focus on SAC, MBPO and UR-MBPO.
 
-The modified worlds use:
+UR-MBPO extends the model-based approach with uncertainty-aware synthetic rollout handling and a risk penalty applied during synthetic model rollouts. It should not be interpreted as providing a formal safety guarantee.
 
-- 1 ms ODE simulation step
-- `real_time_update_rate=0`
-- Gazebo ROS state plugin for entity-state resets
+## System
 
-## Directory structure
+The experiments use:
 
-```text
-rl_sim/
-├── README.md
-├── sim_up.sh
-├── sim_down.sh
-├── pedestrian_proxy_controller.py
-├── maps/
-│   ├── bookstore/
-│   ├── hospital/
-│   │   ├── static/
-│   │   └── dynamic/
-│   │       ├── train/
-│   │       └── eval/
-│   └── tests/
-├── urdf/
-│   ├── reachy_sim.urdf
-│   ├── reachy_sim_bodyonly.urdf
-│   ├── reachy_sim_nocontact.urdf
-│   └── reachy_xacro_generated.urdf
-├── tools/
-│   ├── build_sim_urdf.py
-│   ├── compare_urdf.py
-│   └── make_rl_world.py
-└── tests/
-    ├── contact_drive_test.py
-    └── wall_test.py
-```
+- Reachy 2023 mobile robot simulation
+- ROS 2 Humble
+- Gazebo Classic 11
+- LiDAR-based navigation observations
+- continuous mobile-base velocity actions
+- AWS RoboMaker Hospital world
+- AWS RoboMaker Bookstore world
+- static and dynamic pedestrian navigation tasks
 
-## Robot URDF
+The final experiments were run in simulation.
 
-`urdf/reachy_xacro_generated.urdf` is the Reachy xacro-generated model used as the source simulation description.
-
-`tools/build_sim_urdf.py` produces:
+## Repository structure
 
 ```text
-urdf/reachy_sim.urdf
+.
+├── docs/
+│   └── media/
+├── legacy/
+├── reachy_rl_control/
+├── results/
+├── rl_sim/
+├── requirements.txt
+├── REPRODUCIBILITY.md
+└── README.md
 ```
 
-The final simulation startup script uses:
+### `reachy_rl_control/`
+
+Active ROS 2 Python package containing the final dissertation navigation stack.
+
+Important modules include:
 
 ```text
-/opt/reachy_ws/rl_sim/urdf/reachy_sim.urdf
+environment_nav.py
+evaluate_nav.py
+make_eval_set.py
+mbpo_dynamics.py
+nav_interface.py
+nav_mbpo.py
+nav_tasks.py
+nav_wrappers.py
+probe_free_space.py
+train_nav.py
+ur_mbpo_dynamics.py
 ```
 
-## Bring-up
+Final ROS 2 console entry points:
 
-Run inside the Docker container.
+```text
+train_nav
+evaluate_nav
+make_eval_set
+probe_free_space
+```
+
+### `rl_sim/`
+
+Simulation support files, including:
+
+- Reachy simulation URDF
+- simulation startup and shutdown scripts
+- static and dynamic task sets
+- pedestrian proxy controller
+- world-generation utilities
+- simulation checks
+
+See `rl_sim/README.md` for world revisions and simulation details.
+
+### `results/`
+
+Contains the final dissertation evaluation artifacts and compact training metadata.
+
+See `results/README.md` for the mapping between dissertation tables/figures and repository files.
+
+### `legacy/`
+
+Contains historical experiments, superseded scripts, older evaluation outputs, and development code retained for provenance.
+
+The contents of `legacy/` are not part of the final active navigation stack.
+
+## Final matched Hospital benchmark
+
+The final static benchmark uses 50 fixed Hospital evaluation tasks, 50,000 training steps, and seeds 42–44.
+
+| Algorithm | Success | Collision | Mean return |
+|---|---:|---:|---:|
+| PPO | 76.0% | 22.7% | +50.26 |
+| SAC | 92.0% | 2.0% | +60.94 |
+| MBPO | 85.3% | 3.3% | +58.17 |
+| UR-MBPO | 91.3% | 6.7% | +59.14 |
+
+SAC produced the strongest overall result on the final matched static benchmark.
+
+MBPO achieved strong performance but showed greater seed sensitivity.
+
+UR-MBPO achieved success comparable to SAC but did not reduce collision rate below SAC in this benchmark.
+
+## Dynamic-navigation evaluation
+
+Dynamic-trained SAC, MBPO and UR-MBPO policies were evaluated on held-out diagonal pedestrian motion.
+
+Seed 42 final results:
+
+| Algorithm | Goal | Human collision | Static collision | Timeout |
+|---|---:|---:|---:|---:|
+| SAC | 52.9% | 10.8% | 27.1% | 9.2% |
+| MBPO | 59.6% | 11.7% | 23.8% | 5.0% |
+| UR-MBPO | 55.4% | 14.6% | 23.3% | 6.7% |
+
+MBPO produced the strongest overall held-out dynamic result in these experiments.
+
+UR-MBPO did not uniformly improve pedestrian safety, so the results should be interpreted as an uncertainty-aware model-based navigation study rather than a formal safety result.
+
+## Seen pedestrian crossing
+
+Static-trained SAC, MBPO and UR-MBPO policies were evaluated against a seen pedestrian-crossing pattern.
+
+Raw outputs are stored under:
+
+```text
+results/dynamic_hospital/seen_crossing/
+```
+
+The aggregate dissertation table is:
+
+```text
+results/tables/table_7_1_seen_crossing.csv
+```
+
+## Unseen pedestrian motion
+
+Static-trained policies were evaluated against four unseen pedestrian-motion variants:
+
+- slow
+- fast
+- reverse
+- stop-go
+
+Raw outputs are stored under:
+
+```text
+results/dynamic_hospital/unseen_motion/
+```
+
+The aggregate dissertation table is:
+
+```text
+results/tables/table_7_2_unseen_motion.csv
+```
+
+These results show that no method is uniformly safest across all pedestrian-motion conditions.
+
+## Transfer experiments
+
+The repository includes:
+
+- static Hospital-trained policies evaluated in Bookstore
+- dynamic Hospital-trained policies evaluated in Bookstore
+- Bookstore-trained policies evaluated in Hospital
+- Bookstore-trained policies evaluated in Bookstore
+
+Relevant directories:
+
+```text
+results/transfer/hospital_to_bookstore/
+results/transfer/dynamic_hospital_to_bookstore/
+results/transfer/bookstore_to_hospital/
+results/transfer/bookstore_in_domain/
+```
+
+Bookstore navigation was substantially harder than Hospital navigation, including for policies trained directly in Bookstore, so these transfer results should be interpreted descriptively rather than as strong generalisation evidence.
+
+## Running the simulation
+
+Inside the Docker workspace:
+
+```bash
+cd /opt/reachy_ws
+source /opt/ros/humble/setup.bash
+source /opt/reachy_ws/install/setup.bash
+export PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH
+```
 
 ### Hospital
 
@@ -93,137 +224,201 @@ Run inside the Docker container.
 
 ### Bookstore
 
-The final Bookstore runs used the spawn pose:
-
-```text
-x   = -2.8
-y   = -0.2
-yaw = -0.813669
-```
-
-Bring-up command:
-
 ```bash
 /opt/reachy_ws/rl_sim/sim_up.sh \
   /opt/reachy_ws/external/aws-robomaker-bookstore-world/worlds/bookstore_rl.world \
   -2.8 -0.2 -0.813669
 ```
 
-## Shutdown
+### Shutdown
 
 ```bash
 /opt/reachy_ws/rl_sim/sim_down.sh
 ```
 
-## Reachy container shell note
+## Training
 
-The `pollenrobotics/reachy_2023:1.1` image uses a wrapper for `/bin/bash`.
-
-The simulation startup script explicitly invokes `/bin/bashroot` when calling `sim_down.sh` so startup works reliably inside this container.
-
-Do not replace the container's `/bin/bash` wrapper globally.
-
-## Static task sets
-
-Hospital:
-
-```text
-maps/hospital/static/dev.json
-maps/hospital/static/eval.json
-maps/hospital/static/free.json
-maps/hospital/static/free.txt
-```
-
-Bookstore:
-
-```text
-maps/bookstore/eval.json
-maps/bookstore/free.json
-maps/bookstore/free.txt
-```
-
-## Dynamic task sets
-
-Training pools:
-
-```text
-maps/hospital/dynamic/train/complex_general.json
-maps/hospital/dynamic/train/complex_interaction.json
-maps/hospital/dynamic/train/straight_general.json
-maps/hospital/dynamic/train/straight_interaction.json
-maps/hospital/dynamic/train/turning_general.json
-maps/hospital/dynamic/train/turning_interaction.json
-```
-
-Evaluation pools:
-
-```text
-maps/hospital/dynamic/eval/complex_general.json
-maps/hospital/dynamic/eval/complex_interaction.json
-maps/hospital/dynamic/eval/straight_general.json
-maps/hospital/dynamic/eval/straight_interaction.json
-maps/hospital/dynamic/eval/turning_general.json
-maps/hospital/dynamic/eval/turning_interaction.json
-```
-
-A local smoke-test task set may also exist at:
-
-```text
-maps/tests/hospital_dynamic_smoke.json
-```
-
-That smoke file is ignored by Git and is not part of the final benchmark.
-
-## Dynamic pedestrian control
-
-The pedestrian proxy controller is:
-
-```text
-pedestrian_proxy_controller.py
-```
-
-It supports the dynamic navigation experiments and controlled pedestrian-motion evaluation.
-
-The dissertation includes both seen and held-out pedestrian-motion evaluations.
-
-## Utilities
-
-### Generate RL world variants
+The final training entry point is:
 
 ```bash
-python3 tools/make_rl_world.py
+ros2 run reachy_rl_control train_nav --help
 ```
 
-### Build simulation URDF
-
-```bash
-python3 tools/build_sim_urdf.py
-```
-
-### Compare URDF variants
-
-```bash
-python3 tools/compare_urdf.py
-```
-
-## Simulation checks
-
-Simulation-specific checks are stored under:
+Available algorithms include:
 
 ```text
-tests/
+ppo
+sac
+mbpo
+ur_mbpo
 ```
 
-These include contact and wall-interaction tests.
+## Evaluation
 
-## Final runtime validation
+The final evaluator is:
 
-The final repository layout was validated by:
+```bash
+ros2 run reachy_rl_control evaluate_nav --help
+```
 
-1. copying the reorganized `rl_sim/` tree into the Reachy Docker container,
-2. rebuilding `reachy_rl_control`,
-3. launching `hospital_dynamic_rl.world`,
-4. loading the nested dynamic-training task pool from `maps/hospital/dynamic/train/`,
-5. running a one-episode SAC dynamic navigation smoke evaluation.
+Supported worlds include:
 
-The smoke evaluation completed successfully through the full navigation loop.
+```text
+hospital
+bookstore
+hospital_dynamic_train
+hospital_dynamic_eval
+```
+
+A fixed task set can also be supplied using:
+
+```text
+--eval-set
+```
+
+## Task sets
+
+### Hospital static
+
+```text
+rl_sim/maps/hospital/static/dev.json
+rl_sim/maps/hospital/static/eval.json
+rl_sim/maps/hospital/static/free.json
+```
+
+### Hospital dynamic training
+
+```text
+rl_sim/maps/hospital/dynamic/train/
+```
+
+Contains balanced task pools for:
+
+```text
+straight_general
+straight_interaction
+turning_general
+turning_interaction
+complex_general
+complex_interaction
+```
+
+### Hospital dynamic evaluation
+
+```text
+rl_sim/maps/hospital/dynamic/eval/
+```
+
+Uses the same geometry/exposure groups with held-out pedestrian motion used by the final dynamic evaluation.
+
+### Bookstore
+
+```text
+rl_sim/maps/bookstore/
+```
+
+Contains:
+
+```text
+eval.json
+free.json
+free.txt
+```
+
+## Reproducibility environment
+
+The final experiments were run using the Docker image:
+
+```text
+pollenrobotics/reachy_2023:1.1
+```
+
+Python dependencies from the final container environment are recorded in:
+
+```text
+requirements.txt
+```
+
+The pinned AWS RoboMaker Hospital and Bookstore world revisions used by the simulation setup are documented in:
+
+```text
+rl_sim/README.md
+```
+
+Additional experiment protocol and repository reproducibility information is provided in:
+
+```text
+REPRODUCIBILITY.md
+```
+
+## Results
+
+Final result artifacts are organized under:
+
+```text
+results/static_hospital/
+results/dynamic_hospital/
+results/bookstore_in_domain/
+results/transfer/
+results/tables/
+results/manifests/
+```
+
+The frozen final-run manifest is:
+
+```text
+results/manifests/frozen_50k_manifest.txt
+```
+
+## Media
+
+Dissertation figures and supporting media are stored under:
+
+```text
+docs/media/
+```
+
+Current figures include:
+
+```text
+docs/media/figures/hospital_50k_learning_success.png
+docs/media/figures/hospital_50k_learning_collision.png
+docs/media/figures/clearance_exposure_hospital_bookstore.png
+```
+
+Setup screenshots are stored under:
+
+```text
+docs/media/screenshots/setup/
+```
+
+## Trained models
+
+Final trained model archives are published in the GitHub Release:
+
+https://github.com/Dev-Specter/Reachy/releases/tag/models-50k-final
+
+The release contains:
+
+- static Hospital SAC, MBPO and UR-MBPO models for seeds 42–44
+- dynamic Hospital SAC, MBPO and UR-MBPO models for seed 42
+- `SHA256SUMS.txt` containing checksums for all released model archives
+- `frozen_50k_manifest.txt` containing the frozen static-benchmark hashes
+
+The static Hospital model hashes can be checked against:
+
+```text
+results/manifests/frozen_50k_manifest.txt
+```
+
+Large trained-model files are intentionally excluded from the Git repository itself.
+
+## Notes on interpretation
+
+The project is a simulation-based research study.
+
+The reported collision, clearance, success and uncertainty metrics apply to the specific Gazebo environments, robot model, task sets and pedestrian proxies used here.
+
+UR-MBPO uses a synthetic-rollout risk penalty and uncertainty-aware model-based learning. It does not provide a formal safety guarantee.
+
+No claim of real-world deployment safety is made.
