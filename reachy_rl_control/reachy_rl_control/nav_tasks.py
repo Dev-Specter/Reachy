@@ -461,7 +461,7 @@ def make_task_sampler(name: str, maps_dir: str = MAPS_DIR):
                 )
 
                 path = (
-                    f"{maps_dir}/hospital_dynamic_"
+                    f"{maps_dir}/hospital/dynamic/train/"
                     f"{geometry}_{exposure}.json"
                 )
 
