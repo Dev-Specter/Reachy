@@ -36,37 +36,10 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'reachy_gazebo_interface = '
-            'reachy_rl_control.reachy_gazebo_interface:main',
-
-            'test_reset = '
-            'reachy_rl_control.test_reset:main',
-
-            'test_environment = '
-            'reachy_rl_control.test_environment:main',
-
-	   'test_trajectory = '
-           'reachy_rl_control.test_trajectory:main',
-
-	   'test_rl_environment = '
-           'reachy_rl_control.test_rl_environment:main',
-          
-           'check_rl_environment = '
-           'reachy_rl_control.check_rl_environment:main',
-
-           'train_ppo = '
-           'reachy_rl_control.train_ppo:main',
-
-           'evaluate_ppo = '
-           'reachy_rl_control.evaluate_ppo:main',
-
-           'evaluate_ppo_multi = ''reachy_rl_control.evaluate_ppo_multi:main',
-           'train_sac = reachy_rl_control.train_sac:main',
-           'evaluate_sac_multi = reachy_rl_control.evaluate_sac_multi:main',
-           'train_mbpo = reachy_rl_control.train_mbpo:main',
-           'evaluate_mbpo_multi = reachy_rl_control.evaluate_mbpo_multi:main',
-           'human_manager = reachy_rl_control.human_manager:main',
-           'lidar_processor = reachy_rl_control.lidar_processor:main',
+            'train_nav = reachy_rl_control.train_nav:main',
+            'evaluate_nav = reachy_rl_control.evaluate_nav:main',
+            'make_eval_set = reachy_rl_control.make_eval_set:main',
+            'probe_free_space = reachy_rl_control.probe_free_space:main',
         ],
     },
 )
