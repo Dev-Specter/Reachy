@@ -1,7 +1,7 @@
 {
  "meta": {
   "world": "bookstore",
-  "map": "/opt/reachy_ws/rl_sim/maps/bookstore_free.json",
+  "map": "/opt/reachy_ws/rl_sim/maps/bookstore/free.json",
   "n": 50,
   "seed": 2026,
   "min_distance": 2.0,

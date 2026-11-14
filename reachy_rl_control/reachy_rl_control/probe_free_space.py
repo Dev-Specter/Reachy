@@ -22,7 +22,7 @@ Run inside Docker with the world up (sim_up.sh), e.g.:
 
     PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH \
     python3 -m reachy_rl_control.probe_free_space --name hospital \
-        --seed-x 0.37 --seed-y 1.07 --out /opt/reachy_ws/rl_sim/maps/hospital_free.json
+        --seed-x 0.37 --seed-y 1.07 --out /opt/reachy_ws/rl_sim/maps/hospital/static/free.json
 """
 
 import argparse

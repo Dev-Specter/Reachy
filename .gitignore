@@ -12,4 +12,4 @@ venv/
 
 reachy_control_backup/
 reachy_rl_control/models/
-rl_sim/maps/hospital_dynamic_smoke.json
+rl_sim/maps/tests/hospital_dynamic_smoke.json

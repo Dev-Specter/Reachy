@@ -17,8 +17,8 @@ Samplers
 
 Evaluation sets (fixed, seeded, identical for every algorithm):
 
-    python3 -m reachy_rl_control.nav_tasks --map .../hospital_free.json \
-        --n 50 --seed 2026 --out .../hospital_eval.json
+    python3 -m reachy_rl_control.nav_tasks --map .../hospital/static/free.json \
+        --n 50 --seed 2026 --out .../hospital/static/eval.json
 """
 
 import argparse
@@ -488,7 +488,7 @@ def make_task_sampler(name: str, maps_dir: str = MAPS_DIR):
                 )
 
                 path = (
-                    f"{maps_dir}/hospital_dynamic_eval_"
+                    f"{maps_dir}/hospital/dynamic/eval/"
                     f"{geometry}_{exposure}.json"
                 )
 
@@ -496,12 +496,25 @@ def make_task_sampler(name: str, maps_dir: str = MAPS_DIR):
 
         return BalancedTaskPoolSampler(pools)
 
-    if name in ("hospital", "bookstore"):
+    if name == "hospital":
         return FreeSpaceTaskSampler(
-            f"{maps_dir}/{name}_free.json"
+            f"{maps_dir}/hospital/static/free.json"
         )
-    if name in ("hospital_eval", "bookstore_eval"):
-        return FixedTaskSampler(load_tasks(f"{maps_dir}/{name}.json"))
+
+    if name == "bookstore":
+        return FreeSpaceTaskSampler(
+            f"{maps_dir}/bookstore/free.json"
+        )
+
+    if name == "hospital_eval":
+        return FixedTaskSampler(
+            load_tasks(f"{maps_dir}/hospital/static/eval.json")
+        )
+
+    if name == "bookstore_eval":
+        return FixedTaskSampler(
+            load_tasks(f"{maps_dir}/bookstore/eval.json")
+        )
     raise ValueError(f"Unknown task set: {name}")
 
 

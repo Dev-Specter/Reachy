@@ -17,8 +17,8 @@ Run inside Docker with the world up (sim_up.sh), e.g.:
 
     PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH \
     python3 -m reachy_rl_control.make_eval_set --name bookstore \
-        --map /opt/reachy_ws/rl_sim/maps/bookstore_free.json \
-        --out /opt/reachy_ws/rl_sim/maps/bookstore_eval.json
+        --map /opt/reachy_ws/rl_sim/maps/bookstore/free.json \
+        --out /opt/reachy_ws/rl_sim/maps/bookstore/eval.json
 """
 
 import argparse

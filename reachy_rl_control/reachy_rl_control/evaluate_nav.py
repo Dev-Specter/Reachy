@@ -336,12 +336,15 @@ def main():
                 not robot_task_group
                 and args.eval_set
             ):
-                stem = Path(args.eval_set).stem
+                eval_path = Path(args.eval_set)
+                stem = eval_path.stem
 
-                prefix = "hospital_dynamic_eval_"
-
-                if stem.startswith(prefix):
-                    robot_task_group = stem[len(prefix):]
+                if (
+                    eval_path.parent.name == "eval"
+                    and eval_path.parent.parent.name == "dynamic"
+                    and eval_path.parent.parent.parent.name == "hospital"
+                ):
+                    robot_task_group = stem
 
                     for geometry in (
                         "straight",
