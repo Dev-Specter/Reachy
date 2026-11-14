@@ -4,7 +4,7 @@ echo "sim_up: starting"
 USER_GMP="$GAZEBO_MODEL_PATH"
 WORLD=$(realpath "${1:?world file}"); X=${2:-0}; Y=${3:-0}; YAW=${4:-0}; GUI=${5:-}
 ROOT=$(realpath "$(dirname "$WORLD")/..")
-URDF=/opt/reachy_ws/rl_sim/reachy_sim.urdf
+URDF=/opt/reachy_ws/rl_sim/urdf/reachy_sim.urdf
 LOG=/tmp/sim_logs; mkdir -p "$LOG"
 [ -f "$WORLD" ] || { echo "world not found: $WORLD"; exit 1; }
 
