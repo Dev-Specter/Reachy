@@ -16,7 +16,7 @@ echo "GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH"
 
 wait_for() { for i in $(seq "$2"); do eval "$1" >/dev/null 2>&1 && return 0; sleep 1; done; echo "TIMEOUT waiting for: $3"; exit 1; }
 
-/opt/reachy_ws/rl_sim/sim_down.sh
+/bin/bashroot /opt/reachy_ws/rl_sim/sim_down.sh
 
 echo "[1/5] gzserver: $WORLD"
 cd "$ROOT"
