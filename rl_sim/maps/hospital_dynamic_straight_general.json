@@ -1,0 +1,260 @@
+{
+ "meta": {
+  "purpose": "dynamic human training",
+  "seed": 20261112,
+  "robot_geometry": "straight",
+  "human_exposure": "general",
+  "n": 30,
+  "interaction_threshold_m": 1.25,
+  "general_threshold_m": 2.0,
+  "min_endpoint_human_distance_m": 1.25,
+  "geometry_thresholds": {
+   "straight_ratio_max": 1.08,
+   "straight_deviation_max_m": 0.3,
+   "turning_ratio_max": 1.35,
+   "turning_deviation_max_m": 1.2
+  }
+ },
+ "tasks": [
+  {
+   "start_x": 2.17,
+   "start_y": 12.87,
+   "start_yaw": -0.5736228243820349,
+   "goal_x": -4.43,
+   "goal_y": 13.27,
+   "reference_path_length": 6.766
+  },
+  {
+   "start_x": 2.57,
+   "start_y": 10.27,
+   "start_yaw": -2.0826020198698405,
+   "goal_x": 0.17,
+   "goal_y": 12.87,
+   "reference_path_length": 3.594
+  },
+  {
+   "start_x": 8.97,
+   "start_y": 14.67,
+   "start_yaw": 1.7590941487906058,
+   "goal_x": 6.97,
+   "goal_y": 14.87,
+   "reference_path_length": 2.083
+  },
+  {
+   "start_x": 4.37,
+   "start_y": -9.73,
+   "start_yaw": -1.6037069990642843,
+   "goal_x": 4.97,
+   "goal_y": -11.93,
+   "reference_path_length": 2.449
+  },
+  {
+   "start_x": 7.77,
+   "start_y": -2.53,
+   "start_yaw": -0.18682872416707097,
+   "goal_x": 7.77,
+   "goal_y": -6.13,
+   "reference_path_length": 3.6
+  },
+  {
+   "start_x": -4.63,
+   "start_y": 13.87,
+   "start_yaw": 2.320532762805243,
+   "goal_x": -0.03,
+   "goal_y": 8.87,
+   "reference_path_length": 6.905
+  },
+  {
+   "start_x": 3.97,
+   "start_y": 9.47,
+   "start_yaw": 1.6206575167671886,
+   "goal_x": 9.17,
+   "goal_y": 14.47,
+   "reference_path_length": 7.505
+  },
+  {
+   "start_x": 4.97,
+   "start_y": 4.07,
+   "start_yaw": -2.862816317028779,
+   "goal_x": 3.97,
+   "goal_y": 9.27,
+   "reference_path_length": 5.614
+  },
+  {
+   "start_x": -5.63,
+   "start_y": -12.33,
+   "start_yaw": 0.36473311952321774,
+   "goal_x": -1.23,
+   "goal_y": -15.13,
+   "reference_path_length": 5.56
+  },
+  {
+   "start_x": 0.77,
+   "start_y": -9.33,
+   "start_yaw": 0.11008293344364706,
+   "goal_x": -7.03,
+   "goal_y": -9.33,
+   "reference_path_length": 7.8
+  },
+  {
+   "start_x": -8.23,
+   "start_y": -2.53,
+   "start_yaw": 2.4973918118772396,
+   "goal_x": -9.63,
+   "goal_y": -0.13,
+   "reference_path_length": 2.98
+  },
+  {
+   "start_x": -3.83,
+   "start_y": 12.47,
+   "start_yaw": 0.3503326644772691,
+   "goal_x": -4.03,
+   "goal_y": 8.07,
+   "reference_path_length": 4.483
+  },
+  {
+   "start_x": -6.83,
+   "start_y": -8.93,
+   "start_yaw": 1.0652881645668568,
+   "goal_x": -4.63,
+   "goal_y": -12.73,
+   "reference_path_length": 4.711
+  },
+  {
+   "start_x": 7.77,
+   "start_y": 13.87,
+   "start_yaw": 1.4971852174254083,
+   "goal_x": 11.57,
+   "goal_y": 13.67,
+   "reference_path_length": 3.883
+  },
+  {
+   "start_x": -3.43,
+   "start_y": 11.27,
+   "start_yaw": 0.6646553337041845,
+   "goal_x": 3.97,
+   "goal_y": 11.27,
+   "reference_path_length": 7.4
+  },
+  {
+   "start_x": 1.37,
+   "start_y": 12.87,
+   "start_yaw": 1.8667455479903978,
+   "goal_x": 1.17,
+   "goal_y": 9.07,
+   "reference_path_length": 3.883
+  },
+  {
+   "start_x": -3.03,
+   "start_y": 13.87,
+   "start_yaw": -2.498933121902224,
+   "goal_x": 1.17,
+   "goal_y": 10.07,
+   "reference_path_length": 5.774
+  },
+  {
+   "start_x": 2.17,
+   "start_y": 15.27,
+   "start_yaw": -2.9664583655645447,
+   "goal_x": -0.83,
+   "goal_y": 15.47,
+   "reference_path_length": 3.083
+  },
+  {
+   "start_x": -8.03,
+   "start_y": -1.13,
+   "start_yaw": -2.9294306357987656,
+   "goal_x": -7.63,
+   "goal_y": -6.33,
+   "reference_path_length": 5.366
+  },
+  {
+   "start_x": 4.37,
+   "start_y": 17.67,
+   "start_yaw": -2.0525145434796324,
+   "goal_x": 9.77,
+   "goal_y": 17.87,
+   "reference_path_length": 5.483
+  },
+  {
+   "start_x": -5.63,
+   "start_y": 11.27,
+   "start_yaw": 1.3974918336772886,
+   "goal_x": -7.43,
+   "goal_y": 9.67,
+   "reference_path_length": 2.463
+  },
+  {
+   "start_x": 4.77,
+   "start_y": -5.93,
+   "start_yaw": 0.38119956158167767,
+   "goal_x": 2.97,
+   "goal_y": -8.33,
+   "reference_path_length": 3.146
+  },
+  {
+   "start_x": 0.17,
+   "start_y": 18.47,
+   "start_yaw": -2.539405313438311,
+   "goal_x": -1.23,
+   "goal_y": 16.27,
+   "reference_path_length": 2.78
+  },
+  {
+   "start_x": -5.63,
+   "start_y": -1.73,
+   "start_yaw": -1.3536712986203099,
+   "goal_x": -5.63,
+   "goal_y": -4.13,
+   "reference_path_length": 2.4
+  },
+  {
+   "start_x": -3.83,
+   "start_y": -9.73,
+   "start_yaw": 2.686977217285045,
+   "goal_x": 1.97,
+   "goal_y": -9.53,
+   "reference_path_length": 5.883
+  },
+  {
+   "start_x": -11.83,
+   "start_y": -9.33,
+   "start_yaw": 3.128922429124538,
+   "goal_x": -9.63,
+   "goal_y": -9.53,
+   "reference_path_length": 2.283
+  },
+  {
+   "start_x": 2.37,
+   "start_y": -7.53,
+   "start_yaw": -1.0281074916859518,
+   "goal_x": 4.37,
+   "goal_y": -8.13,
+   "reference_path_length": 2.249
+  },
+  {
+   "start_x": 3.37,
+   "start_y": 9.27,
+   "start_yaw": 0.4526301266014383,
+   "goal_x": -1.03,
+   "goal_y": 9.27,
+   "reference_path_length": 4.4
+  },
+  {
+   "start_x": -8.43,
+   "start_y": -2.93,
+   "start_yaw": -2.3222595567003292,
+   "goal_x": -8.43,
+   "goal_y": 2.47,
+   "reference_path_length": 5.4
+  },
+  {
+   "start_x": 8.37,
+   "start_y": -6.93,
+   "start_yaw": -0.4343383192760517,
+   "goal_x": 11.57,
+   "goal_y": -9.13,
+   "reference_path_length": 4.111
+  }
+ ]
+}
