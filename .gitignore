@@ -1,15 +1,32 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.egg-info/
+.venv/
+venv/
 
+# ROS / colcon
 build/
 install/
 log/
 
-.venv/
-venv/
-
+# Local backups
 reachy_control_backup/
+
+# RL-generated artifacts
 reachy_rl_control/models/
+rl_runs/
+checkpoints/
+models/
+
+# Model/checkpoint formats
+*.zip
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pkl
+
+# Local smoke-test task set
 rl_sim/maps/tests/hospital_dynamic_smoke.json
