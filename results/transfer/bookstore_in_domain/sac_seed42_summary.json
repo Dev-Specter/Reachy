@@ -1,0 +1,65 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "bookstore",
+  "model": "/opt/reachy_ws/rl_runs/bookstore_sac_seed42_50k_bookstore_seed42_50k_final/final_model.zip",
+  "episodes": 50,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "collision": 9,
+    "timeout": 40,
+    "goal": 1
+  },
+  "success_rate": 0.02,
+  "success_rate_95ci": [
+    0.0,
+    0.06
+  ],
+  "collision_rate": 0.18,
+  "collision_rate_95ci": [
+    0.08,
+    0.3
+  ],
+  "human_collision_rate": 0.0,
+  "human_collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "timeout_rate": 0.8,
+  "timeout_rate_95ci": [
+    0.68,
+    0.9
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.2,
+  "near_miss_rate_95ci": [
+    0.1,
+    0.32
+  ],
+  "human_near_miss_rate": 0.0,
+  "human_near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "mean_min_clearance": 0.20988961111754179,
+  "mean_min_clearance_95ci": [
+    0.16592945254594088,
+    0.25306375456880775
+  ],
+  "mean_min_human_clearance": null,
+  "mean_min_human_clearance_95ci": null,
+  "mean_path_efficiency": 0.7343941322025535,
+  "mean_path_efficiency_95ci": [
+    0.7343941322025535,
+    0.7343941322025535
+  ],
+  "mean_steps": 425.8,
+  "mean_return": -14.459330015906872,
+  "wall_seconds": 733.5546070899982,
+  "csv": "/opt/reachy_ws/rl_eval/bookstore_trained_bookstore50/sac_seed42.csv"
+}

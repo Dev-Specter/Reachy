@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "hospital",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 147,
+  "outcomes": {
+    "collision": 28,
+    "timeout": 66,
+    "goal": 53
+  },
+  "wall_seconds": 2329.120883065,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_sac_seed42_50k_finaldev50k_lr2e4/final_model.zip"
+}

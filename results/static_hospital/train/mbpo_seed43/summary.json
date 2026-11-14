@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "algo": "mbpo",
+  "world": "hospital",
+  "seed": 43,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 169,
+  "outcomes": {
+    "collision": 36,
+    "timeout": 60,
+    "goal": 73
+  },
+  "wall_seconds": 2373.8103664869996,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_mbpo_seed43_50k_finaldev50k_lr2e4/final_model.zip",
+  "dynamics_model": "/opt/reachy_ws/rl_runs/hospital_mbpo_seed43_50k_finaldev50k_lr2e4/dynamics.pt",
+  "total_synthetic": 99000
+}

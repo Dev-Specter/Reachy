@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "algo": "mbpo",
+  "world": "hospital_dynamic_train",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 294,
+  "outcomes": {
+    "human_collision": 24,
+    "collision": 83,
+    "timeout": 48,
+    "goal": 139
+  },
+  "wall_seconds": 9359.055402202,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_dynamic_train_mbpo_seed42_50k_final_dynamic_balanced_50k/final_model.zip",
+  "dynamics_model": "/opt/reachy_ws/rl_runs/hospital_dynamic_train_mbpo_seed42_50k_final_dynamic_balanced_50k/dynamics.pt",
+  "total_synthetic": 99000
+}

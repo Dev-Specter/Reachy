@@ -1,0 +1,20 @@
+Frozen 50k benchmark
+Date: 2026-11-10
+
+Seeds: 42 43 44
+Steps: 50000
+Learning rate: 2e-4
+SAC: standard
+MBPO: standard
+UR-MBPO risk penalty: 0.12
+
+=== MODEL HASHES ===
+439f9d45e0b424b9debd12449177716a784c27af5cfbbdde6333790ca6e5c977  /opt/reachy_ws/rl_runs/hospital_sac_seed42_50k_finaldev50k_lr2e4/final_model.zip
+de8c9bb1510dd4a545db370f33b1ff417429cff23dc34beebddc894266801ed0  /opt/reachy_ws/rl_runs/hospital_sac_seed43_50k_finaldev50k_lr2e4/final_model.zip
+953f9cafdd77a3a6d6829cb2ac1a9ef35f44a84370c209387db62f33be289239  /opt/reachy_ws/rl_runs/hospital_sac_seed44_50k_finaldev50k_lr2e4/final_model.zip
+d21a06f19238e26e05df2851f0a5e0fca0387d37d74870f03252b3546afa2b3b  /opt/reachy_ws/rl_runs/hospital_mbpo_seed42_50k_finaldev50k_lr2e4/final_model.zip
+c9d7cb389f53c869d3e90689ccfbf4c7fcf46e59c824364e52a003f2d04d041f  /opt/reachy_ws/rl_runs/hospital_mbpo_seed43_50k_finaldev50k_lr2e4/final_model.zip
+d9d98b655639879349cd1f6d2abf69018a78bcf2f24df4a67113cdb47debd81c  /opt/reachy_ws/rl_runs/hospital_mbpo_seed44_50k_finaldev50k_lr2e4/final_model.zip
+2e8d50d6a36578cac0683981d312314a47876049e041b194776373db7fa9aa72  /opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed42_50k_finaldev50k_risk012_lr2e4/final_model.zip
+c4643ed48e93c6b8dc164f6b85b7bdec3a8dd60e7ee7997853c696c504e175c3  /opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed43_50k_finaldev50k_risk012_lr2e4/final_model.zip
+f715fca17a73d1aba67242ff74039b080468683c5f78f3b0bacf054113dc62e0  /opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed44_50k_finaldev50k_risk012_lr2e4/final_model.zip

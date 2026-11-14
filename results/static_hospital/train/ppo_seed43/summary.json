@@ -1,0 +1,16 @@
+{
+  "status": "completed",
+  "algo": "ppo",
+  "world": "hospital",
+  "seed": 43,
+  "requested_timesteps": 50000,
+  "timesteps": 50176,
+  "episodes": 296,
+  "outcomes": {
+    "collision": 120,
+    "timeout": 12,
+    "goal": 164
+  },
+  "wall_seconds": 2176.3295551479987,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_ppo_seed43_50k_matched50k_final/final_model.zip"
+}

@@ -1,0 +1,59 @@
+{
+  "algo": "mbpo",
+  "world": "hospital",
+  "seed": 44,
+  "learning_rate": 0.0002,
+  "requested_steps": 50000,
+  "max_episode_steps": 500,
+  "environment": "ReachyNavEnv V3",
+  "task_sampler": "hospital",
+  "ppo": {
+    "policy": "MlpPolicy",
+    "learning_rate": 0.0002,
+    "n_steps": 256,
+    "batch_size": 64,
+    "gamma": 0.99
+  },
+  "sac": {
+    "policy": "MlpPolicy",
+    "learning_rate": 0.0002,
+    "buffer_size": 100000,
+    "learning_starts": 500,
+    "batch_size": 256,
+    "tau": 0.005,
+    "gamma": 0.99,
+    "train_freq": 1,
+    "gradient_steps": 1
+  },
+  "mbpo": {
+    "base_algorithm": "sac",
+    "ensemble_size": 5,
+    "model_warmup_steps": 1000,
+    "model_train_frequency": 500,
+    "model_gradient_steps": 50,
+    "model_batch_size": 256,
+    "synthetic_transitions": 1000,
+    "real_buffer_size": 50000,
+    "reward_scale": 30.0
+  },
+  "ur_mbpo": {
+    "base_algorithm": "sac",
+    "ensemble_size": 5,
+    "model_warmup_steps": 1000,
+    "model_train_frequency": 500,
+    "model_gradient_steps": 50,
+    "model_batch_size": 256,
+    "synthetic_transitions": 1000,
+    "real_buffer_size": 50000,
+    "reward_scale": 30.0,
+    "uncertainty_threshold": 0.05,
+    "uncertainty_penalty_scale": 2.0,
+    "safe_clearance": 0.2,
+    "near_miss_clearance": 0.05,
+    "lidar_max_distance": 3.0,
+    "risk_penalty_scale": 0.06,
+    "lidar_start_index": 7
+  },
+  "checkpoint_every": 5000,
+  "tag": "finaldev50k_lr2e4"
+}

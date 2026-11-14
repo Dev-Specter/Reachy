@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "hospital_dynamic_train",
+  "seed": 42,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 229,
+  "outcomes": {
+    "collision": 62,
+    "timeout": 56,
+    "goal": 89,
+    "human_collision": 22
+  },
+  "wall_seconds": 9965.946280958,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_dynamic_train_sac_seed42_50k_final_dynamic_balanced_50k/final_model.zip"
+}

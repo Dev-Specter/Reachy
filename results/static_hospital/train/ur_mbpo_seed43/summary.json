@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "algo": "ur_mbpo",
+  "world": "hospital",
+  "seed": 43,
+  "requested_timesteps": 50000,
+  "timesteps": 50000,
+  "episodes": 159,
+  "outcomes": {
+    "timeout": 65,
+    "collision": 25,
+    "goal": 69
+  },
+  "wall_seconds": 2429.8443805230017,
+  "final_model": "/opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed43_50k_finaldev50k_risk012_lr2e4/final_model.zip",
+  "dynamics_model": "/opt/reachy_ws/rl_runs/hospital_ur_mbpo_seed43_50k_finaldev50k_risk012_lr2e4/dynamics.pt",
+  "total_synthetic": 98365,
+  "total_accepted": 98365,
+  "total_uncertainty_rejected": 635,
+  "total_near_miss_predictions": 1060
+}

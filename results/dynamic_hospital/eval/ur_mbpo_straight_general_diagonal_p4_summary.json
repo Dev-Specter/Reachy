@@ -1,0 +1,66 @@
+{
+  "status": "completed",
+  "algo": "ur_mbpo",
+  "world": "hospital_dynamic_eval",
+  "model": "/opt/reachy_ws/rl_runs/hospital_dynamic_train_ur_mbpo_seed42_50k_final_dynamic_balanced_50k/final_model.zip",
+  "episodes": 10,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "goal": 10
+  },
+  "success_rate": 1.0,
+  "success_rate_95ci": [
+    1.0,
+    1.0
+  ],
+  "collision_rate": 0.0,
+  "collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "human_collision_rate": 0.0,
+  "human_collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "timeout_rate": 0.0,
+  "timeout_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.0,
+  "near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "human_near_miss_rate": 0.0,
+  "human_near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "mean_min_clearance": 0.6387937396764756,
+  "mean_min_clearance_95ci": [
+    0.38742509588599205,
+    0.9435323406383395
+  ],
+  "mean_min_human_clearance": 9.04076689840628,
+  "mean_min_human_clearance_95ci": [
+    7.358166044560354,
+    10.669536629943353
+  ],
+  "mean_path_efficiency": 0.7822804015573386,
+  "mean_path_efficiency_95ci": [
+    0.5903548377087822,
+    0.9338029142235448
+  ],
+  "mean_steps": 122.0,
+  "mean_return": 72.4669427229639,
+  "wall_seconds": 337.9098373839952,
+  "csv": "/opt/reachy_ws/rl_eval/dynamic_trained_diagonal/ur_mbpo_straight_general_diagonal_p4.csv"
+}
