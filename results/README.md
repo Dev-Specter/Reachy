@@ -9,6 +9,23 @@ Historical and superseded result files are stored under:
 ```text
 ../legacy/results/
 ```
+## Dissertation result mapping
+
+| Dissertation item | Repository artifact |
+|---|---|
+| Table 6.1 — Hospital development benchmark | `static_hospital/dev/` |
+| Final matched Hospital static benchmark | `static_hospital/eval/` and `tables/hospital_static_matched50_summary.csv` |
+| Table 7.1 — Seen pedestrian crossing | `dynamic_hospital/seen_crossing/` and `tables/table_7_1_seen_crossing.csv` |
+| Table 7.2 — Unseen pedestrian motion | `dynamic_hospital/unseen_motion/` and `tables/table_7_2_unseen_motion.csv` |
+| Table 8.1 — Static Hospital → Bookstore | `transfer/hospital_to_bookstore/` |
+| Table 8.2 — Dynamic Hospital → Bookstore | `transfer/dynamic_hospital_to_bookstore/` |
+| Table 8.3 — Bookstore → Hospital | `transfer/bookstore_to_hospital/` |
+| Table 8.4 — Bookstore in-domain | `transfer/bookstore_in_domain/` |
+| Table 9.1 — Failure taxonomy | `tables/failure_taxonomy_summary.csv` |
+| Table 9.3 — Compute cost | `tables/compute_cost_summary.csv` |
+| Static success learning curve | `../docs/media/figures/hospital_50k_learning_success.png` |
+| Static collision learning curve | `../docs/media/figures/hospital_50k_learning_collision.png` |
+| Hospital/Bookstore clearance figure | `../docs/media/figures/clearance_exposure_hospital_bookstore.png` |
 
 ## Structure
 
