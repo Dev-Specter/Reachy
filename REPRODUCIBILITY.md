@@ -234,6 +234,140 @@ Each retained training directory contains compact metadata such as:
 - `summary.json`
 - `train.monitor.csv`
 
+## Exact experiment commands
+
+Run these commands inside the `reachy_2023` container from `/opt/reachy_ws`.
+
+```bash
+cd /opt/reachy_ws
+source /opt/ros/humble/setup.bash
+source /opt/reachy_ws/install/setup.bash
+export PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH
+```
+
+### Static Hospital simulation
+
+```bash
+/opt/reachy_ws/rl_sim/sim_up.sh \
+  /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/hospital_rl.world \
+  0.37 1.07 0.0
+```
+
+### Dynamic Hospital simulation
+
+```bash
+/opt/reachy_ws/rl_sim/sim_up.sh \
+  /opt/reachy_ws/rl_sim/worlds/hospital_dynamic_rl.world \
+  0.37 1.07 0.0
+```
+
+### Static Hospital training
+
+Final SAC, MBPO and UR-MBPO runs use 50,000 real environment steps and learning rate `2e-4`.
+
+SAC:
+
+```bash
+python3 -u -m reachy_rl_control.train_nav \
+  --algo sac --world hospital --seed 42 --steps 50000 \
+  --learning-rate 2e-4 --checkpoint-every 10000 \
+  --tag finaldev50k_lr2e4
+```
+
+MBPO:
+
+```bash
+python3 -u -m reachy_rl_control.train_nav \
+  --algo mbpo --world hospital --seed 42 --steps 50000 \
+  --learning-rate 2e-4 --checkpoint-every 10000 \
+  --tag finaldev50k_lr2e4
+```
+
+UR-MBPO:
+
+```bash
+python3 -u -m reachy_rl_control.train_nav \
+  --algo ur_mbpo --world hospital --seed 42 --steps 50000 \
+  --learning-rate 2e-4 --risk-penalty-scale 0.12 \
+  --checkpoint-every 10000 --tag finaldev50k_risk012_lr2e4
+```
+
+Repeat the static commands with seeds `43` and `44` for the three-seed benchmark.
+
+PPO:
+
+```bash
+python3 -u -m reachy_rl_control.train_nav \
+  --algo ppo --world hospital --seed 42 --steps 50000 \
+  --checkpoint-every 10000 --tag matched50k_final
+```
+
+### Static Hospital evaluation
+
+The default Hospital evaluator uses the frozen Hospital evaluation set, so `--eval-set` is not required.
+
+```bash
+python3 -m reachy_rl_control.evaluate_nav \
+  --algo sac --world hospital \
+  --model /path/to/final_model.zip \
+  --out /opt/reachy_ws/rl_runs/hospital_sac_seed42_eval \
+  --episodes 50 --seed 42
+```
+
+Use the corresponding algorithm name and model path for PPO, MBPO and UR-MBPO.
+
+### Dynamic Hospital training
+
+Start the pedestrian controller separately:
+
+```bash
+ros2 run reachy_rl_control pedestrian_proxy_controller \
+  --ros-args -p motion_mode:=train_mix -p phase_offset:=0.0
+```
+
+Example final UR-MBPO dynamic-training run:
+
+```bash
+python3 -u -m reachy_rl_control.train_nav \
+  --algo ur_mbpo --world hospital_dynamic_train \
+  --seed 42 --steps 50000 --learning-rate 2e-4 \
+  --risk-penalty-scale 0.12 --checkpoint-every 10000 \
+  --tag final_dynamic_balanced_50k
+```
+
+SAC and MBPO use the same seed, budget and learning rate, without the UR-MBPO risk-penalty argument.
+
+### Held-out dynamic evaluation
+
+Example pedestrian configuration:
+
+```bash
+ros2 run reachy_rl_control pedestrian_proxy_controller \
+  --ros-args -p motion_mode:=diagonal -p phase_offset:=2.0
+```
+
+The final held-out benchmark uses phase offsets `0`, `2`, `4` and `6`.
+
+Representative evaluation command:
+
+```bash
+python3 -m reachy_rl_control.evaluate_nav \
+  --algo ur_mbpo --world hospital_dynamic_eval \
+  --model /path/to/final_model.zip \
+  --out /opt/reachy_ws/rl_runs/dynamic_eval_example \
+  --episodes 10 --seed 42 \
+  --eval-set /opt/reachy_ws/rl_sim/maps/hospital/dynamic/eval/<group>.json
+```
+
+The six held-out task groups are `straight_general`, `straight_interaction`, `turning_general`, `turning_interaction`, `complex_general` and `complex_interaction`.
+
+### Stopping the simulator
+
+```bash
+/opt/reachy_ws/rl_sim/sim_down.sh
+```
+
+
 ## Frozen benchmark manifest
 
 The frozen 50k benchmark manifest is:
