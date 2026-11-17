@@ -20,7 +20,8 @@ Historical and superseded result files are stored under:
 | Table 7.2 — Unseen pedestrian motion | `dynamic_hospital/unseen_motion/` and `tables/table_7_2_unseen_motion.csv` |
 | Tables 7.3–7.6 — Dynamic training and held-out diagonal evaluation | `dynamic_hospital/train/` and `dynamic_hospital/eval/` |
 | Table 8.1 — Static Hospital → Bookstore | `transfer/hospital_to_bookstore/` |
-| Section 8.4 — Dynamic Hospital → Bookstore | `transfer/dynamic_hospital_to_bookstore/` |
+| Section 8.4 — Dynamic Hospital → Static Hospital | `transfer/dynamic_hospital_to_static_hospital/` |
+| Dynamic Hospital → Bookstore zero-shot transfer | `transfer/dynamic_hospital_to_bookstore/` |
 | Table 8.3 — Bookstore → Hospital | `transfer/bookstore_to_hospital/` |
 | Table 8.2 — Bookstore in-domain | `transfer/bookstore_in_domain/` |
 | Table 9.1 — Failure taxonomy | `tables/failure_taxonomy_summary.csv` |
