@@ -96,6 +96,18 @@ def parse_args():
         default=0.06,
         help="UR-MBPO synthetic risk penalty scale. Default: 0.06.",
     )
+    parser.add_argument(
+        "--ur-filter",
+        choices=["on", "off"],
+        default="on",
+        help="UR-MBPO uncertainty rejection ablation switch.",
+    )
+    parser.add_argument(
+        "--uncertainty-penalty-scale",
+        type=float,
+        default=2.0,
+        help="UR-MBPO synthetic uncertainty penalty scale.",
+    )
     parser.add_argument("--steps", type=int, required=True)
     parser.add_argument("--tag", type=str, default="")
     parser.add_argument("--checkpoint-every", type=int, default=0)
@@ -223,7 +235,8 @@ def main():
             "real_buffer_size": 50000,
             "reward_scale": 30.0,
             "uncertainty_threshold": 0.05,
-            "uncertainty_penalty_scale": 2.0,
+            "uncertainty_filter_enabled": args.ur_filter == "on",
+            "uncertainty_penalty_scale": args.uncertainty_penalty_scale,
             "safe_clearance": 0.20,
             "near_miss_clearance": 0.05,
             "lidar_max_distance": 3.0,
@@ -414,7 +427,8 @@ def main():
                     seed=args.seed,
                     verbose=1,
                     uncertainty_threshold=0.05,
-                    uncertainty_penalty_scale=2.0,
+                    uncertainty_filter_enabled=(args.ur_filter == "on"),
+                    uncertainty_penalty_scale=args.uncertainty_penalty_scale,
                     safe_clearance=0.20,
                     near_miss_clearance=0.05,
                     lidar_max_distance=3.0,

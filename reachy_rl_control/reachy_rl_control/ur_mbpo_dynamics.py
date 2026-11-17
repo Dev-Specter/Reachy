@@ -85,6 +85,8 @@ class URMBPOCallback(MBPOCallback):
 
         uncertainty_penalty_scale=2.0,
 
+        uncertainty_filter_enabled=True,
+
         safe_clearance=0.75,
 
         near_miss_clearance=0.50,
@@ -148,6 +150,10 @@ class URMBPOCallback(MBPOCallback):
 
         self.uncertainty_penalty_scale = float(
             uncertainty_penalty_scale
+        )
+
+        self.uncertainty_filter_enabled = bool(
+            uncertainty_filter_enabled
         )
 
         self.safe_clearance = float(
@@ -299,6 +305,11 @@ class URMBPOCallback(MBPOCallback):
         print(
             "Uncertainty penalty scale: "
             f"{self.uncertainty_penalty_scale:.3f}"
+        )
+
+        print(
+            "Uncertainty filter enabled: "
+            f"{self.uncertainty_filter_enabled}"
         )
 
         print(
@@ -763,11 +774,17 @@ class URMBPOCallback(MBPOCallback):
         # disagreement exceeds the threshold are discarded.
         # =================================================
 
-        accepted_mask = (
-            uncertainty
-            <=
-            self.uncertainty_threshold
-        )
+        if self.uncertainty_filter_enabled:
+            accepted_mask = (
+                uncertainty
+                <=
+                self.uncertainty_threshold
+            )
+        else:
+            accepted_mask = np.ones(
+                uncertainty.shape,
+                dtype=bool,
+            )
 
         uncertainty_rejected = int(
             np.sum(
@@ -1235,6 +1252,9 @@ class URMBPOCallback(MBPOCallback):
 
             "uncertainty_threshold":
                 self.uncertainty_threshold,
+
+            "uncertainty_filter_enabled":
+                self.uncertainty_filter_enabled,
 
             "uncertainty_penalty_scale":
                 self.uncertainty_penalty_scale,
