@@ -110,15 +110,15 @@ The final static benchmark uses 50 fixed Hospital evaluation tasks, 50,000 train
 | Algorithm | Success | Collision | Mean return |
 |---|---:|---:|---:|
 | PPO | 76.0% | 22.7% | +50.26 |
-| SAC | 92.0% | 2.0% | +60.94 |
-| MBPO | 85.3% | 3.3% | +58.17 |
-| UR-MBPO | 91.3% | 6.7% | +59.14 |
+| SAC | 41.3% | 9.3% | +27.42 |
+| MBPO | 65.3% | 6.0% | +50.60 |
+| UR-MBPO | 64.0% | 7.3% | +48.37 |
 
-SAC produced the strongest overall result on the final matched static benchmark.
+PPO achieved the highest success rate on the corrected final matched static benchmark, but also had the highest collision rate.
 
-MBPO achieved strong performance but showed greater seed sensitivity.
+MBPO and UR-MBPO achieved similar success, substantially fewer collisions than PPO, and more timeout-dominated failures.
 
-UR-MBPO achieved success comparable to SAC but did not reduce collision rate below SAC in this benchmark.
+SAC underperformed the other three methods on success and showed the highest timeout rate.
 
 ## Dynamic-navigation evaluation
 
