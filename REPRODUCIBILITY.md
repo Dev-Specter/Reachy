@@ -255,9 +255,16 @@ export PYTHONPATH=/opt/reachy_ws/src/reachy_rl_control:$PYTHONPATH
 
 ### Dynamic Hospital simulation
 
+The dynamic world is version-controlled under `rl_sim/worlds/`, but it should
+be copied beside the AWS RoboMaker Hospital world before launch so that Gazebo
+resolves the Hospital model assets consistently.
+
 ```bash
+cp /opt/reachy_ws/rl_sim/worlds/hospital_dynamic_rl.world \
+   /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/
+
 /opt/reachy_ws/rl_sim/sim_up.sh \
-  /opt/reachy_ws/rl_sim/worlds/hospital_dynamic_rl.world \
+  /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/hospital_dynamic_rl.world \
   0.37 1.07 0.0
 ```
 
@@ -299,7 +306,8 @@ PPO:
 ```bash
 python3 -u -m reachy_rl_control.train_nav \
   --algo ppo --world hospital --seed 42 --steps 50000 \
-  --checkpoint-every 10000 --tag matched50k_final
+  --learning-rate 2e-4 --checkpoint-every 10000 \
+  --tag matched50k_final
 ```
 
 ### Static Hospital evaluation
@@ -311,7 +319,7 @@ python3 -m reachy_rl_control.evaluate_nav \
   --algo sac --world hospital \
   --model /path/to/final_model.zip \
   --out /opt/reachy_ws/rl_runs/hospital_sac_seed42_eval \
-  --episodes 50 --seed 42
+  --episodes 50
 ```
 
 Use the corresponding algorithm name and model path for PPO, MBPO and UR-MBPO.
@@ -321,7 +329,7 @@ Use the corresponding algorithm name and model path for PPO, MBPO and UR-MBPO.
 Start the pedestrian controller separately:
 
 ```bash
-ros2 run reachy_rl_control pedestrian_proxy_controller \
+python3 /opt/reachy_ws/rl_sim/pedestrian_proxy_controller.py \
   --ros-args -p motion_mode:=train_mix -p phase_offset:=0.0
 ```
 
@@ -342,7 +350,7 @@ SAC and MBPO use the same seed, budget and learning rate, without the UR-MBPO ri
 Example pedestrian configuration:
 
 ```bash
-ros2 run reachy_rl_control pedestrian_proxy_controller \
+python3 /opt/reachy_ws/rl_sim/pedestrian_proxy_controller.py \
   --ros-args -p motion_mode:=diagonal -p phase_offset:=2.0
 ```
 
@@ -355,7 +363,7 @@ python3 -m reachy_rl_control.evaluate_nav \
   --algo ur_mbpo --world hospital_dynamic_eval \
   --model /path/to/final_model.zip \
   --out /opt/reachy_ws/rl_runs/dynamic_eval_example \
-  --episodes 10 --seed 42 \
+  --episodes 10 \
   --eval-set /opt/reachy_ws/rl_sim/maps/hospital/dynamic/eval/<group>.json
 ```
 

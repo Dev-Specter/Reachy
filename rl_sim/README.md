@@ -86,8 +86,11 @@ Run inside the Docker container.
 ### Dynamic Hospital
 
 ```bash
+cp /opt/reachy_ws/rl_sim/worlds/hospital_dynamic_rl.world \
+   /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/
+
 /opt/reachy_ws/rl_sim/sim_up.sh \
-  /opt/reachy_ws/rl_sim/worlds/hospital_dynamic_rl.world \
+  /opt/reachy_ws/external/aws-robomaker-hospital-world/worlds/hospital_dynamic_rl.world \
   0.37 1.07 0.0
 ```
 
