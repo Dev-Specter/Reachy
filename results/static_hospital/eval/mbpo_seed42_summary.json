@@ -7,59 +7,59 @@
   "max_steps": 500,
   "deterministic": true,
   "outcomes": {
-    "goal": 46,
-    "timeout": 3,
-    "collision": 1
+    "goal": 35,
+    "timeout": 12,
+    "collision": 3
   },
-  "success_rate": 0.92,
+  "success_rate": 0.7,
   "success_rate_95ci": [
-    0.84,
-    0.98
+    0.56,
+    0.82
   ],
-  "collision_rate": 0.02,
+  "collision_rate": 0.06,
   "collision_rate_95ci": [
     0.0,
-    0.06
+    0.14
   ],
   "human_collision_rate": 0.0,
   "human_collision_rate_95ci": [
     0.0,
     0.0
   ],
-  "timeout_rate": 0.06,
+  "timeout_rate": 0.24,
   "timeout_rate_95ci": [
-    0.0,
-    0.14
+    0.14,
+    0.36
   ],
   "fall_rate": 0.0,
   "fall_rate_95ci": [
     0.0,
     0.0
   ],
-  "near_miss_rate": 0.02,
+  "near_miss_rate": 0.06,
   "near_miss_rate_95ci": [
     0.0,
-    0.06
+    0.14
   ],
   "human_near_miss_rate": 0.0,
   "human_near_miss_rate_95ci": [
     0.0,
     0.0
   ],
-  "mean_min_clearance": 2.5048106724023818,
+  "mean_min_clearance": 0.5644480236247182,
   "mean_min_clearance_95ci": [
-    2.238578313469887,
-    2.7401908500492573
+    0.4390100378794596,
+    0.710697455917485
   ],
   "mean_min_human_clearance": null,
   "mean_min_human_clearance_95ci": null,
-  "mean_path_efficiency": 0.9965260805196526,
+  "mean_path_efficiency": 0.9937132112550415,
   "mean_path_efficiency_95ci": [
-    0.9911502568815386,
-    1.0
+    0.9875949819605686,
+    0.9984943239710627
   ],
-  "mean_steps": 175.98,
-  "mean_return": 61.20359780200884,
-  "wall_seconds": 353.61802843999976,
-  "csv": "/opt/reachy_ws/rl_eval/hospital_static_matched50/mbpo_seed42.csv"
+  "mean_steps": 271.96,
+  "mean_return": 51.814085336565206,
+  "wall_seconds": 517.2376713230005,
+  "csv": "/opt/reachy_ws/rl_runs/reeval_static_mbpo_seed42.csv"
 }

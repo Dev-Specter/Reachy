@@ -112,6 +112,12 @@ The corresponding aggregate table is:
 tables/hospital_static_matched50_summary.csv
 ```
 
+A post-hoc evaluation audit found that the original SAC, MBPO and UR-MBPO static evaluations could silently advance past frozen tasks that failed the reset-validity check. The affected evaluations were re-run with explicit task forcing and a recorded `task_index`, ensuring that tasks 0--49 from the frozen Hospital evaluation set are executed exactly once and in order.
+
+The corrected evaluation files are stored in `static_hospital/eval/`. The original affected files are retained for provenance in `static_hospital/eval_superseded/`, and the strict re-evaluation copies are retained in `static_hospital/reeval_strict/`.
+
+PPO was not affected by the reset-skipping issue, so its original evaluation files remain unchanged.
+
 ### Final static training metadata
 
 ```text

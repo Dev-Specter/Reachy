@@ -213,6 +213,12 @@ def main():
                     f"{args.world}_eval"
                 )
 
+        fixed_tasks = (
+            sampler.tasks
+            if isinstance(sampler, FixedTaskSampler)
+            else None
+        )
+
         env = ReachyNavEnv(
             robot=robot,
             task_sampler=sampler,
@@ -246,8 +252,19 @@ def main():
 
         for episode in range(1, args.episodes + 1):
 
+            task_index = (
+                (episode - 1) % len(fixed_tasks)
+                if fixed_tasks
+                else None
+            )
+
             obs, reset_info = env.reset(
-                seed=args.seed if episode == 1 else None
+                seed=args.seed if episode == 1 else None,
+                options=(
+                    {"task": fixed_tasks[task_index]}
+                    if fixed_tasks
+                    else None
+                ),
             )
 
             pedestrian_phase_reset = reset_pedestrian_phase(robot)
@@ -366,6 +383,11 @@ def main():
 
             row = {
                 "episode": episode,
+                "task_index": (
+                    ""
+                    if task_index is None
+                    else task_index
+                ),
 
                 "robot_task_group": robot_task_group,
                 "robot_geometry": robot_geometry,
