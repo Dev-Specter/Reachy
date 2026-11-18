@@ -467,6 +467,27 @@ class ReachyNavInterface(Node):
             _stamp_to_sec(result.header.stamp),
         )
 
+    def entity_exists(self, name: str, wall_timeout: float = 2.0) -> bool:
+        """True if Gazebo reports an entity with this name (via /get_entity_state)."""
+        if self.get_state_client is None or not self.get_state_client.service_is_ready():
+            if self.get_state_client is None or not self.get_state_client.wait_for_service(timeout_sec=wall_timeout):
+                raise RuntimeError("/get_entity_state service not available")
+        request = GetEntityState.Request()
+        request.name = str(name)
+        request.reference_frame = "world"
+        future = self.get_state_client.call_async(request)
+        deadline = time.monotonic() + float(wall_timeout)
+        while not future.done() and time.monotonic() < deadline:
+            time.sleep(0.0005)
+        if not future.done():
+            try:
+                future.cancel()
+            except Exception:
+                pass
+            raise RuntimeError(f"Timed out asking Gazebo for entity '{name}'")
+        result = future.result()
+        return bool(result is not None and result.success)
+
     def clear_contacts(self):
         """Forget latched contacts; ignore contact messages stamped up to now."""
         with self._lock:

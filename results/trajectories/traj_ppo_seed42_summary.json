@@ -1,0 +1,69 @@
+{
+  "status": "completed",
+  "algo": "ppo",
+  "world": "hospital",
+  "model": "/opt/reachy_ws/rl_runs/hospital_ppo_seed42_50k_matched50k_final/final_model.zip",
+  "episodes": 50,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "goal": 39,
+    "collision": 9,
+    "timeout": 2
+  },
+  "success_rate": 0.78,
+  "success_rate_95ci": [
+    0.66,
+    0.88
+  ],
+  "collision_rate": 0.18,
+  "collision_rate_95ci": [
+    0.08,
+    0.28
+  ],
+  "human_collision_rate": 0.0,
+  "human_collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "timeout_rate": 0.04,
+  "timeout_rate_95ci": [
+    0.0,
+    0.1
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.2,
+  "near_miss_rate_95ci": [
+    0.1,
+    0.32
+  ],
+  "human_near_miss_rate": 0.0,
+  "human_near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "mean_min_clearance": 0.5161146078933961,
+  "mean_min_clearance_95ci": [
+    0.3790680579999462,
+    0.67250267459749
+  ],
+  "mean_min_human_clearance": null,
+  "mean_min_human_clearance_95ci": null,
+  "mean_path_efficiency": 0.9950157355072721,
+  "mean_path_efficiency_95ci": [
+    0.9902275744690947,
+    0.9986778292196852
+  ],
+  "mean_steps": 189.2,
+  "mean_return": 52.936130684318194,
+  "wall_seconds": 395.014001522999,
+  "csv": "/opt/reachy_ws/rl_eval/traj_ppo_seed42.csv",
+  "eval_seed": 2026,
+  "eval_set": "default (hospital)",
+  "world_check": "hospital (aws_robomaker_hospital_floor_01_walls_1 present)",
+  "trajectories_csv": "/opt/reachy_ws/rl_eval/traj_ppo_seed42_traj.csv"
+}

@@ -1,0 +1,69 @@
+{
+  "status": "completed",
+  "algo": "sac",
+  "world": "hospital",
+  "model": "/opt/reachy_ws/rl_runs/hospital_sac_seed42_50k_finaldev50k_lr2e4/final_model.zip",
+  "episodes": 50,
+  "max_steps": 500,
+  "deterministic": true,
+  "outcomes": {
+    "timeout": 26,
+    "goal": 21,
+    "collision": 3
+  },
+  "success_rate": 0.42,
+  "success_rate_95ci": [
+    0.28,
+    0.54
+  ],
+  "collision_rate": 0.06,
+  "collision_rate_95ci": [
+    0.0,
+    0.12049999999999726
+  ],
+  "human_collision_rate": 0.0,
+  "human_collision_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "timeout_rate": 0.52,
+  "timeout_rate_95ci": [
+    0.3995000000000001,
+    0.66
+  ],
+  "fall_rate": 0.0,
+  "fall_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "near_miss_rate": 0.1,
+  "near_miss_rate_95ci": [
+    0.02,
+    0.18
+  ],
+  "human_near_miss_rate": 0.0,
+  "human_near_miss_rate_95ci": [
+    0.0,
+    0.0
+  ],
+  "mean_min_clearance": 0.5874040883779525,
+  "mean_min_clearance_95ci": [
+    0.4530654699727893,
+    0.7378295782245692
+  ],
+  "mean_min_human_clearance": null,
+  "mean_min_human_clearance_95ci": null,
+  "mean_path_efficiency": 0.9796464717403582,
+  "mean_path_efficiency_95ci": [
+    0.958909676003695,
+    0.9956938846933886
+  ],
+  "mean_steps": 376.5,
+  "mean_return": 33.27340430947432,
+  "wall_seconds": 659.5515764759984,
+  "csv": "/opt/reachy_ws/rl_eval/traj_sac_seed42.csv",
+  "eval_seed": 2026,
+  "eval_set": "default (hospital)",
+  "world_check": "hospital (aws_robomaker_hospital_floor_01_walls_1 present)",
+  "trajectories_csv": "/opt/reachy_ws/rl_eval/traj_sac_seed42_traj.csv"
+}

@@ -45,7 +45,24 @@ def parse_args():
         help="Optional fixed task-set JSON. When supplied, tasks are loaded "
              "from this file instead of <world>_eval.",
     )
+    ap.add_argument(
+        "--log-trajectories",
+        action="store_true",
+        help="Also write <out>_traj.csv with the robot pose and action at every step.",
+    )
+    ap.add_argument(
+        "--skip-world-check",
+        action="store_true",
+        help="Do not verify that the expected Gazebo world is loaded (not recommended).",
+    )
     return ap.parse_args()
+
+
+# One model that exists only in each world; used to refuse evaluation in the wrong world.
+WORLD_MARKERS = {
+    "hospital": "aws_robomaker_hospital_floor_01_walls_1",
+    "bookstore": "ChairB_01_008",
+}
 
 
 def bootstrap_ci(values, n_boot=2000, seed=2026):
@@ -182,6 +199,22 @@ def main():
 
         print("[eval] Navigation interface ready.")
 
+        expected_world = "bookstore" if args.world.startswith("bookstore") else "hospital"
+        world_marker = WORLD_MARKERS[expected_world]
+        if args.skip_world_check:
+            world_check = "skipped"
+            print("[eval] WARNING: world check skipped.")
+        else:
+            if not robot.entity_exists(world_marker):
+                raise RuntimeError(
+                    f"World check failed: '{world_marker}' is not in the running "
+                    f"simulation. Is the {expected_world} world loaded?"
+                )
+            world_check = f"{expected_world} ({world_marker} present)"
+            print(f"[eval] World check passed: {world_check}")
+
+        traj_rows = []
+
         if args.eval_set is not None:
             if not os.path.exists(args.eval_set):
                 raise FileNotFoundError(args.eval_set)
@@ -281,6 +314,15 @@ def main():
             step_clearances = []
             final_info = None
 
+            if args.log_trajectories:
+                st0 = robot.get_state()
+                traj_rows.append({
+                    "episode": episode,
+                    "task_index": "" if task_index is None else task_index,
+                    "step": 0, "x": st0.x, "y": st0.y, "yaw": st0.yaw,
+                    "action_v": "", "action_w": "", "min_clearance": "",
+                })
+
             while not done:
                 action, _ = model.predict(
                     obs,
@@ -302,6 +344,17 @@ def main():
                 step_clearances.append(
                     float(info["min_lidar_distance"])
                 )
+
+                if args.log_trajectories:
+                    st = robot.get_state()
+                    act = np.asarray(action, dtype=np.float64).reshape(-1)
+                    traj_rows.append({
+                        "episode": episode,
+                        "task_index": "" if task_index is None else task_index,
+                        "step": steps, "x": st.x, "y": st.y, "yaw": st.yaw,
+                        "action_v": float(act[0]), "action_w": float(act[1]),
+                        "min_clearance": float(info["min_lidar_distance"]),
+                    })
 
                 done = bool(terminated or truncated)
                 final_info = info
@@ -586,7 +639,19 @@ def main():
             ),
 
             "csv": csv_path,
+            "eval_seed": args.seed,
+            "eval_set": args.eval_set if args.eval_set else f"default ({args.world})",
+            "world_check": world_check,
         }
+
+        if args.log_trajectories and traj_rows:
+            traj_path = args.out + "_traj.csv"
+            with open(traj_path, "w", newline="") as f:
+                tw = csv.DictWriter(f, fieldnames=list(traj_rows[0].keys()))
+                tw.writeheader()
+                tw.writerows(traj_rows)
+            summary["trajectories_csv"] = traj_path
+            print(f"[eval] Trajectories written: {traj_path}")
 
         with open(summary_path, "w") as f:
             json.dump(summary, f, indent=2)
