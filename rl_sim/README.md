@@ -122,7 +122,7 @@ Bring-up command:
 
 The `pollenrobotics/reachy_2023:1.1` image uses a wrapper for `/bin/bash`.
 
-The simulation startup script explicitly invokes `/bin/bashroot` when calling `sim_down.sh` so startup works reliably inside this container.
+`sim_up.sh` stops any existing `gzserver`/`gzclient` inline rather than calling `sim_down.sh`, because a nested shell call is silently terminated inside this container.
 
 Do not replace the container's `/bin/bash` wrapper globally.
 
