@@ -30,3 +30,4 @@ models/
 
 # Local smoke-test task set
 rl_sim/maps/tests/hospital_dynamic_smoke.json
+docs/media/videos/
