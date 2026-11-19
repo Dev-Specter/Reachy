@@ -23,7 +23,6 @@ cd "$ROOT"
 setsid nohup gzserver --verbose \
   -s libgazebo_ros_init.so \
   -s libgazebo_ros_factory.so \
-  -s libgazebo_ros_state.so \
   "$WORLD" > "$LOG/gzserver.log" 2>&1 &
 wait_for "ros2 service list | grep -q /set_entity_state" 90 "gazebo services"
 
