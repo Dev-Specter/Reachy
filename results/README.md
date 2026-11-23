@@ -14,21 +14,28 @@ Historical and superseded result files are stored under:
 
 | Dissertation item | Repository artifact |
 |---|---|
-| Table 6.1 — Hospital development benchmark | `static_hospital/dev/` |
-| Final matched Hospital static benchmark | `static_hospital/eval/` and `tables/hospital_static_matched50_summary.csv` |
+| Table 6.1, Figure 6.1 — Hospital development benchmark | `static_hospital/dev/`; figure `../docs/media/figures/dev_vs_final.png` |
+| Table 6.2, Figure 6.2 — Final matched Hospital benchmark | `static_hospital/eval/`, `tables/hospital_static_matched50_summary.csv`; figure `../docs/media/figures/final_static.png` |
+| Table 6.3 — Pooled bootstrap 95% intervals | `tables/hospital_static_bootstrap95.csv` |
+| Table 6.4 — Exact McNemar tests with Holm correction | `tables/hospital_static_mcnemar.csv` |
+| Tables 6.2–6.4 regeneration | `../analysis/static_stats.py` (summary and McNemar reproduce exactly; bootstrap is Monte Carlo) |
+| Figure 6.3 — Static learning curves | `../docs/media/figures/hospital_50k_learning_success.png`, `../docs/media/figures/hospital_50k_learning_collision.png` |
+| Table 6.5 — UR-MBPO component ablation | `ablation/` (filter-only and penalties-only); full UR-MBPO and MBPO from `static_hospital/eval/*_seed42.csv` |
 | Table 7.1 — Seen pedestrian crossing | `dynamic_hospital/seen_crossing/` and `tables/table_7_1_seen_crossing.csv` |
 | Table 7.2 — Unseen pedestrian motion | `dynamic_hospital/unseen_motion/` and `tables/table_7_2_unseen_motion.csv` |
-| Tables 7.3–7.6 — Dynamic training and held-out diagonal evaluation | `dynamic_hospital/train/` and `dynamic_hospital/eval/` |
+| Tables 7.3–7.6, Figure 7.2 — Dynamic training and held-out diagonal evaluation | `dynamic_hospital/train/`, `dynamic_hospital/eval/`; figure `../docs/media/figures/diagonal.png` |
 | Table 8.1 — Static Hospital → Bookstore | `transfer/hospital_to_bookstore/` |
-| Section 8.4 — Dynamic Hospital → Static Hospital | `transfer/dynamic_hospital_to_static_hospital/` |
-| Dynamic Hospital → Bookstore zero-shot transfer | `transfer/dynamic_hospital_to_bookstore/` |
-| Table 8.3 — Bookstore → Hospital | `transfer/bookstore_to_hospital/` |
-| Table 8.2 — Bookstore in-domain | `transfer/bookstore_in_domain/` |
+| Table 8.2, Figure 8.2 — Bookstore in-domain | `transfer/bookstore_in_domain/`, `bookstore_in_domain/train/`; figure `../docs/media/figures/bookstore_indomain.png` |
+| Table 8.3, Figure 8.3 — Bookstore → Hospital and bidirectional transfer | `transfer/bookstore_to_hospital/`; figure `../docs/media/figures/transfer.png` |
+| Section 8.4 — Dynamic Hospital → Static Hospital / Bookstore | `transfer/dynamic_hospital_to_static_hospital/`, `transfer/dynamic_hospital_to_bookstore/` |
 | Table 9.1 — Failure taxonomy | `tables/failure_taxonomy_summary.csv` |
-| Table 9.2 — Compute cost | `tables/compute_cost_summary.csv` |
-| Static success learning curve | `../docs/media/figures/hospital_50k_learning_success.png` |
-| Static collision learning curve | `../docs/media/figures/hospital_50k_learning_collision.png` |
-| Hospital/Bookstore clearance figure | `../docs/media/figures/clearance_exposure_hospital_bookstore.png` |
+| Figure 9.1, Table 9.2 — Seed-42 trajectories and timeout classification | `trajectories/` (per-step `*_traj.csv`); plotted with `../analysis/plot_trajectories.py` → `../docs/media/figures/hospital_trajectories.png` |
+| Figure 9.2 — Hospital/Bookstore clearance exposure | `../docs/media/figures/clearance_exposure_hospital_bookstore.png` |
+| Table 9.3 — Compute cost | `tables/compute_cost_summary.csv` |
+| Figure 4.3 — Frozen Hospital task sets | `../rl_sim/maps/hospital/static/{eval,dev,free}.*`; plotted with `../analysis/plot_task_map.py` → `../docs/media/figures/hospital_task_map.png` |
+| Table E.1 — Evaluation audit | `tables/evaluation_audit.csv`, produced by `../analysis/audit_results.py` |
+| Figures 7.1, 8.1, 9.3, F.1–F.6 — Screenshots and video stills | `../docs/media/screenshots/` (videos are submitted separately, not stored in Git) |
+| Appendix F recording setup | `../rl_sim/tools/goal_marker.py`, `../rl_sim/tools/one_task.py`, `../rl_sim/tools/reachy_nav.rviz` |
 
 ## Structure
 
@@ -112,7 +119,7 @@ The corresponding aggregate table is:
 tables/hospital_static_matched50_summary.csv
 ```
 
-A post-hoc evaluation audit found that the original SAC, MBPO and UR-MBPO static evaluations could silently advance past frozen tasks that failed the reset-validity check. The affected evaluations were re-run with explicit task forcing and a recorded `task_index`, ensuring that tasks 0--49 from the frozen Hospital evaluation set are executed exactly once and in order.
+A post-hoc evaluation audit found that the original SAC, MBPO and UR-MBPO static evaluations had been run with the Bookstore world loaded instead of Hospital (every recorded contact involved a Bookstore object), and that, because many Hospital start poses were invalid in that geometry, the evaluator silently advanced past frozen tasks that failed the reset-validity check. The affected evaluations were re-run with explicit task forcing and a recorded `task_index`, ensuring that tasks 0--49 from the frozen Hospital evaluation set are executed exactly once and in order.
 
 The corrected evaluation files are stored in `static_hospital/eval/`. The original affected files are retained for provenance in `static_hospital/eval_superseded/`, and the strict re-evaluation copies are retained in `static_hospital/reeval_strict/`.
 

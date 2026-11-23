@@ -384,9 +384,24 @@ docs/media/
 Current figures include:
 
 ```text
+docs/media/figures/hospital_task_map.png
+docs/media/figures/dev_vs_final.png
+docs/media/figures/final_static.png
 docs/media/figures/hospital_50k_learning_success.png
 docs/media/figures/hospital_50k_learning_collision.png
+docs/media/figures/diagonal.png
+docs/media/figures/bookstore_indomain.png
+docs/media/figures/transfer.png
+docs/media/figures/hospital_trajectories.png
 docs/media/figures/clearance_exposure_hospital_bookstore.png
+```
+
+Report screenshots and video stills are in `docs/media/screenshots/`. The demonstration videos are submitted with the dissertation rather than stored in Git.
+
+The static benchmark statistics (Tables 6.2-6.4) can be regenerated from the archived evaluation CSVs with:
+
+```bash
+python3 analysis/static_stats.py
 ```
 
 Setup screenshots are stored under:
