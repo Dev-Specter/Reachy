@@ -3,8 +3,15 @@
 
 For each evaluation file it checks:
   1. episode count matches the expected count for that experiment;
-  2. task order: every episode used the intended frozen task, in order
-     (matched by reference path length + straight-line distance);
+  2. task identity and order: every episode used the intended frozen task, in order.
+     Where the CSV records `task_index` (all evaluations made with the strict
+     evaluator), identity is checked exactly against that index, and the episode's
+     geometry is cross-checked against the indexed task. Older files without
+     `task_index` fall back to a geometric signature (reference path length +
+     straight-line distance). The signature is not a unique task ID: the audit
+     therefore reports, per file, how many episodes fall on a signature shared
+     by more than one task in the set, and only those episodes are flagged as
+     "not uniquely identifiable";
   3. world consistency: every recorded collision object belongs to the
      world the evaluation claims to have used.
 
@@ -83,12 +90,22 @@ def main():
             if not data or "contact_other" not in data[0]:
                 continue
             n = len(data)
-            # task order
+            # task identity and order
             tf = group_file(f) if taskfile == "GROUP" else taskfile
+            method, ambiguous = "n/a", 0
             if tf:
                 exp = keys_for(load_tasks(tf))
                 got = [task_key(r["reference_path_length"], r["straight_line_distance"]) for r in data]
-                on_task = sum(g == exp[i % len(exp)] for i, g in enumerate(got))
+                dup = {k for k, c in Counter(exp).items() if c > 1}
+                has_idx = all(r.get("task_index") not in (None, "") for r in data)
+                if has_idx:
+                    method = "task_index (exact)"
+                    idx = [int(r["task_index"]) for r in data]
+                    on_task = sum(idx[i] == i % len(exp) and got[i] == exp[idx[i]] for i in range(n))
+                else:
+                    method = "geometric signature"
+                    on_task = sum(g == exp[i % len(exp)] for i, g in enumerate(got))
+                    ambiguous = sum(exp[i % len(exp)] in dup for i in range(n))
                 order = f"{on_task}/{n}"
             else:
                 order = "n/a (pool-sampled)"
@@ -98,7 +115,7 @@ def main():
             ok_n = (n_expected is None) or (n == n_expected)
             ok_order = (not tf) or on_task == n
             if ok_n and ok_order and wrong == 0:
-                status = "PASS"
+                status = "PASS" if ambiguous == 0 else f"PASS ({ambiguous} episodes on a shared signature)"
             elif ok_n and wrong == 0 and tf and len(set(exp) - set(got)) <= 1 and set(got) <= set(exp):
                 # one task rejected at reset (e.g. start pose occupied) and the next task used instead
                 status = "NOTE: 1 task skipped at reset"
@@ -106,27 +123,29 @@ def main():
                 status = "FAIL"
             rows.append({
                 "file": os.path.relpath(f, a.results), "intended_world": world,
-                "episodes": n, "on_intended_task": order,
+                "episodes": n, "on_intended_task": order, "identity_method": method,
+                "episodes_not_uniquely_identifiable": ambiguous,
                 "contacts_by_world": "; ".join(f"{k}={v}" for k, v in sorted(worlds.items())) or "none",
                 "contacts_in_wrong_world": wrong, "status": status,
             })
 
     os.makedirs(a.out, exist_ok=True)
     out = os.path.join(a.out, "evaluation_audit.csv")
-    with open(out, "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+    with open(out, "w", newline="") as fh:  # LF line endings for a clean diff
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader(); w.writerows(rows)
 
     # folder summary
     summ = {}
     for r in rows:
         k = os.path.dirname(r["file"])
-        s = summ.setdefault(k, {"files": 0, "pass": 0, "episodes": 0, "wrong": 0, "world": r["intended_world"]})
+        s = summ.setdefault(k, {"files": 0, "pass": 0, "episodes": 0, "wrong": 0, "world": r["intended_world"], "idx": 0, "amb": 0})
         s["files"] += 1; s["pass"] += r["status"] != "FAIL"
+        s["idx"] += r["identity_method"].startswith("task_index"); s["amb"] += r["episodes_not_uniquely_identifiable"]
         s["episodes"] += r["episodes"]; s["wrong"] += r["contacts_in_wrong_world"]
-    print(f"{'folder':45s} {'world':9s} files ok episodes wrong-world-contacts")
+    print(f"{'folder':45s} {'world':9s} files ok episodes wrong-world  by-index  not-unique")
     for k, s in summ.items():
-        print(f"{k:45s} {s['world']:9s} {s['files']:5d} {s['pass']:4d} {s['episodes']:8d} {s['wrong']:6d}")
+        print(f"{k:45s} {s['world']:9s} {s['files']:5d} {s['pass']:4d} {s['episodes']:8d} {s['wrong']:11d} {s['idx']:9d} {s['amb']:11d}")
     print(f"\nwritten: {out}")
 
 

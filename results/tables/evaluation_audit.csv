@@ -1,303 +1,303 @@
-file,intended_world,episodes,on_intended_task,contacts_by_world,contacts_in_wrong_world,status
-static_hospital/dev/dev_hospital_mbpo_seed42_50k.csv,Hospital,20,20/20,Hospital=2,0,PASS
-static_hospital/dev/dev_hospital_mbpo_seed43_50k.csv,Hospital,20,20/20,none,0,PASS
-static_hospital/dev/dev_hospital_mbpo_seed44_50k.csv,Hospital,20,20/20,Hospital=3,0,PASS
-static_hospital/dev/dev_hospital_sac_seed42_50k.csv,Hospital,20,20/20,Hospital=2,0,PASS
-static_hospital/dev/dev_hospital_sac_seed43_50k.csv,Hospital,20,20/20,Hospital=1,0,PASS
-static_hospital/dev/dev_hospital_sac_seed44_50k.csv,Hospital,20,20/20,none,0,PASS
-static_hospital/dev/dev_hospital_ur_mbpo_seed42_50k.csv,Hospital,20,20/20,Hospital=1,0,PASS
-static_hospital/dev/dev_hospital_ur_mbpo_seed43_50k.csv,Hospital,20,20/20,Hospital=1,0,PASS
-static_hospital/dev/dev_hospital_ur_mbpo_seed44_50k.csv,Hospital,20,20/20,Hospital=1,0,PASS
-static_hospital/eval/mbpo_seed42.csv,Hospital,50,50/50,Hospital=3,0,PASS
-static_hospital/eval/mbpo_seed43.csv,Hospital,50,50/50,Hospital=1,0,PASS
-static_hospital/eval/mbpo_seed44.csv,Hospital,50,50/50,Hospital=5,0,PASS
-static_hospital/eval/ppo_seed42.csv,Hospital,50,50/50,Hospital=9,0,PASS
-static_hospital/eval/ppo_seed43.csv,Hospital,50,50/50,Hospital=12,0,PASS
-static_hospital/eval/ppo_seed44.csv,Hospital,50,50/50,Hospital=13,0,PASS
-static_hospital/eval/sac_seed42.csv,Hospital,50,50/50,Hospital=3,0,PASS
-static_hospital/eval/sac_seed43.csv,Hospital,50,50/50,Hospital=7,0,PASS
-static_hospital/eval/sac_seed44.csv,Hospital,50,50/50,Hospital=4,0,PASS
-static_hospital/eval/ur_mbpo_seed42.csv,Hospital,50,50/50,Hospital=2,0,PASS
-static_hospital/eval/ur_mbpo_seed43.csv,Hospital,50,50/50,Hospital=7,0,PASS
-static_hospital/eval/ur_mbpo_seed44.csv,Hospital,50,50/50,Hospital=2,0,PASS
-static_hospital/eval_superseded/mbpo_seed42.csv,Hospital,50,0/50,Bookstore=1,1,FAIL
-static_hospital/eval_superseded/mbpo_seed43.csv,Hospital,50,0/50,Bookstore=3,3,FAIL
-static_hospital/eval_superseded/mbpo_seed44.csv,Hospital,50,0/50,Bookstore=1,1,FAIL
-static_hospital/eval_superseded/sac_seed42.csv,Hospital,50,0/50,none,0,FAIL
-static_hospital/eval_superseded/sac_seed43.csv,Hospital,50,0/50,none,0,FAIL
-static_hospital/eval_superseded/sac_seed44.csv,Hospital,50,0/50,Bookstore=3,3,FAIL
-static_hospital/eval_superseded/ur_mbpo_seed42.csv,Hospital,50,0/50,Bookstore=4,4,FAIL
-static_hospital/eval_superseded/ur_mbpo_seed43.csv,Hospital,50,0/50,Bookstore=4,4,FAIL
-static_hospital/eval_superseded/ur_mbpo_seed44.csv,Hospital,50,0/50,Bookstore=2,2,FAIL
-ablation/ablation_eval_filter_only_seed42.csv,Hospital,50,50/50,Hospital=5,0,PASS
-ablation/ablation_eval_penalties_only_seed42.csv,Hospital,50,50/50,Hospital=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=5,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=2; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=2; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=2; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=2; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=2; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=4,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),Hospital=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),none,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=3,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),Pedestrian=2,0,PASS
-dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),Pedestrian=1,0,PASS
-dynamic_hospital/eval/mbpo_complex_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=4,0,PASS
-dynamic_hospital/eval/mbpo_complex_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=7,0,PASS
-dynamic_hospital/eval/mbpo_complex_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=6,0,PASS
-dynamic_hospital/eval/mbpo_complex_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=5,0,PASS
-dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=3; Pedestrian=3,0,PASS
-dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,Hospital=3; Pedestrian=1,0,PASS
-dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=3; Pedestrian=1,0,PASS
-dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=4; Pedestrian=2,0,PASS
-dynamic_hospital/eval/mbpo_straight_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/mbpo_straight_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/mbpo_straight_general_diagonal_p4.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/mbpo_straight_general_diagonal_p6.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_turning_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_turning_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_turning_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=3,0,PASS
-dynamic_hospital/eval/mbpo_turning_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,Pedestrian=2,0,PASS
-dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p2.csv,Hospital,10,10/10,Hospital=4; Pedestrian=1,0,PASS
-dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p4.csv,Hospital,10,8/10,Pedestrian=4,0,NOTE: 1 task skipped at reset
-dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_complex_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=4,0,PASS
-dynamic_hospital/eval/sac_complex_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=4,0,PASS
-dynamic_hospital/eval/sac_complex_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=8,0,PASS
-dynamic_hospital/eval/sac_complex_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=8,0,PASS
-dynamic_hospital/eval/sac_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=6; Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,Hospital=4; Pedestrian=5,0,PASS
-dynamic_hospital/eval/sac_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=2; Pedestrian=5,0,PASS
-dynamic_hospital/eval/sac_complex_interaction_diagonal_p6.csv,Hospital,10,3/10,Hospital=5; Pedestrian=2,0,NOTE: 1 task skipped at reset
-dynamic_hospital/eval/sac_straight_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/sac_straight_general_diagonal_p2.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/sac_straight_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/sac_straight_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/sac_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/sac_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/sac_turning_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/sac_turning_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/sac_turning_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/sac_turning_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=5,0,PASS
-dynamic_hospital/eval/sac_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_turning_interaction_diagonal_p2.csv,Hospital,10,10/10,Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_turning_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=3; Pedestrian=1,0,PASS
-dynamic_hospital/eval/sac_turning_interaction_diagonal_p6.csv,Hospital,10,5/10,Hospital=4; Pedestrian=1,0,NOTE: 1 task skipped at reset
-dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=6,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=7,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=4,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=5,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=6; Pedestrian=3,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,Hospital=3; Pedestrian=3,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=5; Pedestrian=4,0,PASS
-dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=4; Pedestrian=4,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p0.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p2.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p4.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,Hospital=1; Pedestrian=1,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,none,0,PASS
-dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=2; Pedestrian=1,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p0.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p2.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p4.csv,Hospital,10,10/10,Hospital=2,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p6.csv,Hospital,10,10/10,Hospital=1,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,Hospital=1; Pedestrian=3,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p2.csv,Hospital,10,6/10,Hospital=2; Pedestrian=1,0,NOTE: 1 task skipped at reset
-dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p4.csv,Hospital,10,10/10,Hospital=1; Pedestrian=2,0,PASS
-dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p6.csv,Hospital,10,10/10,Hospital=1; Pedestrian=2,0,PASS
-transfer/hospital_to_bookstore/mbpo_seed42.csv,Bookstore,50,50/50,Bookstore=12,0,PASS
-transfer/hospital_to_bookstore/ppo_seed42.csv,Bookstore,50,50/50,Bookstore=37,0,PASS
-transfer/hospital_to_bookstore/sac_seed42.csv,Bookstore,50,50/50,Bookstore=15,0,PASS
-transfer/hospital_to_bookstore/ur_mbpo_seed42.csv,Bookstore,50,50/50,Bookstore=14,0,PASS
-transfer/bookstore_in_domain/mbpo_seed42.csv,Bookstore,50,50/50,Bookstore=13,0,PASS
-transfer/bookstore_in_domain/ppo_seed42.csv,Bookstore,50,50/50,Bookstore=34,0,PASS
-transfer/bookstore_in_domain/sac_seed42.csv,Bookstore,50,50/50,Bookstore=9,0,PASS
-transfer/bookstore_in_domain/ur_mbpo_seed42.csv,Bookstore,50,50/50,Bookstore=11,0,PASS
-transfer/dynamic_hospital_to_bookstore/mbpo.csv,Bookstore,50,50/50,Bookstore=11,0,PASS
-transfer/dynamic_hospital_to_bookstore/sac.csv,Bookstore,50,50/50,Bookstore=12,0,PASS
-transfer/dynamic_hospital_to_bookstore/ur_mbpo.csv,Bookstore,50,50/50,Bookstore=8,0,PASS
-transfer/bookstore_to_hospital/mbpo_seed42.csv,Hospital,50,50/50,Hospital=4,0,PASS
-transfer/bookstore_to_hospital/ppo_seed42.csv,Hospital,50,50/50,Hospital=5,0,PASS
-transfer/bookstore_to_hospital/sac_seed42.csv,Hospital,50,50/50,Hospital=4,0,PASS
-transfer/bookstore_to_hospital/ur_mbpo_seed42.csv,Hospital,50,50/50,Hospital=1,0,PASS
-transfer/dynamic_hospital_to_static_hospital/mbpo.csv,Hospital,50,50/50,Hospital=2,0,PASS
-transfer/dynamic_hospital_to_static_hospital/sac.csv,Hospital,50,50/50,Hospital=1,0,PASS
-transfer/dynamic_hospital_to_static_hospital/ur_mbpo.csv,Hospital,50,50/50,Hospital=1,0,PASS
+file,intended_world,episodes,on_intended_task,identity_method,episodes_not_uniquely_identifiable,contacts_by_world,contacts_in_wrong_world,status
+static_hospital/dev/dev_hospital_mbpo_seed42_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=2,0,PASS
+static_hospital/dev/dev_hospital_mbpo_seed43_50k.csv,Hospital,20,20/20,geometric signature,0,none,0,PASS
+static_hospital/dev/dev_hospital_mbpo_seed44_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=3,0,PASS
+static_hospital/dev/dev_hospital_sac_seed42_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=2,0,PASS
+static_hospital/dev/dev_hospital_sac_seed43_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=1,0,PASS
+static_hospital/dev/dev_hospital_sac_seed44_50k.csv,Hospital,20,20/20,geometric signature,0,none,0,PASS
+static_hospital/dev/dev_hospital_ur_mbpo_seed42_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=1,0,PASS
+static_hospital/dev/dev_hospital_ur_mbpo_seed43_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=1,0,PASS
+static_hospital/dev/dev_hospital_ur_mbpo_seed44_50k.csv,Hospital,20,20/20,geometric signature,0,Hospital=1,0,PASS
+static_hospital/eval/mbpo_seed42.csv,Hospital,50,50/50,task_index (exact),0,Hospital=3,0,PASS
+static_hospital/eval/mbpo_seed43.csv,Hospital,50,50/50,task_index (exact),0,Hospital=1,0,PASS
+static_hospital/eval/mbpo_seed44.csv,Hospital,50,50/50,task_index (exact),0,Hospital=5,0,PASS
+static_hospital/eval/ppo_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=9,0,PASS (2 episodes on a shared signature)
+static_hospital/eval/ppo_seed43.csv,Hospital,50,50/50,geometric signature,2,Hospital=12,0,PASS (2 episodes on a shared signature)
+static_hospital/eval/ppo_seed44.csv,Hospital,50,50/50,geometric signature,2,Hospital=13,0,PASS (2 episodes on a shared signature)
+static_hospital/eval/sac_seed42.csv,Hospital,50,50/50,task_index (exact),0,Hospital=3,0,PASS
+static_hospital/eval/sac_seed43.csv,Hospital,50,50/50,task_index (exact),0,Hospital=7,0,PASS
+static_hospital/eval/sac_seed44.csv,Hospital,50,50/50,task_index (exact),0,Hospital=4,0,PASS
+static_hospital/eval/ur_mbpo_seed42.csv,Hospital,50,50/50,task_index (exact),0,Hospital=2,0,PASS
+static_hospital/eval/ur_mbpo_seed43.csv,Hospital,50,50/50,task_index (exact),0,Hospital=7,0,PASS
+static_hospital/eval/ur_mbpo_seed44.csv,Hospital,50,50/50,task_index (exact),0,Hospital=2,0,PASS
+static_hospital/eval_superseded/mbpo_seed42.csv,Hospital,50,0/50,geometric signature,2,Bookstore=1,1,FAIL
+static_hospital/eval_superseded/mbpo_seed43.csv,Hospital,50,0/50,geometric signature,2,Bookstore=3,3,FAIL
+static_hospital/eval_superseded/mbpo_seed44.csv,Hospital,50,0/50,geometric signature,2,Bookstore=1,1,FAIL
+static_hospital/eval_superseded/sac_seed42.csv,Hospital,50,0/50,geometric signature,2,none,0,FAIL
+static_hospital/eval_superseded/sac_seed43.csv,Hospital,50,0/50,geometric signature,2,none,0,FAIL
+static_hospital/eval_superseded/sac_seed44.csv,Hospital,50,0/50,geometric signature,2,Bookstore=3,3,FAIL
+static_hospital/eval_superseded/ur_mbpo_seed42.csv,Hospital,50,0/50,geometric signature,2,Bookstore=4,4,FAIL
+static_hospital/eval_superseded/ur_mbpo_seed43.csv,Hospital,50,0/50,geometric signature,2,Bookstore=4,4,FAIL
+static_hospital/eval_superseded/ur_mbpo_seed44.csv,Hospital,50,0/50,geometric signature,2,Bookstore=2,2,FAIL
+ablation/ablation_eval_filter_only_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=5,0,PASS (2 episodes on a shared signature)
+ablation/ablation_eval_penalties_only_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=3,0,PASS (2 episodes on a shared signature)
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=5,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_mbpo_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_sac_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed42_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed43_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/seen_crossing/dynamic_seen_ur_mbpo_seed44_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_mbpo_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_sac_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed42_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=4,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed43_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_fast_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_reverse_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Hospital=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,none,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_slow_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=3,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase0.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase2.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase4.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=2,0,PASS
+dynamic_hospital/unseen_motion/dynamic_unseen_ur_mbpo_seed44_stop_go_phase6.csv,Hospital,5,n/a (pool-sampled),n/a,0,Pedestrian=1,0,PASS
+dynamic_hospital/eval/mbpo_complex_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=4,0,PASS
+dynamic_hospital/eval/mbpo_complex_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=7,0,PASS
+dynamic_hospital/eval/mbpo_complex_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=6,0,PASS
+dynamic_hospital/eval/mbpo_complex_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=5,0,PASS
+dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=3; Pedestrian=3,0,PASS
+dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=3; Pedestrian=1,0,PASS
+dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=3; Pedestrian=1,0,PASS
+dynamic_hospital/eval/mbpo_complex_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=4; Pedestrian=2,0,PASS
+dynamic_hospital/eval/mbpo_straight_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/mbpo_straight_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/mbpo_straight_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/mbpo_straight_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_turning_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_turning_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_turning_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=3,0,PASS
+dynamic_hospital/eval/mbpo_turning_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Pedestrian=2,0,PASS
+dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=4; Pedestrian=1,0,PASS
+dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p4.csv,Hospital,10,8/10,geometric signature,0,Pedestrian=4,0,NOTE: 1 task skipped at reset
+dynamic_hospital/eval/mbpo_turning_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_complex_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=4,0,PASS
+dynamic_hospital/eval/sac_complex_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=4,0,PASS
+dynamic_hospital/eval/sac_complex_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=8,0,PASS
+dynamic_hospital/eval/sac_complex_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=8,0,PASS
+dynamic_hospital/eval/sac_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=6; Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=4; Pedestrian=5,0,PASS
+dynamic_hospital/eval/sac_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=2; Pedestrian=5,0,PASS
+dynamic_hospital/eval/sac_complex_interaction_diagonal_p6.csv,Hospital,10,3/10,geometric signature,0,Hospital=5; Pedestrian=2,0,NOTE: 1 task skipped at reset
+dynamic_hospital/eval/sac_straight_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/sac_straight_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/sac_straight_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/sac_straight_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/sac_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/sac_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/sac_turning_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/sac_turning_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/sac_turning_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/sac_turning_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=5,0,PASS
+dynamic_hospital/eval/sac_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_turning_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_turning_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=3; Pedestrian=1,0,PASS
+dynamic_hospital/eval/sac_turning_interaction_diagonal_p6.csv,Hospital,10,5/10,geometric signature,0,Hospital=4; Pedestrian=1,0,NOTE: 1 task skipped at reset
+dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=6,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=7,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=4,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=5,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=6; Pedestrian=3,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=3; Pedestrian=3,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=5; Pedestrian=4,0,PASS
+dynamic_hospital/eval/ur_mbpo_complex_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=4; Pedestrian=4,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=1,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,none,0,PASS
+dynamic_hospital/eval/ur_mbpo_straight_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=2; Pedestrian=1,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p2.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=2,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_general_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=1,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p0.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=3,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p2.csv,Hospital,10,6/10,geometric signature,0,Hospital=2; Pedestrian=1,0,NOTE: 1 task skipped at reset
+dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p4.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=2,0,PASS
+dynamic_hospital/eval/ur_mbpo_turning_interaction_diagonal_p6.csv,Hospital,10,10/10,geometric signature,0,Hospital=1; Pedestrian=2,0,PASS
+transfer/hospital_to_bookstore/mbpo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=12,0,PASS
+transfer/hospital_to_bookstore/ppo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=37,0,PASS
+transfer/hospital_to_bookstore/sac_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=15,0,PASS
+transfer/hospital_to_bookstore/ur_mbpo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=14,0,PASS
+transfer/bookstore_in_domain/mbpo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=13,0,PASS
+transfer/bookstore_in_domain/ppo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=34,0,PASS
+transfer/bookstore_in_domain/sac_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=9,0,PASS
+transfer/bookstore_in_domain/ur_mbpo_seed42.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=11,0,PASS
+transfer/dynamic_hospital_to_bookstore/mbpo.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=11,0,PASS
+transfer/dynamic_hospital_to_bookstore/sac.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=12,0,PASS
+transfer/dynamic_hospital_to_bookstore/ur_mbpo.csv,Bookstore,50,50/50,geometric signature,0,Bookstore=8,0,PASS
+transfer/bookstore_to_hospital/mbpo_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=4,0,PASS (2 episodes on a shared signature)
+transfer/bookstore_to_hospital/ppo_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=5,0,PASS (2 episodes on a shared signature)
+transfer/bookstore_to_hospital/sac_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=4,0,PASS (2 episodes on a shared signature)
+transfer/bookstore_to_hospital/ur_mbpo_seed42.csv,Hospital,50,50/50,geometric signature,2,Hospital=1,0,PASS (2 episodes on a shared signature)
+transfer/dynamic_hospital_to_static_hospital/mbpo.csv,Hospital,50,50/50,geometric signature,2,Hospital=2,0,PASS (2 episodes on a shared signature)
+transfer/dynamic_hospital_to_static_hospital/sac.csv,Hospital,50,50/50,geometric signature,2,Hospital=1,0,PASS (2 episodes on a shared signature)
+transfer/dynamic_hospital_to_static_hospital/ur_mbpo.csv,Hospital,50,50/50,geometric signature,2,Hospital=1,0,PASS (2 episodes on a shared signature)
